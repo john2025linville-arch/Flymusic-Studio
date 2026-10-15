@@ -100,13 +100,25 @@ jobs:
 
         cat << 'EOF' > my-android-project/build.gradle
         buildscript {
-            repositories { google(); mavenCentral() }
             dependencies { classpath 'com.android.tools.build:gradle:8.5.0' }
         }
-        allprojects { repositories { google(); mavenCentral() } }
         EOF
 
         cat << 'EOF' > my-android-project/settings.gradle
+        pluginManagement {
+            repositories {
+                google()
+                mavenCentral()
+                gradlePluginPortal()
+            }
+        }
+        dependencyResolutionManagement {
+            repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+            repositories {
+                google()
+                mavenCentral()
+            }
+        }
         rootProject.name = "Flymusic Studio"
         include ':app'
         EOF
@@ -135,7 +147,7 @@ jobs:
         EOF
 
         cd my-android-project
-        gradle wrapper --gradle-version 8.7 --distribution-type bin
+        gradle wrapper --gradle-version 8.8 --distribution-type bin
         chmod +x gradlew
         ./gradlew assembleRelease --warning-mode all
 
