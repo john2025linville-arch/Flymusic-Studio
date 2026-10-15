@@ -21,15 +21,12 @@ jobs:
 
     - name: Setup Android SDK and Build Project
       run: |
-        # Create standard Android Gradle project skeleton
         mkdir -p my-android-project/app/src/main/assets
         mkdir -p my-android-project/app/src/main/java/com/flymusic/studio/app
         mkdir -p my-android-project/app/src/main/res/values
 
-        # Copy web app assets
         cp index.html my-android-project/app/src/main/assets/index.html
 
-        # Write MainActivity.java
         cat << 'EOF' > my-android-project/app/src/main/java/com/flymusic/studio/app/MainActivity.java
         package com.flymusic.studio.app;
 
@@ -73,7 +70,6 @@ jobs:
         }
         EOF
 
-        # Write app/build.gradle
         cat << 'EOF' > my-android-project/app/build.gradle
         plugins { id 'com.android.application' }
         android {
@@ -94,27 +90,23 @@ jobs:
         }
         EOF
 
-        # Write root build.gradle
         cat << 'EOF' > my-android-project/build.gradle
         buildscript {
             repositories { google(); mavenCentral() }
-            dependencies { classpath 'com.android.tools.build:gradle:8.1.4' }
+            dependencies { classpath 'com.android.tools.build:gradle:8.5.0' }
         }
         allprojects { repositories { google(); mavenCentral() } }
         EOF
 
-        # Write settings.gradle
         cat << 'EOF' > my-android-project/settings.gradle
         rootProject.name = "Flymusic Studio"
         include ':app'
         EOF
 
-        # Write strings.xml
         cat << 'EOF' > my-android-project/app/src/main/res/values/strings.xml
         <resources><string name="app_name">Flymusic Studio</string></resources>
         EOF
 
-        # Write AndroidManifest.xml
         cat << 'EOF' > my-android-project/app/src/main/AndroidManifest.xml
         <?xml version="1.0" encoding="utf-8"?>
         <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.flymusic.studio.app">
@@ -134,9 +126,8 @@ jobs:
         </manifest>
         EOF
 
-        # Compile APK
         cd my-android-project
-        gradle wrapper --gradle-version 8.1.1 --distribution-type bin
+        gradle wrapper --gradle-version 8.5 --distribution-type bin
         chmod +x gradlew
         ./gradlew assembleRelease
 
