@@ -321,7 +321,7 @@
                     <h4 id="selectedCoverTrackName" style="font-size: 14px; font-weight: 600; margin-top: 2px;">A song, download or other track from your library</h4>
                 </div>
                 <div style="background: #00d2ff; color: #020f18; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 700;">+</div>
-                <input type="file" id="coverTrackUpload" accept="audio/*" style="display: none;" onchange="handleCoverUpload(event)">
+                <input type="file" id="coverTrackUpload" accept="audio/*" style="display: none;" onchange="handleSharedFile(event, 'coverTrackUpload', 'selectedCoverTrackName', 'Cover track attached')">
             </div>
 
             <div class="select-btn-box" onclick="openModelSelector()">
@@ -353,7 +353,7 @@
                     <h4 id="selectedExtendTrackName" style="font-size: 14px; font-weight: 600; margin-top: 2px;">A song, cover or other track from your library</h4>
                 </div>
                 <div style="background: #00d2ff; color: #020f18; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 700;">+</div>
-                <input type="file" id="extendTrackUpload" accept="audio/*" style="display: none;" onchange="handleExtendUpload(event)">
+                <input type="file" id="extendTrackUpload" accept="audio/*" style="display: none;" onchange="handleSharedFile(event, 'extendTrackUpload', 'selectedExtendTrackName', 'Song attached for extension')">
             </div>
 
             <div class="select-btn-box" onclick="openModelSelector()">
@@ -388,7 +388,7 @@
                     <h4 id="selectedInstTrackName" style="font-size: 14px; font-weight: 600; margin-top: 2px;">A vocal, melody or song from your library</h4>
                 </div>
                 <div style="background: #00d2ff; color: #020f18; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 700;">+</div>
-                <input type="file" id="instTrackUpload" accept="audio/*" style="display: none;" onchange="handleInstUpload(event)">
+                <input type="file" id="instTrackUpload" accept="audio/*" style="display: none;" onchange="handleSharedFile(event, 'instTrackUpload', 'selectedInstTrackName', 'Source track attached for instrumental')">
             </div>
 
             <div class="input-card">
@@ -413,12 +413,12 @@
             <div class="input-card" style="cursor: pointer;" onclick="document.getElementById('mashup1Upload').click()">
                 <small style="color: #8fa3b8; font-size: 11px; text-transform: uppercase;">📂 First Track</small>
                 <h4 id="mashup1Name" style="font-size: 14px; font-weight: 600;">Choose from your library</h4>
-                <input type="file" id="mashup1Upload" accept="audio/*" style="display:none;" onchange="document.getElementById('mashup1Name').innerText=this.files[0].name">
+                <input type="file" id="mashup1Upload" accept="audio/*" style="display:none;" onchange="handleSharedFile(event, 'mashup1Upload', 'mashup1Name', 'First mashup track attached')">
             </div>
             <div class="input-card" style="cursor: pointer;" onclick="document.getElementById('mashup2Upload').click()">
                 <small style="color: #8fa3b8; font-size: 11px; text-transform: uppercase;">📂 Second Track</small>
                 <h4 id="mashup2Name" style="font-size: 14px; font-weight: 600;">Choose from your library</h4>
-                <input type="file" id="mashup2Upload" accept="audio/*" style="display:none;" onchange="document.getElementById('mashup2Name').innerText=this.files[0].name">
+                <input type="file" id="mashup2Upload" accept="audio/*" style="display:none;" onchange="handleSharedFile(event, 'mashup2Upload', 'mashup2Name', 'Second mashup track attached')">
             </div>
             <div class="input-card">
                 <label>📝 Lyrics</label>
@@ -471,13 +471,13 @@
             <button class="action-main-btn" onclick="generateAndSave('Voice_Clone_Track')">🧬 Run AI Voice Clone & Save MP3</button>
         </div>
 
-        <!-- VIDEO SUITE WITH GEMINI & ALL FREE AI GENERATORS -->
+        <!-- VIDEO SUITE WITH GEMINI & ALL FREE AI GENERATORS (STAY ON PAGE WHEN UPLOADING MEDIA) -->
         <div id="viewAiVideoStudio" class="view-panel">
             <div class="input-card" style="background: linear-gradient(135deg, #0d1b2a 0%, #1b263b 100%); border: 1px solid #4285f455; padding: 18px;">
                 <h3 style="font-size: 16px; color: #4285f4; margin-bottom: 6px;">✨ Video Suite (Gemini & Free AI Generators)</h3>
-                <p style="font-size: 12px; color: #a1b8cc; margin-bottom: 12px;">Powered by Gemini Veo, Imagen Video, Adobe Firefly, Runway Gen-2, Pika Labs, Kling AI & Sora. Type a prompt or add media to instantly trigger AI video generation.</p>
-                <button class="action-main-btn" style="margin-top: 0; padding: 12px; background: linear-gradient(135deg, #4285f4 0%, #34a853 100%);" onclick="document.getElementById('videoMediaUpload').click()">+ Upload Media or Image for AI Video</button>
-                <input type="file" id="videoMediaUpload" accept="video/*,image/*" style="display:none;" onchange="onVideoFileAdded(event)">
+                <p id="videoMediaStatus" style="font-size: 12px; color: #a1b8cc; margin-bottom: 12px;">Powered by Gemini Veo, Imagen Video, Adobe Firefly, Runway Gen-2, Pika Labs, Kling AI & Sora. Upload reference media below to hold it in memory for generation.</p>
+                <button class="action-main-btn" style="margin-top: 0; padding: 12px; background: linear-gradient(135deg, #4285f4 0%, #34a853 100%);" onclick="document.getElementById('videoMediaUpload').click()">+ Upload Reference Media / Image</button>
+                <input type="file" id="videoMediaUpload" accept="video/*,image/*" style="display:none;" onchange="onVideoFileSelected(event)">
             </div>
 
             <!-- Video Engine Selector -->
@@ -534,7 +534,7 @@
                 </div>
             </div>
 
-            <!-- Instant Trigger Button -->
+            <!-- Manual Generate Button -->
             <button class="action-main-btn" onclick="generateAndSave('Video_Suite')">🚀 Generate & Export MP4</button>
         </div>
 
@@ -570,7 +570,7 @@
             <div class="input-card" style="cursor: pointer;" onclick="document.getElementById('stemUpload').click()">
                 <small style="color: #8fa3b8; font-size: 11px; text-transform: uppercase;">📂 Choose from your library</small>
                 <h4 id="stemName" style="font-size: 14px; font-weight: 600;">Songs, covers and other tracks you've made</h4>
-                <input type="file" id="stemUpload" accept="audio/*" style="display:none;" onchange="document.getElementById('stemName').innerText=this.files[0].name">
+                <input type="file" id="stemUpload" accept="audio/*" style="display:none;" onchange="handleSharedFile(event, 'stemUpload', 'stemName', 'Stem track attached')">
             </div>
             <div class="select-btn-box">
                 <div><small>🤖 PROVIDER</small><span>LALAL.AI / Demucs</span></div>
@@ -771,6 +771,17 @@
     let selectedDurations = ['5s'];
     let selectedBatches = ['1 Clip'];
 
+    // In-memory reference files dictionary for all generators
+    let attachedFiles = {
+        coverTrackUpload: null,
+        extendTrackUpload: null,
+        instTrackUpload: null,
+        mashup1Upload: null,
+        mashup2Upload: null,
+        stemUpload: null,
+        videoMediaUpload: null
+    };
+
     let libraryFiles = [
         { name: "Flymusic_Anthem_01.mp3", type: "Song", date: "2026-10-15" },
         { name: "VoiceClone_Session.mp3", type: "Voice Clone", date: "2026-10-15" },
@@ -911,13 +922,22 @@
         showToast("Batches: " + selectedBatches.join(', '));
     }
 
-    function onVideoFileAdded(event) {
+    // Universal handler to hold uploaded media reference in memory without navigating away
+    function handleSharedFile(event, inputId, labelId, successMsg) {
         const file = event.target.files[0];
         if(file) {
-            showToast("Media inserted: " + file.name + ". Generating AI video...");
-            setTimeout(() => {
-                generateAndSave('Video_Suite');
-            }, 1200);
+            attachedFiles[inputId] = file;
+            document.getElementById(labelId).innerText = file.name + " (Attached)";
+            showToast(successMsg + ": " + file.name);
+        }
+    }
+
+    function onVideoFileSelected(event) {
+        const file = event.target.files[0];
+        if(file) {
+            attachedFiles['videoMediaUpload'] = file;
+            document.getElementById('videoMediaStatus').innerText = "📎 Attached Reference Media: " + file.name + " (Held for generation)";
+            showToast("Media attached for reference!");
         }
     }
 
@@ -952,32 +972,9 @@
     function handleAudioUpload(event) {
         const file = event.target.files[0];
         if(file) {
-            showToast("Loaded: " + file.name);
+            attachedFiles['audioUpload'] = file;
+            showToast("Loaded voice sample: " + file.name);
             document.getElementById('recStatus').innerText = "Loaded: " + file.name;
-        }
-    }
-
-    function handleCoverUpload(event) {
-        const file = event.target.files[0];
-        if(file) {
-            document.getElementById('selectedCoverTrackName').innerText = file.name;
-            showToast("Loaded track: " + file.name);
-        }
-    }
-
-    function handleExtendUpload(event) {
-        const file = event.target.files[0];
-        if(file) {
-            document.getElementById('selectedExtendTrackName').innerText = file.name;
-            showToast("Loaded track: " + file.name);
-        }
-    }
-
-    function handleInstUpload(event) {
-        const file = event.target.files[0];
-        if(file) {
-            document.getElementById('selectedInstTrackName').innerText = file.name;
-            showToast("Loaded track: " + file.name);
         }
     }
 
