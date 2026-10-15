@@ -25,7 +25,7 @@
         .search-box input::placeholder { color: #6c869b; }
 
         .banner-card { background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%); border-radius: 24px; padding: 22px; margin-bottom: 14px; cursor: pointer; box-shadow: 0 8px 25px rgba(0,210,255,0.25); }
-        .banner-card.purple { background: linear-gradient(135deg, #b224ef 0%, #7579ff 100%); box-shadow: 0 8px 25px rgba(178,36,239,0.25); }
+        .banner-card.purple { background: linear-gradient(135deg, #1a73e8 0%, #4285f4 100%); box-shadow: 0 8px 25px rgba(66,133,244,0.3); }
         .banner-card h3 { font-size: 20px; font-weight: 700; margin-bottom: 6px; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
         .banner-card p { font-size: 14px; color: rgba(255,255,255,0.9); line-height: 1.4; }
 
@@ -62,7 +62,7 @@
         .chip-btn { flex: 1; min-width: 70px; background: #0b1c2b; border: 1px solid #162f44; padding: 10px 8px; border-radius: 14px; color: #a1b8cc; font-weight: 700; font-size: 13px; text-align: center; cursor: pointer; transition: all 0.2s; }
         .chip-btn.active { background: #00d2ff; color: #020f18; border-color: #00d2ff; box-shadow: 0 0 10px rgba(0,210,255,0.3); }
 
-        .action-main-btn { background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%); color: #020f18; border: none; border-radius: 28px; padding: 18px; font-size: 17px; font-weight: 800; width: 100%; cursor: pointer; box-shadow: 0 4px 20px rgba(0,210,255,0.4); margin-top: 10px; }
+        .action-main-btn { background: linear-gradient(135deg, #4285f4 0%, #34a853 100%); color: #fff; border: none; border-radius: 28px; padding: 18px; font-size: 17px; font-weight: 800; width: 100%; cursor: pointer; box-shadow: 0 4px 20px rgba(66,133,244,0.4); margin-top: 10px; }
 
         .recorder-box { background: #05121b; border: 2px dashed #00d2ff; border-radius: 16px; padding: 20px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 12px; }
         .rec-circle { width: 64px; height: 64px; border-radius: 50%; background: rgba(255, 75, 140, 0.2); color: #ff4b8c; border: 2px solid #ff4b8c; display: flex; align-items: center; justify-content: center; font-size: 24px; cursor: pointer; }
@@ -107,10 +107,10 @@
             top: 20px; 
             left: 50%; 
             transform: translateX(-50%) translateY(-60px); 
-            background: rgba(0, 210, 255, 0.3); 
+            background: rgba(66, 133, 244, 0.35); 
             backdrop-filter: blur(8px);
             color: #ffffff; 
-            border: 1px solid rgba(0, 210, 255, 0.4);
+            border: 1px solid rgba(66, 133, 244, 0.5);
             padding: 10px 20px; 
             border-radius: 20px; 
             font-weight: 700; 
@@ -119,7 +119,7 @@
             pointer-events: none;
             transition: all 0.4s ease; 
             z-index: 2000; 
-            box-shadow: 0 4px 20px rgba(0,210,255,0.2); 
+            box-shadow: 0 4px 20px rgba(66,133,244,0.3); 
         }
         .toast.show { 
             transform: translateX(-50%) translateY(0); 
@@ -130,7 +130,7 @@
 <body>
 
 <div class="app-container">
-    <div id="toast" class="toast">Saved to /music/Flymusic as MP3!</div>
+    <div id="toast" class="toast">Saved to /music/Flymusic as MP4!</div>
 
     <div class="app-header">
         <div class="header-title">
@@ -156,8 +156,8 @@
                 <p>Full song with lyrics, vocals & instrumental</p>
             </div>
             <div class="banner-card purple" onclick="openView('aiVideoStudio')">
-                <h3>🔥 Adobe Firefly AI Video Generator</h3>
-                <p>Photorealistic text-to-video, style reference grading & cinematic lighting</p>
+                <h3>✨ Video Suite (Gemini & Free AI Generators)</h3>
+                <p>Gemini Veo, Imagen Video, Adobe Firefly, Runway, Pika, Kling & Sora multi-model generation</p>
             </div>
 
             <div class="section-title">⚡ Make Music</div>
@@ -471,20 +471,20 @@
             <button class="action-main-btn" onclick="generateAndSave('Voice_Clone_Track')">🧬 Run AI Voice Clone & Save MP3</button>
         </div>
 
-        <!-- ADOBE FIREFLY STYLE AI VIDEO GENERATOR SUITE -->
+        <!-- VIDEO SUITE WITH GEMINI & ALL FREE AI GENERATORS -->
         <div id="viewAiVideoStudio" class="view-panel">
-            <div class="input-card" style="background: linear-gradient(135deg, #2b0b1f 0%, #100511 100%); border: 1px solid #ff4b8c55; padding: 18px;">
-                <h3 style="font-size: 16px; color: #ff4b8c; margin-bottom: 6px;">🔥 Adobe Firefly AI Video Generator</h3>
-                <p style="font-size: 12px; color: #a1b8cc; margin-bottom: 12px;">Generate cinematic text-to-video scenes, apply style reference photos, and customize lighting & camera angles.</p>
-                <button class="action-main-btn" style="margin-top: 0; padding: 12px; background: linear-gradient(135deg, #ff4b8c 0%, #b224ef 100%); color: #fff;" onclick="document.getElementById('fireflyImageUpload').click()">+ Upload Style / Reference Image</button>
-                <input type="file" id="fireflyImageUpload" accept="image/*" style="display:none;" onchange="onFireflyImageAdded(event)">
+            <div class="input-card" style="background: linear-gradient(135deg, #0d1b2a 0%, #1b263b 100%); border: 1px solid #4285f455; padding: 18px;">
+                <h3 style="font-size: 16px; color: #4285f4; margin-bottom: 6px;">✨ Video Suite (Gemini & Free AI Generators)</h3>
+                <p style="font-size: 12px; color: #a1b8cc; margin-bottom: 12px;">Powered by Gemini Veo, Imagen Video, Adobe Firefly, Runway Gen-2, Pika Labs, Kling AI & Sora. Type a prompt or add media to instantly trigger AI video generation.</p>
+                <button class="action-main-btn" style="margin-top: 0; padding: 12px; background: linear-gradient(135deg, #4285f4 0%, #34a853 100%);" onclick="document.getElementById('videoMediaUpload').click()">+ Upload Media or Image for AI Video</button>
+                <input type="file" id="videoMediaUpload" accept="video/*,image/*" style="display:none;" onchange="onVideoFileAdded(event)">
             </div>
 
-            <!-- Firefly Engine & Style Presets -->
+            <!-- Video Engine Selector -->
             <div class="select-btn-box" onclick="openVideoAiSelector()">
                 <div>
-                    <small>🤖 FIREFLY ENGINE MODEL</small>
-                    <span id="selectedVideoAiName">Firefly Video V3 (Cinematic Photorealism)</span>
+                    <small>🤖 CHOOSE FREE AI VIDEO ENGINE</small>
+                    <span id="selectedVideoAiName">Gemini Veo (Google High-Fidelity Video)</span>
                 </div>
                 <span>▼</span>
             </div>
@@ -499,19 +499,8 @@
 
             <!-- Prompt Box with Auto-Trigger -->
             <div class="input-card">
-                <label>✨ Text Prompt (Auto-Triggers Generation)</label>
-                <textarea id="videoPromptInput" placeholder="e.g. Cinematic drone shot over a glowing cyberpunk city at night with neon reflections..." style="height: 80px;" oninput="onVideoPromptInput()"></textarea>
-            </div>
-
-            <!-- Visual Style / Mood Selectors -->
-            <div class="input-card">
-                <label>🎨 Visual Style & Cinematic Look</label>
-                <div class="options-row" id="styleRow">
-                    <div class="chip-btn active" onclick="toggleStyleChip(this, 'Cinematic')">Cinematic</div>
-                    <div class="chip-btn" onclick="toggleStyleChip(this, 'Anime')">Anime / 3D</div>
-                    <div class="chip-btn" onclick="toggleStyleChip(this, 'Cyberpunk')">Cyberpunk</div>
-                    <div class="chip-btn" onclick="toggleStyleChip(this, 'Vintage')">Vintage 16mm</div>
-                </div>
+                <label>✨ AI Video Prompt (Auto-Triggers Generation)</label>
+                <textarea id="videoPromptInput" placeholder="e.g. Cinematic drone shot over futuristic neon city generated by Gemini Veo..." style="height: 80px;" oninput="onVideoPromptInput()"></textarea>
             </div>
 
             <!-- Multi-Selection Duration Chips -->
@@ -537,16 +526,16 @@
 
             <div style="background: #05121b; border: 1px solid #1a364a; border-radius: 16px; padding: 14px; text-align: center;">
                 <div style="height: 110px; background: #000; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #6c869b; font-size: 13px; margin-bottom: 10px;">
-                    ▶ Firefly Generative Video Preview Canvas
+                    ▶ Video Suite Multi-Model Preview Canvas
                 </div>
                 <div style="display: flex; gap: 6px;">
-                    <button style="flex:1; background:#112534; border:1px solid #1a364a; color:#fff; padding:8px; border-radius:10px; font-size:11px; cursor:pointer;" onclick="showToast('Generative Expand applied!')">⚡ Generative Expand</button>
-                    <button style="flex:1; background:#112534; border:1px solid #1a364a; color:#fff; padding:8px; border-radius:10px; font-size:11px; cursor:pointer;" onclick="showToast('Seamless clip stitching complete!')">🔗 Stitch Clips</button>
+                    <button style="flex:1; background:#112534; border:1px solid #1a364a; color:#fff; padding:8px; border-radius:10px; font-size:11px; cursor:pointer;" onclick="showToast('Gemini AI Upscale applied!')">⚡ Gemini Upscale</button>
+                    <button style="flex:1; background:#112534; border:1px solid #1a364a; color:#fff; padding:8px; border-radius:10px; font-size:11px; cursor:pointer;" onclick="showToast('Multi-clips stitched successfully!')">🔗 Stitch Clips</button>
                 </div>
             </div>
 
             <!-- Instant Trigger Button -->
-            <button class="action-main-btn" style="background: linear-gradient(135deg, #ff4b8c 0%, #b224ef 100%);" onclick="generateAndSave('Firefly_AI_Video')">🔥 Generate Firefly MP4</button>
+            <button class="action-main-btn" onclick="generateAndSave('Video_Suite')">🚀 Generate & Export MP4</button>
         </div>
 
         <!-- CREATE VOCALS -->
@@ -626,15 +615,15 @@
 
             <div style="background: #0b1c2b; border: 1px solid #162f44; border-radius: 16px; padding: 14px; margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center; cursor: pointer;" onclick="filterLibrary('videos')">
                 <div style="display: flex; align-items: center; gap: 12px;">
-                    <div style="width: 36px; height: 36px; border-radius: 10px; background: rgba(0,210,255,0.15); color: #00d2ff; display: flex; align-items: center; justify-content: center; font-size: 18px;">🎬</div>
-                    <div><h4 style="font-size: 14px; font-weight: 700;">Generated Videos</h4><p style="font-size: 11px; color: #8fa3b8;">Firefly AI Movies & Reels</p></div>
+                    <div style="width: 36px; height: 36px; border-radius: 10px; background: rgba(66,133,244,0.15); color: #4285f4; display: flex; align-items: center; justify-content: center; font-size: 18px;">🎬</div>
+                    <div><h4 style="font-size: 14px; font-weight: 700;">Generated Videos</h4><p style="font-size: 11px; color: #8fa3b8;">Gemini & Free AI Video Suite</p></div>
                 </div>
-                <span style="color: #00d2ff; font-weight: 700;">-></span>
+                <span style="color: #4285f4; font-weight: 700;">-></span>
             </div>
 
             <div style="display:flex; justify-content:space-between; align-items:center; margin: 6px 0;">
                 <h3 style="font-size:15px; font-weight:700;">Recents (/music/Flymusic/)</h3>
-                <span style="font-size:12px; color:#00d2ff;" id="fileCount">0 files</span>
+                <span style="font-size:12px; color:#4285f4;" id="fileCount">0 files</span>
             </div>
             
             <div id="libraryList"></div>
@@ -643,10 +632,10 @@
         <!-- PROFILE -->
         <div id="viewProfile" class="view-panel">
             <div class="input-card" style="align-items:center; text-align:center; padding:24px;">
-                <div style="width:72px; height:72px; background:#00d2ff; color:#020f18; border-radius:50%; font-size:28px; display:flex; align-items:center; justify-content:center; font-weight:700; margin-bottom:12px;">JL</div>
+                <div style="width:72px; height:72px; background:#4285f4; color:#fff; border-radius:50%; font-size:28px; display:flex; align-items:center; justify-content:center; font-weight:700; margin-bottom:12px;">JL</div>
                 <h3 style="font-size:18px; margin-bottom:4px;">John Linville</h3>
                 <p style="font-size:13px; color:#8fa3b8;">john2025linville@gmail.com</p>
-                <p style="font-size:12px; color:#00d2ff; margin-top:8px;">📁 Android Storage: /storage/emulated/0/music/Flymusic/</p>
+                <p style="font-size:12px; color:#4285f4; margin-top:8px;">📁 Android Storage: /storage/emulated/0/music/Flymusic/</p>
             </div>
         </div>
     </div>
@@ -714,21 +703,37 @@
         </div>
     </div>
 
-    <!-- FIREFLY ENGINE SELECTOR MODAL -->
+    <!-- VIDEO SUITE FREE AI SELECTOR MODAL WITH GEMINI & ALL GENERATORS -->
     <div class="modal-overlay" id="videoAiModal" onclick="closeVideoAiModal(event)">
         <div class="modal-content">
-            <h3 style="font-size:18px; margin-bottom:8px;">Choose Firefly Video Engine</h3>
-            <div class="model-option" onclick="selectVideoAi('Firefly Video V3 (Cinematic Photorealism)')">
-                <div class="m-icon">🔥</div>
-                <div><strong>Firefly Video V3</strong><small>Best for photorealistic cinematic grading, rich lighting & textures.</small></div>
-            </div>
-            <div class="model-option" onclick="selectVideoAi('Firefly Motion Model (Fluid Physics)')">
-                <div class="m-icon">🏃</div>
-                <div><strong>Firefly Motion Model</strong><small>Excels at fluid motion, camera pans, and realistic subject movement.</small></div>
-            </div>
-            <div class="model-option" onclick="selectVideoAi('Firefly Generative Stylizer')">
+            <h3 style="font-size:18px; margin-bottom:8px;">Choose Free AI Video Generator</h3>
+            <div class="model-option" onclick="selectVideoAi('Gemini Veo (Google High-Fidelity Video)')">
                 <div class="m-icon">✨</div>
-                <div><strong>Firefly Stylizer</strong><small>Great for artistic painting, anime, and stylized particle effects.</small></div>
+                <div><strong>Gemini Veo</strong><small>Google's advanced generative video model with cinematic depth & realism.</small></div>
+            </div>
+            <div class="model-option" onclick="selectVideoAi('Gemini Imagen Video (Text-to-Video Pro)')">
+                <div class="m-icon">🌟</div>
+                <div><strong>Gemini Imagen Video</strong><small>High frame-rate generation for stunning smooth motion.</small></div>
+            </div>
+            <div class="model-option" onclick="selectVideoAi('Adobe Firefly Video V3')">
+                <div class="m-icon">🔥</div>
+                <div><strong>Adobe Firefly Video V3</strong><small>Photorealistic cinematic grading, rich lighting & textures.</small></div>
+            </div>
+            <div class="model-option" onclick="selectVideoAi('Runway Gen-2 (Motion & Physics)')">
+                <div class="m-icon">🏃</div>
+                <div><strong>Runway Gen-2</strong><small>Fluid camera movement and realistic physics simulation.</small></div>
+            </div>
+            <div class="model-option" onclick="selectVideoAi('Pika Labs (Animation & Effects)')">
+                <div class="m-icon">🎨</div>
+                <div><strong>Pika Labs</strong><small>Stylized animation, dynamic particle effects & text-to-video.</small></div>
+            </div>
+            <div class="model-option" onclick="selectVideoAi('Kling AI (High Detail & Clarity)')">
+                <div class="m-icon">🎥</div>
+                <div><strong>Kling AI</strong><small>Ultra-sharp texture rendering and long-form temporal consistency.</small></div>
+            </div>
+            <div class="model-option" onclick="selectVideoAi('OpenAI Sora / Stable Video')">
+                <div class="m-icon">🚀</div>
+                <div><strong>Stable Video / Sora</strong><small>Complex scene composition and extended multi-second generation.</small></div>
             </div>
         </div>
     </div>
@@ -769,7 +774,7 @@
     let libraryFiles = [
         { name: "Flymusic_Anthem_01.mp3", type: "Song", date: "2026-10-15" },
         { name: "VoiceClone_Session.mp3", type: "Voice Clone", date: "2026-10-15" },
-        { name: "Firefly_AI_Video_982.mp4", type: "Firefly AI Video", date: "2026-10-15" }
+        { name: "Gemini_Veo_Video_419.mp4", type: "Video Suite", date: "2026-10-15" }
     ];
 
     function showToast(msg) {
@@ -831,7 +836,7 @@
             mashup: ['Mashup', 'Blend two tracks together'],
             soundGenerator: ['Sound Generator', 'Create loops & sound beds'],
             voiceClone: ['Voice Clone Studio', 'Record or upload your voice'],
-            aiVideoStudio: ['Adobe Firefly Video', 'Photorealistic text-to-video & style grading'],
+            aiVideoStudio: ['Video Suite', 'Gemini Veo, Imagen & Free AI Generators'],
             createVocals: ['Create Vocals', 'Generate AI vocal tracks'],
             addVocals: ['Add Vocals', 'Add AI vocals over music'],
             transformVocals: ['Transform Vocals', 'Studio quality performance'],
@@ -869,7 +874,7 @@
     function selectVideoAi(name) {
         document.getElementById('selectedVideoAiName').innerText = name;
         document.getElementById('videoAiModal').classList.remove('active');
-        showToast('Firefly Engine: ' + name);
+        showToast('Video Engine: ' + name);
     }
 
     function openResolutionSelector() { document.getElementById('resolutionModal').classList.add('active'); }
@@ -878,13 +883,6 @@
         document.getElementById('selectedVideoResolution').innerText = res;
         document.getElementById('resolutionModal').classList.remove('active');
         showToast('Resolution: ' + res);
-    }
-
-    function toggleStyleChip(element, value) {
-        const buttons = document.querySelectorAll('#styleRow .chip-btn');
-        buttons.forEach(btn => btn.classList.remove('active'));
-        element.classList.add('active');
-        showToast("Style: " + value);
     }
 
     function toggleDurationChip(element, value) {
@@ -913,12 +911,12 @@
         showToast("Batches: " + selectedBatches.join(', '));
     }
 
-    function onFireflyImageAdded(event) {
+    function onVideoFileAdded(event) {
         const file = event.target.files[0];
         if(file) {
-            showToast("Style reference loaded: " + file.name + ". Generating video...");
+            showToast("Media inserted: " + file.name + ". Generating AI video...");
             setTimeout(() => {
-                generateAndSave('Firefly_AI_Video');
+                generateAndSave('Video_Suite');
             }, 1200);
         }
     }
@@ -928,9 +926,9 @@
         if(val.length > 5) {
             clearTimeout(videoPromptTimeout);
             videoPromptTimeout = setTimeout(() => {
-                showToast("Prompt detected! Firefly generating video...");
+                showToast("Prompt detected! AI video generating...");
                 setTimeout(() => {
-                    generateAndSave('Firefly_AI_Video');
+                    generateAndSave('Video_Suite');
                 }, 1200);
             }, 2500);
         }
@@ -1000,8 +998,8 @@
     }
 
     function generateAndSave(type) {
-        const ext = type.includes('Video') || type.includes('Movie') ? '.mp4' : '.mp3';
-        const filename = "Firefly_" + type.replace(/\s+/g, '_') + "_" + Math.floor(Math.random()*900+100) + ext;
+        const ext = type.includes('Video') || type.includes('Suite') || type.includes('Movie') ? '.mp4' : '.mp3';
+        const filename = "VideoSuite_" + type.replace(/\s+/g, '_') + "_" + Math.floor(Math.random()*900+100) + ext;
         libraryFiles.unshift({ name: filename, type: type, date: new Date().toISOString().split('T')[0] });
         showToast("Saved to /music/Flymusic/" + filename);
         setTimeout(() => { switchNav('library'); }, 1200);
@@ -1014,8 +1012,8 @@
         
         let filtered = libraryFiles;
         if(filter === 'songs') filtered = libraryFiles.filter(f => f.type === 'Song');
-        if(filter === 'creations') filtered = libraryFiles.filter(f => f.type !== 'Song' && !f.type.includes('Video') && !f.type.includes('Movie'));
-        if(filter === 'videos') filtered = libraryFiles.filter(f => f.type.includes('Video') || f.type.includes('Movie') || f.name.includes('.mp4'));
+        if(filter === 'creations') filtered = libraryFiles.filter(f => f.type !== 'Song' && !f.type.includes('Video') && !f.type.includes('Suite') && !f.type.includes('Movie'));
+        if(filter === 'videos') filtered = libraryFiles.filter(f => f.type.includes('Video') || f.type.includes('Suite') || f.type.includes('Movie') || f.name.includes('.mp4'));
 
         if(filtered.length === 0) {
             list.innerHTML = `<div style="text-align:center; padding:30px; color:#6c869b; font-size:14px;">No files found in this category.</div>`;
