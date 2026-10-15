@@ -127,7 +127,7 @@ jobs:
         EOF
 
         cd my-android-project
-        gradle wrapper --gradle-version 8.5 --distribution-type bin
+        gradle wrapper --gradle-version 8.7 --distribution-type bin
         chmod +x gradlew
         ./gradlew assembleRelease
 
