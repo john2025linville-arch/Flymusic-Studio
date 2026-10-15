@@ -1,0 +1,137 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+
+    - name: Build APK with WebView Wrapper
+      run: |
+        mkdir -p android-app/app/src/main/assets
+        mkdir -p android-app/app/src/main/java/com/flymusic/studio/pro
+        mkdir -p android-app/app/src/main/res/values
+
+        cp index.html android-app/app/src/main/assets/index.html
+
+        cat << 'EOF' > android-app/app/src/main/java/com/flymusic/studio/pro/MainActivity.java
+        package com.flymusic.studio.pro;
+
+        import android.Manifest;
+        import android.content.pm.PackageManager;
+        import android.os.Bundle;
+        import android.webkit.PermissionRequest;
+        import android.webkit.WebChromeClient;
+        import android.webkit.WebSettings;
+        import android.webkit.WebView;
+        import android.webkit.WebViewClient;
+        import androidx.appcompat.app.AppCompatActivity;
+        import androidx.core.app.ActivityCompat;
+        import androidx.core.content.ContextCompat;
+
+        public class MainActivity extends AppCompatActivity {
+            private WebView webView;
+            private static final int PERMISSION_REQUEST_CODE = 200;
+
+            @Override
+            protected void onCreate(Bundle savedInstanceState) {
+                super.onCreate(savedInstanceState);
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
+                }
+                webView = new WebView(this);
+                WebSettings settings = webView.getSettings();
+                settings.setJavaScriptEnabled(true);
+                settings.setDomStorageEnabled(true);
+                settings.setMediaPlaybackRequiresUserGesture(false);
+                webView.setWebViewClient(new WebViewClient());
+                webView.setWebChromeClient(new WebChromeClient() {
+                    @Override
+                    public void onPermissionRequest(final PermissionRequest request) {
+                        request.grant(request.getResources());
+                    }
+                });
+                webView.loadUrl("file:///android_asset/index.html");
+                setContentView(webView);
+            }
+        }
+        EOF
+
+        cat << 'EOF' > android-app/app/build.gradle
+        plugins { id 'com.android.application' }
+        android {
+            namespace 'com.flymusic.studio.pro'
+            compileSdk 34
+            defaultConfig {
+                applicationId "com.flymusic.studio.pro"
+                minSdk 24
+                targetSdk 34
+                versionCode 1
+                versionName "1.0"
+            }
+            buildTypes { release { minifyEnabled false } }
+        }
+        dependencies {
+            implementation 'androidx.appcompat:appcompat:1.6.1'
+            implementation 'com.google.android.material:material:1.9.0'
+        }
+        EOF
+
+        cat << 'EOF' > android-app/build.gradle
+        buildscript {
+            repositories { google(); mavenCentral() }
+            dependencies { classpath 'com.android.tools.build:gradle:8.1.2' }
+        }
+        allprojects { repositories { google(); mavenCentral() } }
+        EOF
+
+        cat << 'EOF' > android-app/settings.gradle
+        rootProject.name = "Flymusic Studio"
+        include ':app'
+        EOF
+
+        cat << 'EOF' > android-app/app/src/main/res/values/strings.xml
+        <resources><string name="app_name">Flymusic Studio</string></resources>
+        EOF
+
+        cat << 'EOF' > android-app/app/src/main/AndroidManifest.xml
+        <?xml version="1.0" encoding="utf-8"?>
+        <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.flymusic.studio.pro">
+            <uses-permission android:name="android.permission.INTERNET" />
+            <uses-permission android:name="android.permission.RECORD_AUDIO" />
+            <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+            <application android:allowBackup="true" android:label="Flymusic Studio" android:supportsRtl="true" android:hardwareAccelerated="true" android:theme="@style/Theme.AppCompat.NoActionBar">
+                <activity android:name=".MainActivity" android:exported="true">
+                    <intent-filter>
+                        <action android:name="android.intent.action.MAIN" />
+                        <category android:name="android.intent.category.LAUNCHER" />
+                    </intent-filter>
+                </activity>
+            </application>
+        </manifest>
+        EOF
+
+        cd android-app
+        chmod +x gradlew || gradle wrapper
+        ./gradlew assembleRelease
+    
+    - name: Upload APK Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: Flymusic-Studio-APK
+        path: android-app/app/build/outputs/apk/release/app-release-unsigned.apk
