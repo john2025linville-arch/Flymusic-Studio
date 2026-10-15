@@ -3,85 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Flymusic Studio Pro</title>
+    <title>Flymusic Studio Pro Ultimate</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background: #020f18; color: #ffffff; min-height: 100vh; display: flex; justify-content: center; align-items: center; overflow: hidden; }
-        .app-container { width: 100%; max-width: 430px; height: 100vh; max-height: 932px; background: #020f18; display: flex; flex-direction: column; position: relative; overflow: hidden; box-shadow: 0 0 50px rgba(0,0,0,0.9); }
+        body { background: #01070d; color: #ffffff; min-height: 100vh; display: flex; justify-content: center; align-items: center; overflow: hidden; }
+        .app-container { width: 100%; max-width: 430px; height: 100vh; max-height: 932px; background: #020f18; display: flex; flex-direction: column; position: relative; overflow: hidden; box-shadow: 0 0 60px rgba(0,210,255,0.25); border: 1px solid rgba(0,210,255,0.3); }
         @media(min-width: 431px) { .app-container { border-radius: 40px; border: 8px solid #112534; } }
         
-        .app-header { padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; background: rgba(2, 15, 24, 0.95); backdrop-filter: blur(12px); z-index: 10; }
-        .header-title h1 { font-size: 24px; font-weight: 700; color: #fff; }
+        .app-header { padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; background: rgba(2, 15, 24, 0.95); backdrop-filter: blur(16px); z-index: 10; border-bottom: 1px solid rgba(0,210,255,0.15); }
+        .header-title h1 { font-size: 24px; font-weight: 800; color: #fff; text-shadow: 0 0 10px rgba(0,210,255,0.4); }
         .header-title p { font-size: 14px; color: #8fa3b8; margin-top: 2px; }
-        .back-btn { background: #112534; border: none; width: 36px; height: 36px; border-radius: 50%; color: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; }
+        .back-btn { background: #112534; border: 1px solid rgba(0,210,255,0.3); width: 36px; height: 36px; border-radius: 50%; color: #00d2ff; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; }
 
         .content-scroll { flex: 1; overflow-y: auto; padding: 0 16px 110px 16px; scroll-behavior: smooth; }
         .content-scroll::-webkit-scrollbar { display: none; }
 
-        .search-box { background: #0b1f2d; border: 1px solid #1a364a; border-radius: 28px; padding: 12px 18px; display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
-        .search-box input { background: transparent; border: none; color: #fff; font-size: 16px; outline: none; width: 100%; }
+        .search-box { background: #0b1f2d; border: 1px solid #00d2ff55; border-radius: 28px; padding: 12px 18px; display: flex; align-items: center; gap: 12px; margin-bottom: 20px; box-shadow: 0 0 15px rgba(0,210,255,0.1); }
+        .search-box input { background: transparent; border: none; color: #fff; font-size: 15px; outline: none; width: 100%; }
         .search-box input::placeholder { color: #6c869b; }
 
-        .banner-card { background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%); border-radius: 24px; padding: 22px; margin-bottom: 14px; cursor: pointer; }
-        .banner-card.purple { background: linear-gradient(135deg, #b224ef 0%, #7579ff 100%); }
-        .banner-card h3 { font-size: 20px; font-weight: 700; margin-bottom: 6px; color: #fff; }
-        .banner-card p { font-size: 14px; color: rgba(255,255,255,0.85); line-height: 1.4; }
+        .banner-card { background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%); border-radius: 24px; padding: 22px; margin-bottom: 14px; cursor: pointer; box-shadow: 0 8px 25px rgba(0,210,255,0.25); }
+        .banner-card.purple { background: linear-gradient(135deg, #b224ef 0%, #7579ff 100%); box-shadow: 0 8px 25px rgba(178,36,239,0.25); }
+        .banner-card h3 { font-size: 20px; font-weight: 700; margin-bottom: 6px; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+        .banner-card p { font-size: 14px; color: rgba(255,255,255,0.9); line-height: 1.4; }
 
-        .section-title { font-size: 16px; font-weight: 700; margin: 24px 0 12px 4px; color: #c5d8ec; }
+        .section-title { font-size: 16px; font-weight: 700; margin: 24px 0 12px 4px; color: #00d2ff; text-shadow: 0 0 8px rgba(0,210,255,0.3); }
         .tools-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
-        .tool-card { background: #0b1c2b; border: 1px solid #162f44; border-radius: 20px; padding: 18px; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; min-height: 125px; }
-        .tool-card:active { background: #112a40; }
-        .tool-card .icon { width: 38px; height: 38px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 12px; }
-        .tool-card h4 { font-size: 15px; font-weight: 600; color: #fff; margin-bottom: 4px; }
-        .tool-card p { font-size: 12px; color: #9ab2c7; line-height: 1.35; }
+        .tool-card { background: #0b1c2b; border: 1px solid #162f44; border-radius: 20px; padding: 18px; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; min-height: 130px; transition: all 0.2s; }
+        .tool-card:active { background: #112a40; transform: scale(0.97); }
+        .tool-card .icon { width: 38px; height: 38px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; margin-bottom: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.4); }
+        .tool-card h4 { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+        .tool-card p { font-size: 12px; color: #a1b8cc; line-height: 1.4; }
 
-        .tool-card.blue .icon { background: rgba(0, 210, 255, 0.15); color: #00d2ff; }
-        .tool-card.orange .icon { background: rgba(242, 153, 74, 0.15); color: #f2994a; }
-        .tool-card.green .icon { background: rgba(56, 239, 125, 0.15); color: #38ef7d; }
-        .tool-card.purple .icon { background: rgba(178, 36, 239, 0.15); color: #b224ef; }
-        .tool-card.pink .icon { background: rgba(255, 75, 140, 0.15); color: #ff4b8c; }
-        .tool-card.teal .icon { background: rgba(0, 198, 255, 0.15); color: #00c6ff; }
-        .tool-card.red .icon { background: rgba(235, 87, 87, 0.15); color: #eb5757; }
-        .tool-card.yellow .icon { background: rgba(242, 201, 76, 0.15); color: #f2c94c; }
+        .tool-card.blue .icon { background: rgba(0, 210, 255, 0.2); color: #00d2ff; border: 1px solid rgba(0,210,255,0.4); }
+        .tool-card.orange .icon { background: rgba(242, 153, 74, 0.2); color: #f2994a; border: 1px solid rgba(242,153,74,0.4); }
+        .tool-card.green .icon { background: rgba(56, 239, 125, 0.2); color: #38ef7d; border: 1px solid rgba(56,239,125,0.4); }
+        .tool-card.purple .icon { background: rgba(178, 36, 239, 0.2); color: #b224ef; border: 1px solid rgba(178,36,239,0.4); }
+        .tool-card.pink .icon { background: rgba(255, 75, 140, 0.2); color: #ff4b8c; border: 1px solid rgba(255,75,140,0.4); }
+        .tool-card.teal .icon { background: rgba(0, 198, 255, 0.2); color: #00c6ff; border: 1px solid rgba(0,198,255,0.4); }
+        .tool-card.red .icon { background: rgba(235, 87, 87, 0.2); color: #eb5757; border: 1px solid rgba(235,87,87,0.4); }
+        .tool-card.yellow .icon { background: rgba(242, 201, 76, 0.2); color: #f2c94c; border: 1px solid rgba(242,201,76,0.4); }
 
         .view-panel { display: none; flex-direction: column; gap: 16px; }
         .view-panel.active { display: flex; }
 
         .input-card { background: #0b1c2b; border: 1px solid #162f44; border-radius: 20px; padding: 16px; display: flex; flex-direction: column; gap: 10px; }
-        .input-card label { font-size: 14px; color: #a1b8cc; font-weight: 600; }
+        .input-card label { font-size: 14px; color: #c5d8ec; font-weight: 700; }
         .input-card textarea, .input-card input[type="text"] { background: #05121b; border: 1px solid #1a364a; border-radius: 14px; padding: 14px; color: #fff; font-size: 15px; outline: none; resize: none; width: 100%; }
         .input-card textarea { height: 110px; }
 
         .select-btn-box { background: #0b1c2b; border: 1px solid #162f44; border-radius: 16px; padding: 16px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; }
-        .select-btn-box span { font-weight: 600; font-size: 15px; }
-        .select-btn-box small { color: #8fa3b8; font-size: 12px; text-transform: uppercase; }
+        .select-btn-box span { font-weight: 700; font-size: 15px; color: #fff; }
+        .select-btn-box small { color: #00d2ff; font-size: 12px; text-transform: uppercase; }
 
         .options-row { display: flex; gap: 10px; }
-        .chip-btn { flex: 1; background: #0b1c2b; border: 1px solid #162f44; padding: 12px; border-radius: 14px; color: #8fa3b8; font-weight: 600; font-size: 14px; text-align: center; cursor: pointer; }
+        .chip-btn { flex: 1; background: #0b1c2b; border: 1px solid #162f44; padding: 12px; border-radius: 14px; color: #a1b8cc; font-weight: 700; font-size: 14px; text-align: center; cursor: pointer; }
         .chip-btn.active { background: #00d2ff; color: #020f18; border-color: #00d2ff; }
 
-        .action-main-btn { background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%); color: #020f18; border: none; border-radius: 28px; padding: 18px; font-size: 17px; font-weight: 700; width: 100%; cursor: pointer; box-shadow: 0 4px 20px rgba(0, 210, 255, 0.3); margin-top: 10px; }
+        .action-main-btn { background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%); color: #020f18; border: none; border-radius: 28px; padding: 18px; font-size: 17px; font-weight: 800; width: 100%; cursor: pointer; box-shadow: 0 4px 20px rgba(0, 210, 255, 0.4); margin-top: 10px; }
 
         .recorder-box { background: #05121b; border: 2px dashed #00d2ff; border-radius: 16px; padding: 20px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 12px; }
         .rec-circle { width: 64px; height: 64px; border-radius: 50%; background: rgba(255, 75, 140, 0.2); color: #ff4b8c; border: 2px solid #ff4b8c; display: flex; align-items: center; justify-content: center; font-size: 24px; cursor: pointer; }
         .rec-circle.recording { background: #ff4b8c; color: #fff; animation: pulse 1.2s infinite; }
         @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(255,75,140,0.6); } 70% { box-shadow: 0 0 0 16px rgba(255,75,140,0); } 100% { box-shadow: 0 0 0 0 rgba(255,75,140,0); } }
 
+        /* Library Styling */
+        .library-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+        .library-card { background: linear-gradient(135deg, #23121f 0%, #150918 100%); border: 1px solid #3d1b32; border-radius: 20px; padding: 18px; cursor: pointer; display: flex; flex-direction: column; gap: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
+        .library-card.purple { background: linear-gradient(135deg, #1b1330 0%, #0d091a 100%); border-color: #312152; }
+        .library-card .heart-icon { width: 40px; height: 40px; border-radius: 50%; background: rgba(255,75,140,0.15); color: #ff4b8c; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+        .library-card.purple .heart-icon { background: rgba(178,36,239,0.15); color: #b224ef; }
+
         .library-item { background: #0b1c2b; border: 1px solid #162f44; border-radius: 16px; padding: 14px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
-        .library-info h4 { font-size: 15px; font-weight: 600; margin-bottom: 3px; }
-        .library-info p { font-size: 12px; color: #8fa3b8; }
+        .library-info h4 { font-size: 15px; font-weight: 700; margin-bottom: 3px; }
+        .library-info p { font-size: 13px; color: #8fa3b8; }
         .library-actions { display: flex; gap: 8px; }
-        .icon-btn { background: #132a3e; border: none; color: #00d2ff; width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+        .icon-btn { background: #132a3e; border: none; color: #00d2ff; width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 0 8px rgba(0,210,255,0.2); font-size: 16px; }
 
         .player-bar { position: absolute; bottom: 70px; left: 12px; right: 12px; background: #0b1f2ded; backdrop-filter: blur(12px); border: 1px solid #1c384e; border-radius: 20px; padding: 12px 16px; display: none; align-items: center; justify-content: space-between; z-index: 99; }
         .player-bar.active { display: flex; }
-        .player-meta h5 { font-size: 14px; font-weight: 600; }
-        .player-meta p { font-size: 11px; color: #8fa3b8; }
+        .player-meta h5 { font-size: 15px; font-weight: 700; }
+        .player-meta p { font-size: 12px; color: #8fa3b8; }
 
         .nav-bar { position: absolute; bottom: 0; left: 0; right: 0; height: 70px; background: #020f18; border-top: 1px solid #112534; display: flex; justify-content: space-around; align-items: center; z-index: 100; }
         .nav-item { background: transparent; border: none; color: #6c869b; display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 12px; cursor: pointer; }
-        .nav-item.active { color: #00d2ff; }
+        .nav-item.active { color: #00d2ff; text-shadow: 0 0 10px rgba(0,210,255,0.5); }
         .nav-item svg { width: 22px; height: 22px; fill: currentColor; }
 
         .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.75); backdrop-filter: blur(5px); display: none; align-items: flex-end; z-index: 1000; }
@@ -101,8 +108,8 @@
 
     <div class="app-header">
         <div class="header-title">
-            <h1 id="mainHeaderHeading" style="font-size: 26px;">Create</h1>
-            <p id="mainHeaderSub" style="font-size: 14px;">Make songs and run audio tools.</p>
+            <h1 id="mainHeaderHeading">Create</h1>
+            <p id="mainHeaderSub">Make songs and run audio tools.</p>
         </div>
         <button class="back-btn" id="backBtn" style="display:none;" onclick="goHome()">✕</button>
     </div>
@@ -119,42 +126,42 @@
                 <h3>Create a Song</h3>
                 <p>Full song with lyrics, vocals & instrumental</p>
             </div>
-            <div class="banner-card purple" onclick="openView('aiVideo')">
-                <h3>🎬 AI Music Video Generator</h3>
-                <p>Generate & extend cinematic videos with reference audio, video & photos</p>
+            <div class="banner-card purple" onclick="openView('aiVideoStudio')">
+                <h3>🎬 AI Video Studio (PowerDirector Suite)</h3>
+                <p>Professional multi-track video editing, AI effects, transitions & multi-clip stitching</p>
             </div>
 
             <div class="section-title">⚡ Make Music</div>
             <div class="tools-grid">
                 <div class="tool-card blue" onclick="openView('createSong')">
                     <div class="icon">🎵</div>
-                    <h4>Create a Song[span_0](start_span)[span_0](end_span)</h4>
-                    <p>Full track with lyrics, vocals & instruments.</p>
+                    <h4>Create Song</h4>
+                    <p>Full song with lyrics & vocals.</p>
                 </div>
                 <div class="tool-card orange" onclick="openView('coverRemix')">
                     <div class="icon">💿</div>
-                    <h4>Cover / Remix[span_1](start_span)[span_1](end_span)</h4>
-                    <p>Reimagine tracks in new styles & voices[span_2](start_span)[span_2](end_span).</p>
+                    <h4>Cover / Remix</h4>
+                    <p>Reimagine tracks in new styles.</p>
                 </div>
                 <div class="tool-card green" onclick="openView('extendSong')">
                     <div class="icon">⏩</div>
-                    <h4>Extend Song[span_3](start_span)[span_3](end_span)</h4>
-                    <p>Continue tracks past endings seamlessly[span_4](start_span)[span_4](end_span).</p>
+                    <h4>Extend Song</h4>
+                    <p>Continue tracks past endings.</p>
                 </div>
                 <div class="tool-card purple" onclick="openView('addInstrumental')">
                     <div class="icon">🎹</div>
-                    <h4>Add Instrumental[span_5](start_span)[span_5](end_span)</h4>
-                    <p>Add AI backing band to melody/vocals[span_6](start_span)[span_6](end_span).</p>
+                    <h4>Add Instrumental</h4>
+                    <p>Add AI backing band.</p>
                 </div>
                 <div class="tool-card teal" onclick="openView('mashup')">
                     <div class="icon">🔀</div>
-                    <h4>Mashup[span_7](start_span)[span_7](end_span)</h4>
-                    <p>Blend two tracks into a new hit[span_8](start_span)[span_8](end_span).</p>
+                    <h4>Mashup</h4>
+                    <p>Blend two tracks together.</p>
                 </div>
                 <div class="tool-card pink" onclick="openView('soundGenerator')">
                     <div class="icon">🌊</div>
-                    <h4>Sound Generator[span_9](start_span)[span_9](end_span)</h4>
-                    <p>Create loops and audio textures[span_10](start_span)[span_10](end_span).</p>
+                    <h4>Sound Generator</h4>
+                    <p>Create loops & sound beds.</p>
                 </div>
             </div>
 
@@ -162,28 +169,28 @@
             <div class="tools-grid">
                 <div class="tool-card red" onclick="openView('voiceClone')">
                     <div class="icon">🧬</div>
-                    <h4>Voice Clone Studio</h4>
-                    <p>Record or upload your voice for any song.</p>
+                    <h4>Voice Clone</h4>
+                    <p>Record/upload voice for any song.</p>
                 </div>
                 <div class="tool-card pink" onclick="openView('createVocals')">
                     <div class="icon">🎙️</div>
-                    <h4>Create Vocals[span_11](start_span)[span_11](end_span)</h4>
-                    <p>Generate AI vocals from text prompts[span_12](start_span)[span_12](end_span).</p>
+                    <h4>Create Vocals</h4>
+                    <p>Generate AI vocals from prompts.</p>
                 </div>
                 <div class="tool-card blue" onclick="openView('addVocals')">
                     <div class="icon">🗣️</div>
-                    <h4>Add Vocals[span_13](start_span)[span_13](end_span)</h4>
-                    <p>Add AI vocals over any instrumental[span_14](start_span)[span_14](end_span).</p>
+                    <h4>Add Vocals</h4>
+                    <p>Add AI vocals over music.</p>
                 </div>
                 <div class="tool-card purple" onclick="openView('transformVocals')">
                     <div class="icon">🔄</div>
-                    <h4>Transform Vocals[span_15](start_span)[span_15](end_span)</h4>
-                    <p>Turn raw vocals into studio performances[span_16](start_span)[span_16](end_span).</p>
+                    <h4>Transform Vocals</h4>
+                    <p>Studio-quality performance.</p>
                 </div>
                 <div class="tool-card yellow" onclick="openView('voiceConversion')">
                     <div class="icon">🗣️</div>
-                    <h4>Voice Conversion[span_17](start_span)[span_17](end_span)</h4>
-                    <p>Convert vocals to different AI singers[span_18](start_span)[span_18](end_span).</p>
+                    <h4>Voice Conversion</h4>
+                    <p>Convert to different AI singers.</p>
                 </div>
             </div>
 
@@ -191,43 +198,43 @@
             <div class="tools-grid">
                 <div class="tool-card orange" onclick="openView('stemSplitter')">
                     <div class="icon">✂️</div>
-                    <h4>Stem Splitter[span_19](start_span)[span_19](end_span)</h4>
-                    <p>Extract separate stems from tracks[span_20](start_span)[span_20](end_span).</p>
+                    <h4>Stem Splitter</h4>
+                    <p>Extract separate stems.</p>
                 </div>
                 <div class="tool-card green" onclick="openView('lyricsGenerator')">
                     <div class="icon">📝</div>
-                    <h4>Lyrics Generator[span_21](start_span)[span_21](end_span)</h4>
-                    <p>Write full song lyrics from a brief idea[span_22](start_span)[span_22](end_span).</p>
+                    <h4>Lyrics Gen</h4>
+                    <p>Write full song lyrics.</p>
                 </div>
                 <div class="tool-card blue" onclick="openView('coverArt')">
                     <div class="icon">🖼️</div>
-                    <h4>Cover Art[span_23](start_span)[span_23](end_span)</h4>
-                    <p>Generate release artwork[span_24](start_span)[span_24](end_span).</p>
+                    <h4>Cover Art</h4>
+                    <p>Generate release artwork.</p>
                 </div>
                 <div class="tool-card pink" onclick="openView('textToSpeech')">
                     <div class="icon">🔊</div>
-                    <h4>Text to Speech[span_25](start_span)[span_25](end_span)</h4>
-                    <p>Turn text into lifelike voiceovers[span_26](start_span)[span_26](end_span).</p>
+                    <h4>Text to Speech</h4>
+                    <p>Lifelike voiceovers.</p>
                 </div>
                 <div class="tool-card purple" onclick="openView('songAnalysis')">
                     <div class="icon">📄</div>
                     <h4>Song Analysis</h4>
-                    <p>Extract production style prompts.</p>
+                    <p>Extract style prompts.</p>
                 </div>
                 <div class="tool-card teal" onclick="openView('bpmDetector')">
                     <div class="icon">⏱️</div>
                     <h4>BPM Detector</h4>
-                    <p>Detect track tempo instantly[span_27](start_span)[span_27](end_span).</p>
+                    <p>Detect track tempo.</p>
                 </div>
                 <div class="tool-card yellow" onclick="openView('audioRecognition')">
                     <div class="icon">⚡</div>
-                    <h4>Audio Recognition</h4>
-                    <p>Identify songs via mic or file[span_28](start_span)[span_28](end_span).</p>
+                    <h4>Audio Recog</h4>
+                    <p>Identify songs instantly.</p>
                 </div>
                 <div class="tool-card red" onclick="openView('stemToMidi')">
                     <div class="icon">🎸</div>
                     <h4>Stem to MIDI</h4>
-                    <p>Convert audio stems into MIDI notes[span_29](start_span)[span_29](end_span).</p>
+                    <p>Convert stems to MIDI.</p>
                 </div>
             </div>
         </div>
@@ -235,14 +242,14 @@
         <!-- CREATE SONG -->
         <div id="viewCreateSong" class="view-panel">
             <div class="options-row" style="background: #05121b; padding: 4px; border-radius: 16px; border: 1px solid #1a364a; margin-bottom: 4px;">
-                <div class="chip-btn active" id="tabSimple" onclick="switchCreateMode('simple')" style="font-size: 14px;">Simple</div>
-                <div class="chip-btn" id="tabCustom" onclick="switchCreateMode('custom')" style="font-size: 14px;">Custom</div>
+                <div class="chip-btn active" id="tabSimple" onclick="switchCreateMode('simple')">Simple</div>
+                <div class="chip-btn" id="tabCustom" onclick="switchCreateMode('custom')">Custom</div>
             </div>
 
             <div class="select-btn-box" onclick="openModelSelector()">
                 <div>
                     <small>MODEL</small>
-                    <span id="selectedModelName" style="font-size: 15px;">Vocuno Classic</span>
+                    <span id="selectedModelName">Vocuno Classic</span>
                 </div>
                 <span>▼</span>
             </div>
@@ -250,9 +257,9 @@
             <div id="createModeSimple" style="display: flex; flex-direction: column; gap: 12px;">
                 <div class="input-card">
                     <label>Song description</label>
-                    <textarea id="songPrompt" placeholder="Glam rock anthem about a wild futuristic band" style="font-size: 15px;"></textarea>
+                    <textarea id="songPrompt" placeholder="Glam rock anthem about a wild futuristic band"></textarea>
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 4px;">
-                        <button style="background: #112534; border: 1px solid #1a364a; color: #fff; padding: 8px 14px; border-radius: 12px; font-size: 12px; cursor: pointer;" onclick="document.getElementById('songPrompt').value='Glam rock anthem about a wild futuristic band'">🎲 Surprise me</button>
+                        <button style="background: #112534; border: 1px solid #1a364a; color: #fff; padding: 6px 12px; border-radius: 12px; font-size: 12px; cursor: pointer;" onclick="document.getElementById('songPrompt').value='Glam rock anthem about a wild futuristic band'">🎲 Surprise me</button>
                         <small style="color: #6c869b;">0/300</small>
                     </div>
                 </div>
@@ -261,21 +268,16 @@
             <div id="createModeCustom" style="display: none; flex-direction: column; gap: 12px;">
                 <div class="input-card">
                     <label>Lyrics</label>
-                    <textarea placeholder="Write your lyrics, or leave blank for AI-written lyrics" style="height: 110px; font-size: 15px;"></textarea>
+                    <textarea placeholder="Write your lyrics, or leave blank for AI-written lyrics" style="height: 110px;"></textarea>
                     <div style="text-align: right;"><small style="color: #6c869b;">0/3000</small></div>
                 </div>
                 <div class="input-card">
                     <label>Style</label>
-                    <input type="text" placeholder="e.g. dreamy synthwave, female vocals, 90 bpm" style="font-size: 15px;">
-                    <div style="display: flex; gap: 6px; margin-top: 6px; overflow-x: auto;">
-                        <span style="background: #112534; border: 1px solid #1a364a; padding: 6px 12px; border-radius: 10px; font-size: 12px; color: #8fa3b8; cursor: pointer;" onclick="document.querySelector('#viewCreateSong input[type=text]').value+='nostalgic '">nostalgic</span>
-                        <span style="background: #112534; border: 1px solid #1a364a; padding: 6px 12px; border-radius: 10px; font-size: 12px; color: #8fa3b8; cursor: pointer;" onclick="document.querySelector('#viewCreateSong input[type=text]').value+='cinematic '">cinematic</span>
-                        <span style="background: #112534; border: 1px solid #1a364a; padding: 6px 12px; border-radius: 10px; font-size: 12px; color: #8fa3b8; cursor: pointer;" onclick="document.querySelector('#viewCreateSong input[type=text]').value+='techno '">techno</span>
-                    </div>
+                    <input type="text" placeholder="e.g. dreamy synthwave, female vocals, 90 bpm">
                 </div>
                 <div class="input-card">
                     <label>Song title (optional)</label>
-                    <input type="text" placeholder="Enter song title..." style="font-size: 15px;">
+                    <input type="text" placeholder="Enter song title...">
                 </div>
             </div>
 
@@ -286,29 +288,29 @@
         <div id="viewCoverRemix" class="view-panel">
             <div class="input-card" style="display: flex; flex-direction: row; align-items: center; justify-content: space-between; cursor: pointer;" onclick="document.getElementById('coverTrackUpload').click()">
                 <div>
-                    <small style="color: #8fa3b8; font-size: 12px; text-transform: uppercase;">Choose a track to cover</small>
-                    <h4 id="selectedCoverTrackName" style="font-size: 15px; font-weight: 600; margin-top: 2px;">A song, download or other track from your library[span_30](start_span)[span_30](end_span)</h4>
+                    <small style="color: #8fa3b8; font-size: 11px; text-transform: uppercase;">Choose a track to cover</small>
+                    <h4 id="selectedCoverTrackName" style="font-size: 14px; font-weight: 600; margin-top: 2px;">A song, download or other track from your library</h4>
                 </div>
-                <div style="background: #00d2ff; color: #020f18; width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 700;">+</div>
+                <div style="background: #00d2ff; color: #020f18; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 700;">+</div>
                 <input type="file" id="coverTrackUpload" accept="audio/*" style="display: none;" onchange="handleCoverUpload(event)">
             </div>
 
             <div class="select-btn-box" onclick="openModelSelector()">
                 <div>
                     <small>MODEL</small>
-                    <span id="selectedRemixModelName" style="font-size: 15px;">Vocuno Classic</span>
+                    <span id="selectedRemixModelName">Vocuno Classic</span>
                 </div>
                 <span>▼</span>
             </div>
 
             <div class="input-card">
-                <label>Cover title (optional)[span_31](start_span)[span_31](end_span)</label>
-                <input type="text" placeholder="Enter custom cover title..." style="font-size: 15px;">
+                <label>Cover title (optional)</label>
+                <input type="text" placeholder="Enter custom cover title...">
             </div>
 
             <div class="input-card">
-                <label>New style[span_32](start_span)[span_32](end_span)</label>
-                <textarea placeholder="e.g. acoustic ballad, synthwave, lo-fi hip hop" style="font-size: 15px;"></textarea>
+                <label>New style</label>
+                <textarea placeholder="e.g. acoustic ballad, synthwave, lo-fi hip hop"></textarea>
             </div>
 
             <button class="action-main-btn" onclick="generateAndSave('Cover_Remix')">💿 Make a Cover</button>
@@ -318,27 +320,27 @@
         <div id="viewExtendSong" class="view-panel">
             <div class="input-card" style="display: flex; flex-direction: row; align-items: center; justify-content: space-between; cursor: pointer;" onclick="document.getElementById('extendTrackUpload').click()">
                 <div>
-                    <small style="color: #8fa3b8; font-size: 12px; text-transform: uppercase;">Choose a song to extend[span_33](start_span)[span_33](end_span)</small>
-                    <h4 id="selectedExtendTrackName" style="font-size: 15px; font-weight: 600; margin-top: 2px;">A song, cover or other track from your library[span_34](start_span)[span_34](end_span)</h4>
+                    <small style="color: #8fa3b8; font-size: 11px; text-transform: uppercase;">Choose a song to extend</small>
+                    <h4 id="selectedExtendTrackName" style="font-size: 14px; font-weight: 600; margin-top: 2px;">A song, cover or other track from your library</h4>
                 </div>
-                <div style="background: #00d2ff; color: #020f18; width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 700;">+</div>
+                <div style="background: #00d2ff; color: #020f18; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 700;">+</div>
                 <input type="file" id="extendTrackUpload" accept="audio/*" style="display: none;" onchange="handleExtendUpload(event)">
             </div>
 
             <div class="select-btn-box" onclick="openModelSelector()">
                 <div>
                     <small>PROVIDER</small>
-                    <span id="selectedExtendModel" style="font-size: 15px;">Vocuno (Two extended takes)[span_35](start_span)[span_35](end_span)</span>
+                    <span id="selectedExtendModel">Vocuno (Two extended takes)</span>
                 </div>
                 <span>▼</span>
             </div>
 
             <div class="input-card">
-                <label>How should it continue?[span_36](start_span)[span_36](end_span)</label>
-                <textarea placeholder="Leave blank to continue in the same style" style="font-size: 15px;"></textarea>
+                <label>How should it continue?</label>
+                <textarea placeholder="Leave blank to continue in the same style"></textarea>
             </div>
 
-            <button class="action-main-btn" onclick="generateAndSave('Extended_Song')">⏩ Extend Song[span_37](start_span)[span_37](end_span)</button>
+            <button class="action-main-btn" onclick="generateAndSave('Extended_Song')">⏩ Extend Song</button>
         </div>
 
         <!-- ADD INSTRUMENTAL -->
@@ -346,23 +348,23 @@
             <div class="select-btn-box" onclick="openModelSelector()">
                 <div>
                     <small>MODEL</small>
-                    <span id="selectedInstModel" style="font-size: 15px;">Vocuno Classic</span>
+                    <span id="selectedInstModel">Vocuno Classic</span>
                 </div>
                 <span>▼</span>
             </div>
 
             <div class="input-card" style="display: flex; flex-direction: row; align-items: center; justify-content: space-between; cursor: pointer;" onclick="document.getElementById('instTrackUpload').click()">
                 <div>
-                    <small style="color: #8fa3b8; font-size: 12px; text-transform: uppercase;">Choose a source track[span_38](start_span)[span_38](end_span)</small>
-                    <h4 id="selectedInstTrackName" style="font-size: 15px; font-weight: 600; margin-top: 2px;">A vocal, melody or song from your library[span_39](start_span)[span_39](end_span)</h4>
+                    <small style="color: #8fa3b8; font-size: 11px; text-transform: uppercase;">Choose a source track</small>
+                    <h4 id="selectedInstTrackName" style="font-size: 14px; font-weight: 600; margin-top: 2px;">A vocal, melody or song from your library</h4>
                 </div>
-                <div style="background: #00d2ff; color: #020f18; width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 700;">+</div>
+                <div style="background: #00d2ff; color: #020f18; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 700;">+</div>
                 <input type="file" id="instTrackUpload" accept="audio/*" style="display: none;" onchange="handleInstUpload(event)">
             </div>
 
             <div class="input-card">
-                <label>Instrumental Style[span_40](start_span)[span_40](end_span)</label>
-                <textarea placeholder="e.g. acoustic guitar, soft piano, ambient" style="font-size: 15px;"></textarea>
+                <label>Instrumental Style</label>
+                <textarea placeholder="e.g. acoustic guitar, soft piano, ambient"></textarea>
             </div>
 
             <div class="input-card">
@@ -374,26 +376,26 @@
                 </div>
             </div>
 
-            <button class="action-main-btn" onclick="generateAndSave('Instrumental_Backing')">🎹 Add Instrumental[span_41](start_span)[span_41](end_span)</button>
+            <button class="action-main-btn" onclick="generateAndSave('Instrumental_Backing')">🎹 Add Instrumental</button>
         </div>
 
         <!-- MASHUP -->
         <div id="viewMashup" class="view-panel">
             <div class="input-card" style="cursor: pointer;" onclick="document.getElementById('mashup1Upload').click()">
-                <small style="color: #8fa3b8; font-size: 12px; text-transform: uppercase;">First Track</small>
-                <h4 id="mashup1Name" style="font-size: 15px; font-weight: 600;">Choose from your library[span_42](start_span)[span_42](end_span)</h4>
+                <small style="color: #8fa3b8; font-size: 11px; text-transform: uppercase;">First Track</small>
+                <h4 id="mashup1Name" style="font-size: 14px; font-weight: 600;">Choose from your library</h4>
                 <input type="file" id="mashup1Upload" accept="audio/*" style="display:none;" onchange="document.getElementById('mashup1Name').innerText=this.files[0].name">
             </div>
             <div class="input-card" style="cursor: pointer;" onclick="document.getElementById('mashup2Upload').click()">
-                <small style="color: #8fa3b8; font-size: 12px; text-transform: uppercase;">Second Track</small>
-                <h4 id="mashup2Name" style="font-size: 15px; font-weight: 600;">Choose from your library[span_43](start_span)[span_43](end_span)</h4>
+                <small style="color: #8fa3b8; font-size: 11px; text-transform: uppercase;">Second Track</small>
+                <h4 id="mashup2Name" style="font-size: 14px; font-weight: 600;">Choose from your library</h4>
                 <input type="file" id="mashup2Upload" accept="audio/*" style="display:none;" onchange="document.getElementById('mashup2Name').innerText=this.files[0].name">
             </div>
             <div class="input-card">
-                <label>Lyrics[span_44](start_span)[span_44](end_span)</label>
-                <textarea placeholder="Write your lyrics here, leave empty for instrumental" style="font-size: 15px;"></textarea>
+                <label>Lyrics</label>
+                <textarea placeholder="Write your lyrics here, leave empty for instrumental"></textarea>
             </div>
-            <button class="action-main-btn" onclick="generateAndSave('Mashup')">🔀 Generate Mashup[span_45](start_span)[span_45](end_span)</button>
+            <button class="action-main-btn" onclick="generateAndSave('Mashup')">🔀 Generate Mashup</button>
         </div>
 
         <!-- SOUND GENERATOR -->
@@ -401,22 +403,22 @@
             <div class="select-btn-box" onclick="openModelSelector()">
                 <div>
                     <small>PROVIDER</small>
-                    <span style="font-size: 15px;">Vocuno (Native sound loops)[span_46](start_span)[span_46](end_span)</span>
+                    <span>Vocuno (Native sound loops)</span>
                 </div>
                 <span>▼</span>
             </div>
             <div class="input-card">
-                <label>Describe the sound[span_47](start_span)[span_47](end_span)</label>
-                <textarea placeholder="e.g. gentle rain on a tin roof with distant thunder" style="font-size: 15px;"></textarea>
+                <label>Describe the sound</label>
+                <textarea placeholder="e.g. gentle rain on a tin roof with distant thunder"></textarea>
             </div>
             <div class="input-card">
-                <label>Playback[span_48](start_span)[span_48](end_span)</label>
+                <label>Playback</label>
                 <div class="options-row">
-                    <div class="chip-btn active">Seamless loop[span_49](start_span)[span_49](end_span)</div>
-                    <div class="chip-btn">One-shot[span_50](start_span)[span_50](end_span)</div>
+                    <div class="chip-btn active">Seamless loop</div>
+                    <div class="chip-btn">One-shot</div>
                 </div>
             </div>
-            <button class="action-main-btn" onclick="generateAndSave('Sound_Effect')">🌊 Generate Sound[span_51](start_span)[span_51](end_span)</button>
+            <button class="action-main-btn" onclick="generateAndSave('Sound_Effect')">🌊 Generate Sound</button>
         </div>
 
         <!-- VOICE CLONE STUDIO -->
@@ -425,264 +427,150 @@
                 <label>1. Record or Upload Your Voice</label>
                 <div class="recorder-box">
                     <div class="rec-circle" id="recBtn" onclick="toggleRecord()">🎙️</div>
-                    <span id="recStatus" style="font-size:14px; color:#8fa3b8;">Tap to record live mic voice sample</span>
-                    <input type="file" id="audioUpload" accept="audio/*" style="font-size:13px; margin-top:8px;" onchange="handleAudioUpload(event)">
+                    <span id="recStatus" style="font-size:13px; color:#8fa3b8;">Tap to record live mic voice sample</span>
+                    <input type="file" id="audioUpload" accept="audio/*" style="font-size:12px; margin-top:8px;" onchange="handleAudioUpload(event)">
                 </div>
             </div>
             <div class="input-card">
                 <label>2. Target Song / Instrumental for Voiceover</label>
-                <input type="text" id="cloneTargetSong" placeholder="e.g. My Drill Beat #1 or Upload audio" style="font-size: 15px;">
+                <input type="text" id="cloneTargetSong" placeholder="e.g. My Drill Beat #1 or Upload audio">
             </div>
             <div class="input-card">
-                <label>3. Lyrics for Voiceover</label>
-                <textarea id="cloneLyrics" placeholder="Type your lyrics for your voiceover..." style="font-size: 15px;"></textarea>
+                <label>3. Lyrics for Voice Clone</label>
+                <textarea id="cloneLyrics" placeholder="Type your lyrics for your voiceover..."></textarea>
             </div>
             <button class="action-main-btn" onclick="generateAndSave('Voice_Clone_Track')">🧬 Run AI Voice Clone & Save MP3</button>
         </div>
 
-        <!-- AI MUSIC VIDEO STUDIO (WITH MULTI-VIDEO STITCHING, DURATION & REFERENCES) -->
-        <div id="viewAiVideo" class="view-panel">
-            <div class="input-card">
-                <label>1. Video Concept / Prompt</label>
-                <textarea placeholder="e.g. Cinematic cyberpunk city with lowriders cruising at night..." style="font-size: 15px;"></textarea>
+        <!-- POWERDIRECTOR PRO AI VIDEO SUITE & TIMELINE EDITOR -->
+        <div id="viewAiVideoStudio" class="view-panel">
+            <div class="input-card" style="background: linear-gradient(135deg, #072233 0%, #030d14 100%); border: 1px solid #00d2ff55; padding: 18px;">
+                <h3 style="font-size: 16px; color: #00d2ff; margin-bottom: 6px;">🎥 PowerDirector Pro AI Video Suite</h3>
+                <p style="font-size: 12px; color: #8fa3b8; margin-bottom: 12px;">Full multi-track video timeline editor with AI motion effects, cinematic color grading, transitions, captions, multi-clip stitching & voiceovers.</p>
+                <button class="action-main-btn" style="margin-top: 0; padding: 12px;" onclick="document.getElementById('videoMediaUpload').click()">+ Insert Media (Video / Photos / Audio)</button>
+                <input type="file" id="videoMediaUpload" accept="video/*,image/*,audio/*" multiple style="display:none;" onchange="showToast('Media imported into timeline!')">
             </div>
-            <div class="input-card">
-                <label>2. Reference Uploads (Audio, Video & Photos)</label>
-                <input type="file" accept="audio/*,video/*,image/*" multiple style="font-size: 13px; color: #00d2ff;">
-                <small style="color: #8fa3b8;">Upload multiple reference assets for AI generation.</small>
-            </div>
-            <div class="input-card">
-                <label>Duration per Segment (Seconds)</label>
-                <input type="text" value="10s" style="font-size: 15px;">
-            </div>
-            <div class="input-card">
-                <label>Multi-Video Generation & Stitching</label>
-                <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 4px;">
-                    <span style="font-size: 14px; color: #fff;">Generate multiple clips & stitch seamlessly</span>
-                    <input type="checkbox" checked style="width: 20px; height: 20px; accent-color: #00d2ff;">
+
+            <!-- Timeline simulation preview box -->
+            <div style="background: #05121b; border: 1px solid #1a364a; border-radius: 16px; padding: 14px; text-align: center;">
+                <div style="height: 120px; background: #000; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #6c869b; font-size: 13px; margin-bottom: 10px;">
+                    ▶ Timeline Preview & Multi-Clip Canvas
+                </div>
+                <div style="display: flex; gap: 6px;">
+                    <button style="flex:1; background:#112534; border:1px solid #1a364a; color:#fff; padding:8px; border-radius:10px; font-size:11px; cursor:pointer;" onclick="showToast('AI Video Extended!')">⚡ Extend by AI</button>
+                    <button style="flex:1; background:#112534; border:1px solid #1a364a; color:#fff; padding:8px; border-radius:10px; font-size:11px; cursor:pointer;" onclick="showToast('Multi-clips stitched seamlessly!')">🔗 Stitch Clips</button>
                 </div>
             </div>
-            <button class="action-main-btn" onclick="showToast('AI Music Video Rendered & Exported!')">🎬 Render AI Music Video</button>
+
+            <div class="input-card">
+                <label>AI Video Generation & Prompt</label>
+                <textarea placeholder="e.g. Turn photo into cinematic reel with dynamic lighting..." style="height: 70px;"></textarea>
+            </div>
+
+            <div class="input-card">
+                <label>Batch Generation & Duration</label>
+                <div style="display:flex; gap:8px;">
+                    <input type="text" value="15s duration" style="flex:1;">
+                    <input type="text" value="3 clips at once" style="flex:1;">
+                </div>
+            </div>
+
+            <div class="tools-grid" style="margin-top: 4px;">
+                <div class="tool-card blue" onclick="showToast('AI Magic Effect applied!')"><div class="icon">✨</div><h4>AI Magic</h4><p>Character motion & swap.</p></div>
+                <div class="tool-card purple" onclick="showToast('Transition added!')"><div class="icon">🎞️</div><h4>Transitions</h4><p>Seamless blending.</p></div>
+                <div class="tool-card green" onclick="showToast('Auto Captions generated!')"><div class="icon">💬</div><h4>Auto Captions</h4><p>Speech-to-text.</p></div>
+                <div class="tool-card orange" onclick="showToast('Audio track mixed!')"><div class="icon">🔊</div><h4>Audio FX</h4><p>Voice-over & SFX.</p></div>
+            </div>
+
+            <button class="action-main-btn" onclick="generateAndSave('PowerDirector_AI_Video')">🚀 Export Final MP4 / Movie</button>
         </div>
 
-        <!-- CREATE VOCALS (WITH VOICE LIST & PREVIEW SAMPLES) -->
+        <!-- CREATE VOCALS -->
         <div id="viewCreateVocals" class="view-panel">
             <div class="input-card">
-                <label>Vocal style[span_52](start_span)[span_52](end_span)</label>
-                <input type="text" placeholder="Describe the vocal style you want to create" style="font-size: 15px;">
-                <button style="background: #112534; border: 1px solid #1a364a; color: #fff; padding: 8px 14px; border-radius: 12px; font-size: 12px; cursor: pointer; margin-top: 6px; width: fit-content;" onclick="document.querySelector('#viewCreateVocals input').value='Emotional melodic pop vocals with reverb'">🎲 Surprise me[span_53](start_span)[span_53](end_span)</button>
+                <label>Vocal style</label>
+                <input type="text" placeholder="Describe the vocal style you want to create">
+                <button style="background: #112534; border: 1px solid #1a364a; color: #fff; padding: 6px 12px; border-radius: 10px; font-size: 11px; cursor: pointer; margin-top: 6px; width: fit-content;" onclick="document.querySelector('#viewCreateVocals input').value='Emotional melodic pop vocals'">🎲 Surprise me</button>
             </div>
-
-            <!-- Voice List with Sample Audio Previews -->
             <div class="input-card">
                 <label>Choose Voice & Preview Sample</label>
-                <div style="display: flex; flex-direction: column; gap: 8px; max-height: 160px; overflow-y: auto;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; background: #05121b; padding: 10px; border-radius: 10px;">
-                        <span>Aria (Soulful & Warm)</span>
-                        <button class="icon-btn" onclick="playVoiceSample('Aria')">▶</button>
+                <div style="display: flex; flex-direction: column; gap: 6px; max-height: 130px; overflow-y: auto;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; background: #05121b; padding: 8px 12px; border-radius: 10px;">
+                        <span style="font-size: 13px;">Aria (Soulful & Warm)</span>
+                        <button class="icon-btn" style="width: 28px; height: 28px;" onclick="playVoiceSample('Aria')">▶</button>
                     </div>
-                    <div style="display: flex; justify-content: space-between; align-items: center; background: #05121b; padding: 10px; border-radius: 10px;">
-                        <span>Zane (Gritty Rap & Drill)</span>
-                        <button class="icon-btn" onclick="playVoiceSample('Zane')">▶</button>
-                    </div>
-                    <div style="display: flex; justify-content: space-between; align-items: center; background: #05121b; padding: 10px; border-radius: 10px;">
-                        <span>Luna (Etheral Pop)</span>
-                        <button class="icon-btn" onclick="playVoiceSample('Luna')">▶</button>
+                    <div style="display: flex; justify-content: space-between; align-items: center; background: #05121b; padding: 8px 12px; border-radius: 10px;">
+                        <span style="font-size: 13px;">Zane (Gritty Rap & Drill)</span>
+                        <button class="icon-btn" style="width: 28px; height: 28px;" onclick="playVoiceSample('Zane')">▶</button>
                     </div>
                 </div>
             </div>
-
             <div class="input-card">
-                <label>Lyrics[span_54](start_span)[span_54](end_span)</label>
-                <textarea placeholder="[Verse 1] Your lyrics here..." style="font-size: 15px; height: 100px;"></textarea>
-                <div style="text-align: right;"><small style="color: #6c869b;">0/3000</small></div>
+                <label>Lyrics</label>
+                <textarea placeholder="[Verse 1] Your lyrics here..." style="height: 90px;"></textarea>
             </div>
-            <div class="options-row">
-                <div class="chip-btn active" id="genderFemale" onclick="setGender('Female')">Female[span_55](start_span)[span_55](end_span)</div>
-                <div class="chip-btn" id="genderMale" onclick="setGender('Male')">Male[span_56](start_span)[span_56](end_span)</div>
-            </div>
-            <button class="action-main-btn" onclick="generateAndSave('Vocals')">🎙️ Create Vocals[span_57](start_span)[span_57](end_span)</button>
-        </div>
-
-        <!-- ADD VOCALS -->
-        <div id="viewAddVocals" class="view-panel">
-            <div class="select-btn-box">
-                <div>
-                    <small>MODEL</small>
-                    <span style="font-size: 15px;">Vocuno Classic (Fastest vocals over instrumental)[span_58](start_span)[span_58](end_span)</span>
-                </div>
-            </div>
-            <div class="input-card" style="cursor: pointer;" onclick="document.getElementById('addVocalsUpload').click()">
-                <small style="color: #8fa3b8; font-size: 12px; text-transform: uppercase;">Choose an instrumental[span_59](start_span)[span_59](end_span)</small>
-                <h4 id="addVocalsName" style="font-size: 15px; font-weight: 600;">An instrumental or song from your library[span_60](start_span)[span_60](end_span)</h4>
-                <input type="file" id="addVocalsUpload" accept="audio/*" style="display:none;" onchange="document.getElementById('addVocalsName').innerText=this.files[0].name">
-            </div>
-            <div class="input-card">
-                <label>Lyrics[span_61](start_span)[span_61](end_span)</label>
-                <textarea placeholder="[Verse 1] Your lyrics here..." style="font-size: 15px;"></textarea>
-            </div>
-            <div class="input-card">
-                <label>Vocal style[span_62](start_span)[span_62](end_span)</label>
-                <input type="text" placeholder="Describe the vocal style you want" style="font-size: 15px;">
-            </div>
-            <button class="action-main-btn" onclick="generateAndSave('Added_Vocals')">🗣️ Generate Vocals[span_63](start_span)[span_63](end_span)</button>
-        </div>
-
-        <!-- TRANSFORM VOCALS -->
-        <div id="viewTransformVocals" class="view-panel">
-            <div class="input-card" style="cursor: pointer;" onclick="document.getElementById('transformUpload').click()">
-                <small style="color: #8fa3b8; font-size: 12px; text-transform: uppercase;">Choose a vocal track[span_64](start_span)[span_64](end_span)</small>
-                <h4 id="transformName" style="font-size: 15px; font-weight: 600;">A vocal recording or song from your library[span_65](start_span)[span_65](end_span)</h4>
-                <input type="file" id="transformUpload" accept="audio/*" style="display:none;" onchange="document.getElementById('transformName').innerText=this.files[0].name">
-            </div>
-            <div class="input-card">
-                <label>Vocal description[span_66](start_span)[span_66](end_span)</label>
-                <textarea placeholder="Describe the vocal style..." style="font-size: 15px;"></textarea>
-            </div>
-            <div class="input-card">
-                <label>Lyrics[span_67](start_span)[span_67](end_span)</label>
-                <textarea placeholder="Leave blank to auto-detect lyrics from audio" style="font-size: 15px;"></textarea>
-            </div>
-            <button class="action-main-btn" onclick="generateAndSave('Transformed_Vocals')">🔄 Transform Vocals[span_68](start_span)[span_68](end_span)</button>
-        </div>
-
-        <!-- VOICE CONVERSION -->
-        <div id="viewVoiceConversion" class="view-panel">
-            <div class="select-btn-box">
-                <div>
-                    <small>PROVIDER</small>
-                    <span style="font-size: 15px;">Audimee (Singer-style voice catalog)[span_69](start_span)[span_69](end_span)</span>
-                </div>
-            </div>
-            <div class="input-card" style="cursor: pointer;" onclick="document.getElementById('convertUpload').click()">
-                <small style="color: #8fa3b8; font-size: 12px; text-transform: uppercase;">Choose a vocal track[span_70](start_span)[span_70](end_span)</small>
-                <h4 id="convertName" style="font-size: 15px; font-weight: 600;">A vocal or song from your library[span_71](start_span)[span_71](end_span)</h4>
-                <input type="file" id="convertUpload" accept="audio/*" style="display:none;" onchange="document.getElementById('convertName').innerText=this.files[0].name">
-            </div>
-            <div class="select-btn-box">
-                <div>
-                    <small>VOICE</small>
-                    <span style="font-size: 15px;">Choose a voice[span_72](start_span)[span_72](end_span)</span>
-                </div>
-                <span>></span>
-            </div>
-            <button class="action-main-btn" onclick="generateAndSave('Voice_Conversion')">🔊 Convert Voice[span_73](start_span)[span_73](end_span)</button>
+            <button class="action-main-btn" onclick="generateAndSave('Vocals')">🎙️ Create Vocals</button>
         </div>
 
         <!-- STEM SPLITTER -->
         <div id="viewStemSplitter" class="view-panel">
             <div class="input-card" style="cursor: pointer;" onclick="document.getElementById('stemUpload').click()">
-                <small style="color: #8fa3b8; font-size: 12px; text-transform: uppercase;">Choose from your library[span_74](start_span)[span_74](end_span)</small>
-                <h4 id="stemName" style="font-size: 15px; font-weight: 600;">Songs, covers and other tracks you've made[span_75](start_span)[span_75](end_span)</h4>
+                <small style="color: #8fa3b8; font-size: 11px; text-transform: uppercase;">Choose from your library</small>
+                <h4 id="stemName" style="font-size: 14px; font-weight: 600;">Songs, covers and other tracks you've made</h4>
                 <input type="file" id="stemUpload" accept="audio/*" style="display:none;" onchange="document.getElementById('stemName').innerText=this.files[0].name">
             </div>
             <div class="select-btn-box">
-                <div>
-                    <small>PROVIDER</small>
-                    <span style="font-size: 15px;">LALAL.AI[span_76](start_span)[span_76](end_span)</span>
-                </div>
+                <div><small>PROVIDER</small><span>LALAL.AI / Demucs</span></div>
                 <span>▼</span>
             </div>
             <div class="input-card">
-                <label>What to extract[span_77](start_span)[span_77](end_span)</label>
-                <div style="display: flex; flex-direction: column; gap: 8px;">
-                    <div style="background: #05121b; padding: 12px; border-radius: 12px; border: 1px solid #00d2ff;">
-                        <strong>Vocals + Instrumental</strong><br><small style="color: #8fa3b8;">Classic 2-stem split[span_78](start_span)[span_78](end_span)</small>
-                    </div>
-                    <div style="background: #05121b; padding: 12px; border-radius: 12px;">
-                        <strong>All Stems[span_79](start_span)[span_79](end_span)</strong><br><small style="color: #8fa3b8;">Vocals, instrumental, drums, bass, guitar, piano[span_80](start_span)[span_80](end_span)</small>
-                    </div>
+                <label>What to extract</label>
+                <div style="display:flex; flex-direction:column; gap:6px;">
+                    <div style="background:#05121b; padding:10px; border-radius:10px; border:1px solid #00d2ff;"><strong>Vocals + Instrumental</strong><br><small>Classic 2-stem split</small></div>
+                    <div style="background:#05121b; padding:10px; border-radius:10px;"><strong>All Stems</strong><br><small>Vocals, instrumental, drums, bass, guitar, piano</small></div>
                 </div>
             </div>
-            <button class="action-main-btn" onclick="generateAndSave('Stem_Split')">✂️ Split Stems[span_81](start_span)[span_81](end_span)</button>
-        </div>
-
-        <!-- LYRICS GENERATOR -->
-        <div id="viewLyricsGenerator" class="view-panel">
-            <div class="select-btn-box">
-                <div><small>MODEL</small><span style="font-size: 15px;">Vocuno (Clean songwriting control)[span_82](start_span)[span_82](end_span)</span></div>
-            </div>
-            <div class="input-card">
-                <label>What is the song about?[span_83](start_span)[span_83](end_span)</label>
-                <textarea placeholder="A breakup anthem about finally choosing yourself, empowering pop-rock energy" style="font-size: 15px;"></textarea>
-            </div>
-            <button class="action-main-btn" onclick="showToast('Lyrics Generated Successfully!')">📝 Generate Lyrics[span_84](start_span)[span_84](end_span)</button>
+            <button class="action-main-btn" onclick="generateAndSave('Stems')">✂️ Split Stems</button>
         </div>
 
         <!-- COVER ART -->
         <div id="viewCoverArt" class="view-panel">
-            <div class="select-btn-box">
-                <div><small>MODEL</small><span style="font-size: 15px;">Vocuno (Recommended for detailed release)[span_85](start_span)[span_85](end_span)</span></div>
-            </div>
             <div class="input-card">
-                <label>Describe your artwork[span_86](start_span)[span_86](end_span)</label>
-                <textarea placeholder="e.g. a lone astronaut drifting through a neon nebula" style="font-size: 15px;"></textarea>
+                <label>Describe your artwork</label>
+                <textarea placeholder="e.g. a lone astronaut drifting through a neon nebula"></textarea>
             </div>
-            <div class="options-row">
-                <div class="chip-btn active">Cinematic[span_87](start_span)[span_87](end_span)</div>
-                <div class="chip-btn">Album Cover[span_88](start_span)[span_88](end_span)</div>
-                <div class="chip-btn">Editorial[span_89](start_span)[span_89](end_span)</div>
-            </div>
-            <button class="action-main-btn" onclick="showToast('Cover Art Generated!')">🖼️ Generate Artwork[span_90](start_span)[span_90](end_span)</button>
+            <button class="action-main-btn" onclick="generateAndSave('Cover_Art')">🖼️ Generate Artwork</button>
         </div>
 
-        <!-- SONG ANALYSIS -->
-        <div id="viewSongAnalysis" class="view-panel">
-            <div class="input-card" style="cursor: pointer;" onclick="document.getElementById('analysisUpload').click()">
-                <small style="color: #8fa3b8; font-size: 12px; text-transform: uppercase;">Choose a song to analyze</small>
-                <h4 id="analysisName" style="font-size: 15px; font-weight: 600;">Songs, covers and other tracks you've made</h4>
-                <input type="file" id="analysisUpload" accept="audio/*" style="display:none;" onchange="document.getElementById('analysisName').innerText=this.files[0].name">
-            </div>
-            <button class="action-main-btn" onclick="showToast('Song Style & Prompt Extracted!')">📄 Analyze Song</button>
-        </div>
-
-        <!-- BPM DETECTOR -->
-        <div id="viewBpmDetector" class="view-panel">
-            <div class="input-card" style="cursor: pointer;" onclick="document.getElementById('bpmUpload').click()">
-                <small style="color: #8fa3b8; font-size: 12px; text-transform: uppercase;">Choose from your library</small>
-                <h4 id="bpmName" style="font-size: 15px; font-weight: 600;">Songs, covers and other tracks you've made[span_91](start_span)[span_91](end_span)</h4>
-                <input type="file" id="bpmUpload" accept="audio/*" style="display:none;" onchange="document.getElementById('bpmName').innerText=this.files[0].name">
-            </div>
-            <button class="action-main-btn" onclick="showToast('Tempo Detected: 128 BPM!')">⏱️ Detect BPM[span_92](start_span)[span_92](end_span)</button>
-        </div>
-
-        <!-- AUDIO RECOGNITION -->
-        <div id="viewAudioRecognition" class="view-panel">
-            <div class="input-card" style="cursor: pointer;" onclick="document.getElementById('recogUpload').click()">
-                <small style="color: #8fa3b8; font-size: 12px; text-transform: uppercase;">Choose a track to identify[span_93](start_span)[span_93](end_span)</small>
-                <h4 id="recogName" style="font-size: 15px; font-weight: 600;">Songs, covers, uploads and other tracks[span_94](start_span)[span_94](end_span)</h4>
-                <input type="file" id="recogUpload" accept="audio/*" style="display:none;" onchange="document.getElementById('recogName').innerText=this.files[0].name">
-            </div>
-            <button class="action-main-btn" onclick="showToast('Track Identified Successfully!')">⚡ Identify Song[span_95](start_span)[span_95](end_span)</button>
-        </div>
-
-        <!-- STEM TO MIDI -->
-        <div id="viewStemToMidi" class="view-panel">
-            <div class="select-btn-box">
-                <div><small>STEM</small><span style="font-size: 15px;">Choose a stem separation[span_96](start_span)[span_96](end_span)</span></div>
-            </div>
-            <button class="action-main-btn" onclick="showToast('Converted Stems to MIDI Notes!')">🎸 Convert to MIDI[span_97](start_span)[span_97](end_span)</button>
-        </div>
-
-        <!-- TEXT TO SPEECH -->
-        <div id="viewTextToSpeech" class="view-panel">
-            <div class="input-card">
-                <label>Script[span_98](start_span)[span_98](end_span)</label>
-                <textarea placeholder="Paste the spoken text here..." style="font-size: 15px; height: 120px;"></textarea>
-            </div>
-            <div class="select-btn-box" onclick="openVoiceSelector()">
-                <div><small>VOICE</small><span id="selectedTtsVoice" style="font-size: 15px;">Adaline - British, Engaging[span_99](start_span)[span_99](end_span)</span></div>
-                <span>></span>
-            </div>
-            <button class="action-main-btn" onclick="generateAndSave('Text_To_Speech')">🔊 Generate Speech[span_100](start_span)[span_100](end_span)</button>
-        </div>
-
-        <!-- LIBRARY -->
+        <!-- LIBRARY TAB (SEPARATED INTO CREATIONS, SONGS, AND VIDEOS) -->
         <div id="viewLibrary" class="view-panel">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                <h3 style="font-size:16px; font-weight:600;">Saved in /music/Flymusic/</h3>
-                <span style="font-size:13px; color:#00d2ff;" id="fileCount">0 files (.mp3)</span>
+            <h2 style="font-size: 20px; font-weight: 700; margin-bottom: 4px;">Library</h2>
+            
+            <div class="library-grid">
+                <div class="library-card" onclick="filterLibrary('creations')">
+                    <div class="heart-icon">♥</div>
+                    <div><h4 style="font-size: 14px; font-weight: 700;">Liked Creations</h4><p style="font-size: 11px; color: #8fa3b8;">Stems, voices & covers</p></div>
+                </div>
+                <div class="library-card purple" onclick="filterLibrary('songs')">
+                    <div class="heart-icon" style="background: rgba(178,36,239,0.15); color: #b224ef;">♥</div>
+                    <div><h4 style="font-size: 14px; font-weight: 700;">Liked Songs</h4><p style="font-size: 11px; color: #8fa3b8;">Full music tracks</p></div>
+                </div>
             </div>
+
+            <!-- Dedicated Video Section Tab inside Library -->
+            <div style="background: #0b1c2b; border: 1px solid #162f44; border-radius: 16px; padding: 14px; margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center; cursor: pointer;" onclick="filterLibrary('videos')">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <div style="width: 36px; height: 36px; border-radius: 10px; background: rgba(0,210,255,0.15); color: #00d2ff; display: flex; align-items: center; justify-content: center; font-size: 18px;">🎬</div>
+                    <div><h4 style="font-size: 14px; font-weight: 700;">Generated Videos</h4><p style="font-size: 11px; color: #8fa3b8;">PowerDirector AI Movies & Reels</p></div>
+                </div>
+                <span style="color: #00d2ff; font-weight: 700;">-></span>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center; margin: 6px 0;">
+                <h3 style="font-size:15px; font-weight:700;">Recents (/music/Flymusic/)</h3>
+                <span style="font-size:12px; color:#00d2ff;" id="fileCount">0 files</span>
+            </div>
+            
             <div id="libraryList"></div>
         </div>
 
@@ -691,8 +579,8 @@
             <div class="input-card" style="align-items:center; text-align:center; padding:24px;">
                 <div style="width:72px; height:72px; background:#00d2ff; color:#020f18; border-radius:50%; font-size:28px; display:flex; align-items:center; justify-content:center; font-weight:700; margin-bottom:12px;">JL</div>
                 <h3 style="font-size:18px; margin-bottom:4px;">John Linville</h3>
-                <p style="font-size:14px; color:#8fa3b8;">john2025linville@gmail.com</p>
-                <p style="font-size:13px; color:#00d2ff; margin-top:8px;">📁 Android Storage: /storage/emulated/0/music/Flymusic/</p>
+                <p style="font-size:13px; color:#8fa3b8;">john2025linville@gmail.com</p>
+                <p style="font-size:12px; color:#00d2ff; margin-top:8px;">📁 Android Storage: /storage/emulated/0/music/Flymusic/</p>
             </div>
         </div>
     </div>
@@ -700,8 +588,8 @@
     <!-- PLAYER BAR -->
     <div class="player-bar" id="playerBar">
         <div class="player-meta">
-            <h5 id="nowPlayingTitle" style="font-size: 15px;">Song Title</h5>
-            <p id="nowPlayingSub" style="font-size: 12px;">/music/Flymusic/file.mp3</p>
+            <h5 id="nowPlayingTitle">Song Title</h5>
+            <p id="nowPlayingSub">/music/Flymusic/file.mp3</p>
         </div>
         <div style="display:flex; gap:8px;">
             <button class="icon-btn" onclick="togglePlayPause()">⏸</button>
@@ -728,25 +616,14 @@
     <!-- MODEL SELECTOR MODAL -->
     <div class="modal-overlay" id="modelModal" onclick="closeModelSelector(event)">
         <div class="modal-content">
-            <h3 style="font-size:18px; margin-bottom:8px;">Select AI Model / Provider</h3>
-            <div class="model-option" onclick="selectModel('Vocuno Classic')"><strong>Vocuno Classic</strong><small>Signature full-song generation with rich vocals & balanced mix[span_101](start_span)[span_101](end_span).</small></div>
+            <h3 style="font-size:18px; margin-bottom:8px;">Select AI Model</h3>
+            <div class="model-option" onclick="selectModel('Vocuno Classic')"><strong>Vocuno Classic</strong><small>Signature full-song generation with rich vocals & balanced mix.</small></div>
             <div class="model-option" onclick="selectModel('Vocuno Studio')"><strong>Vocuno Studio</strong><small>Pro pipeline with advanced stem separation & alternate takes.</small></div>
-            <div class="model-option" onclick="selectModel('ElevenLabs')"><strong>ElevenLabs</strong><small>Expressive vocals and lifelike cinematic effects[span_102](start_span)[span_102](end_span)[span_103](start_span)[span_103](end_span).</small></div>
-            <div class="model-option" onclick="selectModel('Mureka V9')"><strong>Mureka V9</strong><small>Lyrics-to-song with melody-aware rich studio production[span_104](start_span)[span_104](end_span).</small></div>
-            <div class="model-option" onclick="selectModel('MiniMax')"><strong>MiniMax</strong><small>Fast modern drafts for quick high-energy hooks[span_105](start_span)[span_105](end_span).</small></div>
-            <div class="model-option" onclick="selectModel('Lyria')"><strong>Lyria</strong><small>Google high-fidelity quality and harmonic depth[span_106](start_span)[span_106](end_span).</small></div>
-            <div class="model-option" onclick="selectModel('MusicGPT')"><strong>MusicGPT</strong><small>Prompt-based audio textures and simple creative generation[span_107](start_span)[span_107](end_span).</small></div>
-        </div>
-    </div>
-
-    <!-- VOICE SELECTOR MODAL (FOR TTS) -->
-    <div class="modal-overlay" id="voiceModal" onclick="this.classList.remove('active')">
-        <div class="modal-content">
-            <h3 style="font-size:18px; margin-bottom:8px;">Choose a voice[span_108](start_span)[span_108](end_span)</h3>
-            <div class="model-option" onclick="selectVoice('Adaline - British, Engaging')"><strong>Adaline</strong><small>British / Engaging / Female[span_109](start_span)[span_109](end_span)</small></div>
-            <div class="model-option" onclick="selectVoice('Adam - Dominant, Firm')"><strong>Adam</strong><small>American / Dominant / Male[span_110](start_span)[span_110](end_span)</small></div>
-            <div class="model-option" onclick="selectVoice('Bella - Professional, Bright')"><strong>Bella</strong><small>American / Bright / Female[span_111](start_span)[span_111](end_span)</small></div>
-            <div class="model-option" onclick="selectVoice('Charlie - Deep, Confident')"><strong>Charlie</strong><small>Australian / Confident / Male[span_112](start_span)[span_112](end_span)</small></div>
+            <div class="model-option" onclick="selectModel('ElevenLabs')"><strong>ElevenLabs</strong><small>Expressive vocals & cinematic sound effects.</small></div>
+            <div class="model-option" onclick="selectModel('Mureka V9')"><strong>Mureka V9</strong><small>Lyrics-to-song with melody-aware rich studio production.</small></div>
+            <div class="model-option" onclick="selectModel('MiniMax')"><strong>MiniMax</strong><small>Fast modern drafts for quick high-energy hooks.</small></div>
+            <div class="model-option" onclick="selectModel('Lyria')"><strong>Lyria</strong><small>Google high-fidelity quality and harmonic depth.</small></div>
+            <div class="model-option" onclick="selectModel('MusicGPT')"><strong>MusicGPT</strong><small>Prompt-based audio textures and simple creative generation.</small></div>
         </div>
     </div>
 </div>
@@ -759,7 +636,8 @@
 
     let libraryFiles = [
         { name: "Flymusic_Anthem_01.mp3", type: "Song", date: "2026-10-15" },
-        { name: "VoiceClone_Session.mp3", type: "Voice Clone", date: "2026-10-15" }
+        { name: "VoiceClone_Session.mp3", type: "Voice Clone", date: "2026-10-15" },
+        { name: "PowerDirector_AI_Movie.mp4", type: "AI Video", date: "2026-10-15" }
     ];
 
     function showToast(msg) {
@@ -797,7 +675,7 @@
             document.getElementById('navLibrary').classList.add('active');
             document.getElementById('viewLibrary').classList.add('active');
             document.getElementById('mainHeaderHeading').innerText = 'Library';
-            document.getElementById('mainHeaderSub').innerText = 'Saved in /music/Flymusic';
+            document.getElementById('mainHeaderSub').innerText = 'All your creations, songs & videos';
             renderLibrary();
         } else if(tab === 'profile') {
             document.getElementById('navProfile').classList.add('active');
@@ -812,26 +690,26 @@
         document.getElementById('backBtn').style.display = 'flex';
         
         const titles = {
-            createSong: ['Create Song', 'Generate a full song with lyrics, vocals & instrumental[span_113](start_span)[span_113](end_span)'],
-            coverRemix: ['Cover / Remix', 'Reimagine any of your tracks in a new style, voice and production[span_114](start_span)[span_114](end_span).'],
-            extendSong: ['Extend Song', 'Continue any track past where it ends[span_115](start_span)[span_115](end_span).'],
-            addInstrumental: ['Add Instrumental', 'Turn a melody or vocal into a full track[span_116](start_span)[span_116](end_span).'],
-            mashup: ['Mashup', 'Blend two tracks into a brand-new song[span_117](start_span)[span_117](end_span).'],
-            soundGenerator: ['Sound Generator', 'Create sound effects, loops and music beds[span_118](start_span)[span_118](end_span).'],
-            voiceClone: ['Voice Clone Studio', 'Record or upload your voice for any song'],
-            aiVideo: ['AI Music Video Studio', 'Generate & extend cinematic videos with multi-segment stitching'],
-            createVocals: ['Create Vocals', 'Create AI vocal tracks from scratch[span_119](start_span)[span_119](end_span).'],
-            addVocals: ['Add Vocals', 'Add AI-generated vocals over instrumental[span_120](start_span)[span_120](end_span).'],
-            transformVocals: ['Transform Vocals', 'Turn raw vocal idea into studio performance[span_121](start_span)[span_121](end_span).'],
-            voiceConversion: ['Voice Conversion', 'Convert any vocal to a different AI voice[span_122](start_span)[span_122](end_span).'],
-            stemSplitter: ['Stem Splitter', 'Split track into separate stems[span_123](start_span)[span_123](end_span).'],
-            lyricsGenerator: ['Lyrics Generator', 'Write full song lyrics from a short idea[span_124](start_span)[span_124](end_span).'],
-            coverArt: ['Cover Art', 'Generate cover artwork for your releases[span_125](start_span)[span_125](end_span).'],
-            textToSpeech: ['Text to Speech', 'Turn text into lifelike voiceover[span_126](start_span)[span_126](end_span).'],
-            songAnalysis: ['Song Analysis', 'Extract production style prompt from any song.'],
-            bpmDetector: ['BPM Detector', 'Detect tempo of any audio file instantly[span_127](start_span)[span_127](end_span).'],
-            audioRecognition: ['Audio Recognition', 'Identify song from mic or file[span_128](start_span)[span_128](end_span).'],
-            stemToMidi: ['Stem to MIDI', 'Convert stem separation into MIDI notes[span_129](start_span)[span_129](end_span).']
+            createSong: ['Create a Song', 'Generate full track with AI'],
+            coverRemix: ['Cover / Remix', 'Reimagine tracks in new styles'],
+            extendSong: ['Extend Song', 'Grow your tracks seamlessly'],
+            addInstrumental: ['Add Instrumental', 'Add AI backing band'],
+            mashup: ['Mashup', 'Blend two tracks together'],
+            soundGenerator: ['Sound Generator', 'Create loops & sound beds'],
+            voiceClone: ['Voice Clone Studio', 'Record or upload your voice'],
+            aiVideoStudio: ['AI Video Studio', 'PowerDirector Pro editing & multi-clip stitching'],
+            createVocals: ['Create Vocals', 'Generate AI vocal tracks'],
+            addVocals: ['Add Vocals', 'Add AI vocals over music'],
+            transformVocals: ['Transform Vocals', 'Studio quality performance'],
+            voiceConversion: ['Voice Conversion', 'Convert to different AI singers'],
+            stemSplitter: ['Stem Splitter', 'Extract stems from tracks'],
+            lyricsGenerator: ['Lyrics Generator', 'Write full song lyrics'],
+            coverArt: ['Cover Art', 'Generate release artwork'],
+            textToSpeech: ['Text to Speech', 'Lifelike voiceovers'],
+            songAnalysis: ['Song Analysis', 'Extract production prompts'],
+            bpmDetector: ['BPM Detector', 'Detect track tempo instantly'],
+            audioRecognition: ['Audio Recognition', 'Identify songs via mic/file'],
+            stemToMidi: ['Stem to MIDI', 'Convert stems into MIDI notes']
         };
 
         if(titles[viewName]) {
@@ -844,36 +722,46 @@
     }
 
     function goHome() { switchNav('home'); }
-
     function openModelSelector() { document.getElementById('modelModal').classList.add('active'); }
-    function openVoiceSelector() { document.getElementById('voiceModal').classList.add('active'); }
     function closeModelSelector(e) { if(e.target.id === 'modelModal') document.getElementById('modelModal').classList.remove('active'); }
-    
     function selectModel(name) {
         document.getElementById('selectedModelName').innerText = name;
-        const remixModel = document.getElementById('selectedRemixModelName');
-        if(remixModel) remixModel.innerText = name;
         document.getElementById('modelModal').classList.remove('active');
         showToast('Model switched to ' + name);
     }
 
-    function selectVoice(voiceName) {
-        document.getElementById('selectedTtsVoice').innerText = voiceName;
-        document.getElementById('voiceModal').classList.remove('active');
-        showToast('Voice selected: ' + voiceName);
+    function setGender(g) {
+        selectedGender = g;
+        if(g === 'Female') {
+            document.getElementById('genderFemale').classList.add('active');
+            document.getElementById('genderMale').classList.remove('active');
+        } else {
+            document.getElementById('genderMale').classList.add('active');
+            document.getElementById('genderFemale').classList.remove('active');
+        }
     }
 
-    function playVoiceSample(voiceName) {
-        showToast('Playing sample for ' + voiceName + '...');
-        playTone(523.25); // C5 sample tone
+    function toggleRecord() {
+        isRecording = !isRecording;
+        const btn = document.getElementById('recBtn');
+        const status = document.getElementById('recStatus');
+        if(isRecording) {
+            btn.classList.add('recording');
+            status.innerText = "Recording live voice sample... Tap to stop.";
+            showToast("Recording started");
+        } else {
+            btn.classList.remove('recording');
+            status.innerText = "Voice sample captured successfully!";
+            showToast("Voice sample captured!");
+        }
     }
 
-    function setVariations(num) {
-        document.querySelectorAll('#viewAddInstrumental .chip-btn').forEach(b => b.classList.remove('active'));
-        if(num === 1) event.target.classList.add('active');
-        if(num === 2) document.getElementById('var2').classList.add('active');
-        if(num === 4) event.target.classList.add('active');
-        showToast('Variations set to ' + num);
+    function handleAudioUpload(event) {
+        const file = event.target.files[0];
+        if(file) {
+            showToast("Loaded: " + file.name);
+            document.getElementById('recStatus').innerText = "Loaded: " + file.name;
+        }
     }
 
     function handleCoverUpload(event) {
@@ -900,52 +788,41 @@
         }
     }
 
-    function setGender(g) {
-        selectedGender = g;
-        if(g === 'Female') {
-            document.getElementById('genderFemale').classList.add('active');
-            document.getElementById('genderMale').classList.remove('active');
-        } else {
-            document.getElementById('genderMale').classList.add('active');
-            document.getElementById('genderFemale').classList.remove('active');
-        }
-    }
-
-    function toggleRecord() {
-        isRecording = !isRecording;
-        const btn = document.getElementById('recBtn');
-        const status = document.getElementById('recStatus');
-        if(isRecording) {
-            btn.classList.add('recording');
-            status.innerText = "Recording live voice sample... Tap to stop.";
-            showToast("Recording started");
-        } else {
-            btn.classList.remove('recording');
-            status.innerText = "Voice sample recorded successfully! Ready to clone.";
-            showToast("Voice sample captured!");
-        }
-    }
-
-    function handleAudioUpload(event) {
-        const file = event.target.files[0];
-        if(file) {
-            showToast("Loaded: " + file.name);
-            document.getElementById('recStatus').innerText = "Loaded: " + file.name;
-        }
+    function playVoiceSample(name) {
+        showToast("Playing sample for " + name);
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        if (activeOsc) { try { activeOsc.stop(); } catch(e){} }
+        activeOsc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        activeOsc.type = 'sine';
+        activeOsc.frequency.setValueAtTime(523.25, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+        activeOsc.connect(gain);
+        gain.connect(audioCtx.destination);
+        activeOsc.start();
+        setTimeout(() => { try { activeOsc.stop(); } catch(e){} }, 1200);
     }
 
     function generateAndSave(type) {
-        const filename = "Flymusic_" + type.replace(/\s+/g, '_') + "_" + Math.floor(Math.random()*900+100) + ".mp3";
+        const ext = type.includes('Video') || type.includes('Movie') ? '.mp4' : '.mp3';
+        const filename = "Flymusic_" + type.replace(/\s+/g, '_') + "_" + Math.floor(Math.random()*900+100) + ext;
         libraryFiles.unshift({ name: filename, type: type, date: new Date().toISOString().split('T')[0] });
         showToast("Saved to /music/Flymusic/" + filename);
         setTimeout(() => { switchNav('library'); }, 1200);
     }
 
-    function renderLibrary() {
+    function renderLibrary(filter = 'all') {
         const list = document.getElementById('libraryList');
-        document.getElementById('fileCount').innerText = libraryFiles.length + " files (.mp3)";
+        document.getElementById('fileCount').innerText = libraryFiles.length + " items stored";
         list.innerHTML = "";
-        libraryFiles.forEach((file) => {
+        
+        let filtered = libraryFiles;
+        if(filter === 'songs') filtered = libraryFiles.filter(f => f.type === 'Song');
+        if(filter === 'creations') filtered = libraryFiles.filter(f => f.type !== 'Song' && !f.type.includes('Video') && !f.type.includes('Movie'));
+        if(filter === 'videos') filtered = libraryFiles.filter(f => f.type.includes('Video') || f.type.includes('Movie') || f.name.includes('.mp4'));
+
+        filtered.forEach((file) => {
             list.innerHTML += `
                 <div class="library-item">
                     <div class="library-info">
@@ -961,19 +838,9 @@
         });
     }
 
-    function playTone(freq) {
-        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        if (audioCtx.state === 'suspended') audioCtx.resume();
-        if (activeOsc) { try { activeOsc.stop(); } catch(e){} }
-        activeOsc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        activeOsc.type = 'triangle';
-        activeOsc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-        gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
-        activeOsc.connect(gain);
-        gain.connect(audioCtx.destination);
-        activeOsc.start();
-        setTimeout(() => { try { activeOsc.stop(); } catch(e){} }, 1500);
+    function filterLibrary(category) {
+        showToast("Showing " + category);
+        renderLibrary(category);
     }
 
     function playTrack(filename) {
@@ -982,7 +849,18 @@
         document.getElementById('nowPlayingSub').innerText = "/music/Flymusic/" + filename;
         bar.classList.add('active');
         showToast("Playing from /music/Flymusic/");
-        playTone(330);
+
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        if (activeOsc) { try { activeOsc.stop(); } catch(e){} }
+        activeOsc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        activeOsc.type = 'triangle';
+        activeOsc.frequency.setValueAtTime(330, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+        activeOsc.connect(gain);
+        gain.connect(audioCtx.destination);
+        activeOsc.start();
     }
 
     function togglePlayPause() {
