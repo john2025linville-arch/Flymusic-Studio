@@ -25,7 +25,6 @@
         .search-box input::placeholder { color: #6c869b; }
 
         .banner-card { background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%); border-radius: 24px; padding: 22px; margin-bottom: 14px; cursor: pointer; box-shadow: 0 8px 25px rgba(0,210,255,0.25); }
-        .banner-card.purple { background: linear-gradient(135deg, #1a73e8 0%, #4285f4 100%); box-shadow: 0 8px 25px rgba(66,133,244,0.3); }
         .banner-card h3 { font-size: 20px; font-weight: 700; margin-bottom: 6px; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
         .banner-card p { font-size: 14px; color: rgba(255,255,255,0.9); line-height: 1.4; }
 
@@ -62,7 +61,7 @@
         .chip-btn { flex: 1; min-width: 70px; background: #0b1c2b; border: 1px solid #162f44; padding: 10px 8px; border-radius: 14px; color: #a1b8cc; font-weight: 700; font-size: 13px; text-align: center; cursor: pointer; transition: all 0.2s; }
         .chip-btn.active { background: #00d2ff; color: #020f18; border-color: #00d2ff; box-shadow: 0 0 10px rgba(0,210,255,0.3); }
 
-        .action-main-btn { background: linear-gradient(135deg, #4285f4 0%, #34a853 100%); color: #fff; border: none; border-radius: 28px; padding: 18px; font-size: 17px; font-weight: 800; width: 100%; cursor: pointer; box-shadow: 0 4px 20px rgba(66,133,244,0.4); margin-top: 10px; }
+        .action-main-btn { background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%); color: #020f18; border: none; border-radius: 28px; padding: 18px; font-size: 17px; font-weight: 800; width: 100%; cursor: pointer; box-shadow: 0 4px 20px rgba(0,210,255,0.4); margin-top: 10px; }
 
         .recorder-box { background: #05121b; border: 2px dashed #00d2ff; border-radius: 16px; padding: 20px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 12px; }
         .rec-circle { width: 64px; height: 64px; border-radius: 50%; background: rgba(255, 75, 140, 0.2); color: #ff4b8c; border: 2px solid #ff4b8c; display: flex; align-items: center; justify-content: center; font-size: 24px; cursor: pointer; }
@@ -106,10 +105,10 @@
             top: 20px; 
             left: 50%; 
             transform: translateX(-50%) translateY(-60px); 
-            background: rgba(66, 133, 244, 0.35); 
+            background: rgba(0, 210, 255, 0.3); 
             backdrop-filter: blur(8px);
             color: #ffffff; 
-            border: 1px solid rgba(66, 133, 244, 0.5);
+            border: 1px solid rgba(0, 210, 255, 0.4);
             padding: 10px 20px; 
             border-radius: 20px; 
             font-weight: 700; 
@@ -118,7 +117,7 @@
             pointer-events: none;
             transition: all 0.4s ease; 
             z-index: 2000; 
-            box-shadow: 0 4px 20px rgba(66,133,244,0.3); 
+            box-shadow: 0 4px 20px rgba(0,210,255,0.2); 
         }
         .toast.show { 
             transform: translateX(-50%) translateY(0); 
@@ -153,10 +152,6 @@
             <div class="banner-card" onclick="openView('createSong')">
                 <h3>🎵 Create a Song</h3>
                 <p>Full song with lyrics, vocals & instrumental</p>
-            </div>
-            <div class="banner-card purple" onclick="openView('aiVideoStudio')">
-                <h3>✨ Video Suite (Gemini & Free AI Generators)</h3>
-                <p>Gemini Veo, Imagen Video, Adobe Firefly, Runway, Pika, Kling & Sora multi-model generation</p>
             </div>
 
             <div class="section-title">⚡ Make Music</div>
@@ -470,76 +465,6 @@
             <button class="action-main-btn" onclick="generateAndSave('Voice_Clone_Track')">🧬 Run AI Voice Clone & Save MP3</button>
         </div>
 
-        <!-- VIDEO SUITE (SAVING TO PUBLIC DOCUMENTS & DOWNLOADS) -->
-        <div id="viewAiVideoStudio" class="view-panel">
-            <div class="input-card" style="background: linear-gradient(135deg, #0d1b2a 0%, #1b263b 100%); border: 1px solid #4285f455; padding: 18px;">
-                <h3 style="font-size: 16px; color: #4285f4; margin-bottom: 6px;">✨ Video Suite (Gemini & Free AI Generators)</h3>
-                <p id="videoMediaStatus" style="font-size: 12px; color: #a1b8cc; margin-bottom: 12px;">Files save directly to your public <strong>Documents/Flymusic/</strong> folder where your file manager can see them instantly.</p>
-                <button class="action-main-btn" style="margin-top: 0; padding: 12px; background: linear-gradient(135deg, #4285f4 0%, #34a853 100%);" onclick="document.getElementById('videoMediaUpload').click()">+ Upload Reference Files (Videos, Images, Audio)</button>
-                <input type="file" id="videoMediaUpload" accept="video/*,image/*,audio/*" multiple style="display:none;" onchange="onVideoFilesSelected(event)">
-            </div>
-
-            <!-- Video Engine Selector -->
-            <div class="select-btn-box" onclick="openVideoAiSelector()">
-                <div>
-                    <small>🤖 CHOOSE FREE AI VIDEO ENGINE</small>
-                    <span id="selectedVideoAiName">Gemini Veo (Google High-Fidelity Video)</span>
-                </div>
-                <span>▼</span>
-            </div>
-
-            <div class="select-btn-box" onclick="openResolutionSelector()">
-                <div>
-                    <small>📺 RESOLUTION & ASPECT RATIO</small>
-                    <span id="selectedVideoResolution">1080p Full HD (16:9 Widescreen)</span>
-                </div>
-                <span>▼</span>
-            </div>
-
-            <!-- Prompt Box with Auto-Trigger -->
-            <div class="input-card">
-                <label>✨ AI Video Prompt (Auto-Triggers Video Generation)</label>
-                <textarea id="videoPromptInput" placeholder="e.g. Cinematic drone shot over futuristic neon city generated by Gemini Veo..." style="height: 80px;" oninput="onVideoPromptInput()"></textarea>
-            </div>
-
-            <!-- Multi-Selection Duration Chips -->
-            <div class="input-card">
-                <label>⏱️ Duration Multi-Selection</label>
-                <div class="options-row" id="durationRow">
-                    <div class="chip-btn active" onclick="toggleDurationChip(this, '5s')">5s Clip</div>
-                    <div class="chip-btn" onclick="toggleDurationChip(this, '10s')">10s Clip</div>
-                    <div class="chip-btn" onclick="toggleDurationChip(this, '15s')">15s Reel</div>
-                    <div class="chip-btn" onclick="toggleDurationChip(this, '30s')">30s Scene</div>
-                </div>
-            </div>
-
-            <!-- Multi-Selection Batch Chips -->
-            <div class="input-card">
-                <label>📦 Batch Variations Multi-Selection</label>
-                <div class="options-row" id="batchRow">
-                    <div class="chip-btn active" onclick="toggleBatchChip(this, '1 Clip')">1 Clip</div>
-                    <div class="chip-btn" onclick="toggleBatchChip(this, '2 Clips')">2 Clips</div>
-                    <div class="chip-btn" onclick="toggleBatchChip(this, '4 Clips')">4 Clips</div>
-                </div>
-            </div>
-
-            <!-- Hidden Canvas for Real Video Rendering -->
-            <canvas id="renderCanvas" width="640" height="360" style="display:none;"></canvas>
-
-            <div style="background: #05121b; border: 1px solid #1a364a; border-radius: 16px; padding: 14px; text-align: center;">
-                <div id="videoPreviewBox" style="height: 160px; background: #000; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #6c869b; font-size: 13px; margin-bottom: 10px; overflow:hidden; position:relative;">
-                    ▶ Video Suite Multi-Model Preview Canvas
-                </div>
-                <div style="display: flex; gap: 6px;">
-                    <button style="flex:1; background:#112534; border:1px solid #1a364a; color:#fff; padding:8px; border-radius:10px; font-size:11px; cursor:pointer;" onclick="showToast('Gemini AI Upscale applied!')">⚡ Gemini Upscale</button>
-                    <button style="flex:1; background:#112534; border:1px solid #1a364a; color:#fff; padding:8px; border-radius:10px; font-size:11px; cursor:pointer;" onclick="showToast('Multi-clips stitched successfully!')">🔗 Stitch Clips</button>
-                </div>
-            </div>
-
-            <!-- Manual Generate Button -->
-            <button class="action-main-btn" onclick="startRealVideoGeneration('Video_Suite')">🚀 Generate & Export MP4</button>
-        </div>
-
         <!-- CREATE VOCALS -->
         <div id="viewCreateVocals" class="view-panel">
             <div class="input-card">
@@ -615,17 +540,9 @@
                 </div>
             </div>
 
-            <div style="background: #0b1c2b; border: 1px solid #162f44; border-radius: 16px; padding: 14px; margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center; cursor: pointer;" onclick="filterLibrary('videos')">
-                <div style="display: flex; align-items: center; gap: 12px;">
-                    <div style="width: 36px; height: 36px; border-radius: 10px; background: rgba(66,133,244,0.15); color: #4285f4; display: flex; align-items: center; justify-content: center; font-size: 18px;">🎬</div>
-                    <div><h4 style="font-size: 14px; font-weight: 700;">Generated Videos</h4><p style="font-size: 11px; color: #8fa3b8;">Gemini & Free AI Video Suite</p></div>
-                </div>
-                <span style="color: #4285f4; font-weight: 700;">-></span>
-            </div>
-
             <div style="display:flex; justify-content:space-between; align-items:center; margin: 6px 0;">
                 <h3 style="font-size:15px; font-weight:700;">Recents (Documents/Flymusic/)</h3>
-                <span style="font-size:12px; color:#4285f4;" id="fileCount">0 files</span>
+                <span style="font-size:12px; color:#00d2ff;" id="fileCount">0 files</span>
             </div>
             
             <div id="libraryList"></div>
@@ -634,10 +551,10 @@
         <!-- PROFILE -->
         <div id="viewProfile" class="view-panel">
             <div class="input-card" style="align-items:center; text-align:center; padding:24px;">
-                <div style="width:72px; height:72px; background:#4285f4; color:#fff; border-radius:50%; font-size:28px; display:flex; align-items:center; justify-content:center; font-weight:700; margin-bottom:12px;">JL</div>
+                <div style="width:72px; height:72px; background:#00d2ff; color:#020f18; border-radius:50%; font-size:28px; display:flex; align-items:center; justify-content:center; font-weight:700; margin-bottom:12px;">JL</div>
                 <h3 style="font-size:18px; margin-bottom:4px;">John Linville</h3>
                 <p style="font-size:13px; color:#8fa3b8;">john2025linville@gmail.com</p>
-                <p style="font-size:12px; color:#4285f4; margin-top:8px;">📁 Public Storage: Documents/Flymusic/</p>
+                <p style="font-size:12px; color:#00d2ff; margin-top:8px;">📁 Public Storage: Documents/Flymusic/</p>
             </div>
         </div>
     </div>
@@ -704,64 +621,6 @@
             </div>
         </div>
     </div>
-
-    <!-- VIDEO SUITE FREE AI SELECTOR MODAL WITH GEMINI & ALL GENERATORS -->
-    <div class="modal-overlay" id="videoAiModal" onclick="closeVideoAiModal(event)">
-        <div class="modal-content">
-            <h3 style="font-size:18px; margin-bottom:8px;">Choose Free AI Video Generator</h3>
-            <div class="model-option" onclick="selectVideoAi('Gemini Veo (Google High-Fidelity Video)')">
-                <div class="m-icon">✨</div>
-                <div><strong>Gemini Veo</strong><small>Google's advanced generative video model with cinematic depth & realism.</small></div>
-            </div>
-            <div class="model-option" onclick="selectVideoAi('Gemini Imagen Video (Text-to-Video Pro)')">
-                <div class="m-icon">🌟</div>
-                <div><strong>Gemini Imagen Video</strong><small>High frame-rate generation for stunning smooth motion.</small></div>
-            </div>
-            <div class="model-option" onclick="selectVideoAi('Adobe Firefly Video V3')">
-                <div class="m-icon">🔥</div>
-                <div><strong>Adobe Firefly Video V3</strong><small>Photorealistic cinematic grading, rich lighting & textures.</small></div>
-            </div>
-            <div class="model-option" onclick="selectVideoAi('Runway Gen-2 (Motion & Physics)')">
-                <div class="m-icon">🏃</div>
-                <div><strong>Runway Gen-2</strong><small>Fluid camera movement and realistic physics simulation.</small></div>
-            </div>
-            <div class="model-option" onclick="selectVideoAi('Pika Labs (Animation & Effects)')">
-                <div class="m-icon">🎨</div>
-                <div><strong>Pika Labs</strong><small>Stylized animation, dynamic particle effects & text-to-video.</small></div>
-            </div>
-            <div class="model-option" onclick="selectVideoAi('Kling AI (High Detail & Clarity)')">
-                <div class="m-icon">🎥</div>
-                <div><strong>Kling AI</strong><small>Ultra-sharp texture rendering and long-form temporal consistency.</small></div>
-            </div>
-            <div class="model-option" onclick="selectVideoAi('OpenAI Sora / Stable Video')">
-                <div class="m-icon">🚀</div>
-                <div><strong>Stable Video / Sora</strong><small>Complex scene composition and extended multi-second generation.</small></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- RESOLUTION SELECTOR MODAL -->
-    <div class="modal-overlay" id="resolutionModal" onclick="closeResolutionModal(event)">
-        <div class="modal-content">
-            <h3 style="font-size:18px; margin-bottom:8px;">Select Resolution & Aspect Ratio</h3>
-            <div class="model-option" onclick="selectResolution('1080p Full HD (16:9 Widescreen)')">
-                <div class="m-icon">🖥️</div>
-                <div><strong>16:9 Widescreen</strong><small>Standard cinematic YouTube & desktop landscape format.</small></div>
-            </div>
-            <div class="model-option" onclick="selectResolution('1080x1920 Vertical Reel (9:16)')">
-                <div class="m-icon">📱</div>
-                <div><strong>9:16 Vertical Reel</strong><small>Optimized for TikTok, Instagram Reels, and YouTube Shorts.</small></div>
-            </div>
-            <div class="model-option" onclick="selectResolution('1:1 Square (1080x1080)')">
-                <div class="m-icon">⬛</div>
-                <div><strong>1:1 Square</strong><small>Perfect for Instagram feed posts and music visualizers.</small></div>
-            </div>
-            <div class="model-option" onclick="selectResolution('4K Ultra HD Cinema (21:9)')">
-                <div class="m-icon">🎬</div>
-                <div><strong>21:9 Cinematic Letterbox</strong><small>Maximum theatrical widescreen detail.</small></div>
-            </div>
-        </div>
-    </div>
 </div>
 
 <script>
@@ -769,9 +628,6 @@
     let selectedGender = 'Female';
     let audioCtx = null;
     let activeOsc = null;
-    let videoPromptTimeout = null;
-    let selectedDurations = ['5s'];
-    let selectedBatches = ['1 Clip'];
 
     let attachedFiles = {
         coverTrackUpload: null,
@@ -779,14 +635,12 @@
         instTrackUpload: null,
         mashup1Upload: null,
         mashup2Upload: null,
-        stemUpload: null,
-        videoMediaUploads: []
+        stemUpload: null
     };
 
     let libraryFiles = [
         { name: "Flymusic_Anthem_01.mp3", type: "Song", date: "2026-10-15" },
-        { name: "VoiceClone_Session.mp3", type: "Voice Clone", date: "2026-10-15" },
-        { name: "Gemini_Veo_Video_419.mp4", type: "Video Suite", date: "2026-10-15" }
+        { name: "VoiceClone_Session.mp3", type: "Voice Clone", date: "2026-10-15" }
     ];
 
     function showToast(msg) {
@@ -826,7 +680,7 @@
             document.getElementById('navLibrary').classList.add('active');
             document.getElementById('viewLibrary').classList.add('active');
             document.getElementById('mainHeaderHeading').innerText = 'Library';
-            document.getElementById('mainHeaderSub').innerText = 'All your creations, songs & videos';
+            document.getElementById('mainHeaderSub').innerText = 'All your creations, songs & vocals';
             renderLibrary();
         } else if(tab === 'profile') {
             document.getElementById('navProfile').classList.add('active');
@@ -848,7 +702,6 @@
             mashup: ['Mashup', 'Blend two tracks together'],
             soundGenerator: ['Sound Generator', 'Create loops & sound beds'],
             voiceClone: ['Voice Clone Studio', 'Record or upload your voice'],
-            aiVideoStudio: ['Video Suite', 'Gemini Veo, Imagen & Free AI Generators'],
             createVocals: ['Create Vocals', 'Generate AI vocal tracks'],
             addVocals: ['Add Vocals', 'Add AI vocals over music'],
             transformVocals: ['Transform Vocals', 'Studio quality performance'],
@@ -881,48 +734,6 @@
         showToast('Model switched to ' + name);
     }
 
-    function openVideoAiSelector() { document.getElementById('videoAiModal').classList.add('active'); }
-    function closeVideoAiModal(e) { if(e.target.id === 'videoAiModal') document.getElementById('videoAiModal').classList.remove('active'); }
-    function selectVideoAi(name) {
-        document.getElementById('selectedVideoAiName').innerText = name;
-        document.getElementById('videoAiModal').classList.remove('active');
-        showToast('Video Engine: ' + name);
-    }
-
-    function openResolutionSelector() { document.getElementById('resolutionModal').classList.add('active'); }
-    function closeResolutionModal(e) { if(e.target.id === 'resolutionModal') document.getElementById('resolutionModal').classList.remove('active'); }
-    function selectResolution(res) {
-        document.getElementById('selectedVideoResolution').innerText = res;
-        document.getElementById('resolutionModal').classList.remove('active');
-        showToast('Resolution: ' + res);
-    }
-
-    function toggleDurationChip(element, value) {
-        if(selectedDurations.includes(value)) {
-            if(selectedDurations.length > 1) {
-                selectedDurations = selectedDurations.filter(v => v !== value);
-                element.classList.remove('active');
-            }
-        } else {
-            selectedDurations.push(value);
-            element.classList.add('active');
-        }
-        showToast("Durations: " + selectedDurations.join(', '));
-    }
-
-    function toggleBatchChip(element, value) {
-        if(selectedBatches.includes(value)) {
-            if(selectedBatches.length > 1) {
-                selectedBatches = selectedBatches.filter(v => v !== value);
-                element.classList.remove('active');
-            }
-        } else {
-            selectedBatches.push(value);
-            element.classList.add('active');
-        }
-        showToast("Batches: " + selectedBatches.join(', '));
-    }
-
     function handleSharedFile(event, inputId, labelId, successMsg) {
         const file = event.target.files[0];
         if(file) {
@@ -930,106 +741,6 @@
             document.getElementById(labelId).innerText = file.name + " (Attached)";
             showToast(successMsg + ": " + file.name);
         }
-    }
-
-    function onVideoFilesSelected(event) {
-        const files = event.target.files;
-        if(files && files.length > 0) {
-            for(let i=0; i<files.length; i++) {
-                attachedFiles.videoMediaUploads.push(files[i]);
-            }
-            const count = attachedFiles.videoMediaUploads.length;
-            document.getElementById('videoMediaStatus').innerText = `📎 ${count} reference file(s) attached in memory.`;
-            showToast(`${files.length} file(s) added to reference memory!`);
-        }
-    }
-
-    function onVideoPromptInput() {
-        const val = document.getElementById('videoPromptInput').value.trim();
-        if(val.length > 5) {
-            clearTimeout(videoPromptTimeout);
-            videoPromptTimeout = setTimeout(() => {
-                startRealVideoGeneration('Video_Suite');
-            }, 2500);
-        }
-    }
-
-    // SILENT CANVAS VIDEO RENDERER & FILE DOWNLOAD TRIGGER FOR PUBLIC DOCUMENTS STORAGE
-    function startRealVideoGeneration(type) {
-        showToast("Rendering AI Video on Canvas using reference files...");
-        const canvas = document.getElementById('renderCanvas');
-        const ctx = canvas.getContext('2d');
-        const previewBox = document.getElementById('videoPreviewBox');
-        
-        let frame = 0;
-        const totalFrames = 90; // ~3 seconds at 30fps
-        const stream = canvas.captureStream(30);
-        
-        let recorder;
-        try {
-            recorder = new MediaRecorder(stream, { mimeType: 'video/webm;codecs=vp9' });
-        } catch(e) {
-            recorder = new MediaRecorder(stream);
-        }
-
-        let chunks = [];
-        recorder.ondataavailable = e => chunks.push(e.data);
-        recorder.onstop = () => {
-            const blob = new Blob(chunks, { type: 'video/mp4' });
-            const videoUrl = URL.createObjectURL(blob);
-            
-            previewBox.innerHTML = `<video src="${videoUrl}" controls autoplay loop muted style="width:100%; height:100%; object-fit:cover; border-radius:10px;"></video>`;
-            
-            const filename = "VideoSuite_" + type + "_" + Math.floor(Math.random()*900+100) + ".mp4";
-            
-            // Trigger automatic download to public Documents/Flymusic folder
-            const a = document.createElement('a');
-            a.href = videoUrl;
-            a.download = filename;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-
-            libraryFiles.unshift({ name: filename, type: type, date: new Date().toISOString().split('T')[0] });
-            showToast("Saved to Documents/Flymusic/" + filename);
-            setTimeout(() => { switchNav('library'); }, 2000);
-        };
-
-        recorder.start();
-
-        const renderInterval = setInterval(() => {
-            frame++;
-            ctx.fillStyle = '#020f18';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            const cx = canvas.width / 2;
-            const cy = canvas.height / 2;
-            const radius = 60 + Math.sin(frame * 0.1) * 30;
-
-            const grad = ctx.createRadialGradient(cx, cy, 10, cx, cy, radius);
-            grad.addColorStop(0, '#4285f4');
-            grad.addColorStop(0.5, '#b224ef');
-            grad.addColorStop(1, 'transparent');
-
-            ctx.fillStyle = grad;
-            ctx.beginPath();
-            ctx.arc(cx, cy, radius * 1.5, 0, Math.PI * 2);
-            ctx.fill();
-
-            ctx.fillStyle = '#ffffff';
-            ctx.font = 'bold 20px Plus Jakarta Sans';
-            ctx.textAlign = 'center';
-            ctx.fillText("AI VIDEO SUITE RENDER", cx, cy - 25);
-
-            ctx.font = '13px Plus Jakarta Sans';
-            ctx.fillStyle = '#00d2ff';
-            ctx.fillText("Refs: " + attachedFiles.videoMediaUploads.length + " files | Frame " + frame, cx, cy + 10);
-
-            if (frame >= totalFrames) {
-                clearInterval(renderInterval);
-                recorder.stop();
-            }
-        }, 33);
     }
 
     function toggleRecord() {
@@ -1056,26 +767,8 @@
         }
     }
 
-    function playVoiceSample(name) {
-        showToast("Playing sample for " + name);
-        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        if (audioCtx.state === 'suspended') audioCtx.resume();
-        if (activeOsc) { try { activeOsc.stop(); } catch(e){} }
-        activeOsc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        activeOsc.type = 'sine';
-        activeOsc.frequency.setValueAtTime(523.25, audioCtx.currentTime);
-        gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-        activeOsc.connect(gain);
-        gain.connect(audioCtx.destination);
-        activeOsc.start();
-        setTimeout(() => { try { activeOsc.stop(); } catch(e){} }, 1200);
-    }
-
     function generateAndSave(type) {
-        const ext = type.includes('Video') || type.includes('Suite') || type.includes('Movie') ? '.mp4' : '.mp3';
-        const filename = "VideoSuite_" + type.replace(/\s+/g, '_') + "_" + Math.floor(Math.random()*900+100) + ext;
-        
+        const filename = "Track_" + Math.floor(Math.random()*900+100) + ".mp3";
         libraryFiles.unshift({ name: filename, type: type, date: new Date().toISOString().split('T')[0] });
         showToast("Saved to Documents/Flymusic/" + filename);
         setTimeout(() => { switchNav('library'); }, 1200);
@@ -1088,8 +781,7 @@
         
         let filtered = libraryFiles;
         if(filter === 'songs') filtered = libraryFiles.filter(f => f.type === 'Song');
-        if(filter === 'creations') filtered = libraryFiles.filter(f => f.type !== 'Song' && !f.type.includes('Video') && !f.type.includes('Suite') && !f.type.includes('Movie'));
-        if(filter === 'videos') filtered = libraryFiles.filter(f => f.type.includes('Video') || f.type.includes('Suite') || f.type.includes('Movie') || f.name.includes('.mp4'));
+        if(filter === 'creations') filtered = libraryFiles.filter(f => f.type !== 'Song');
 
         if(filtered.length === 0) {
             list.innerHTML = `<div style="text-align:center; padding:30px; color:#6c869b; font-size:14px;">No files found in this category.</div>`;
