@@ -28,7 +28,7 @@
         .banner-card h3 { font-size: 20px; font-weight: 700; margin-bottom: 6px; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
         .banner-card p { font-size: 14px; color: rgba(255,255,255,0.9); line-height: 1.4; }
 
-        .section-title { font-size: 16px; font-weight: 700; margin: 24px 0 12px 4px; color: #00d2ff; text-shadow: 0 0 8px rgba(0,210,255,0.3); }
+        .section-title { font-size: 16px; font-weight: 700; margin: 24px 0 12px 4px; color: #00d2ff; text-shadow: 0 0 8px rgba(0,210,255,0.3); display: flex; align-items: center; gap: 8px; }
         .tools-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
         .tool-card { background: #0b1c2b; border: 1px solid #162f44; border-radius: 20px; padding: 18px; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; min-height: 130px; transition: all 0.2s; }
         .tool-card:active { background: #112a40; transform: scale(0.97); }
@@ -49,7 +49,7 @@
         .view-panel.active { display: flex; }
 
         .input-card { background: #0b1c2b; border: 1px solid #162f44; border-radius: 20px; padding: 16px; display: flex; flex-direction: column; gap: 10px; }
-        .input-card label { font-size: 14px; color: #c5d8ec; font-weight: 700; }
+        .input-card label { font-size: 14px; color: #c5d8ec; font-weight: 700; display: flex; align-items: center; gap: 6px; }
         .input-card textarea, .input-card input[type="text"] { background: #05121b; border: 1px solid #1a364a; border-radius: 14px; padding: 14px; color: #fff; font-size: 15px; outline: none; resize: none; width: 100%; }
         .input-card textarea { height: 110px; }
 
@@ -61,7 +61,7 @@
         .chip-btn { flex: 1; background: #0b1c2b; border: 1px solid #162f44; padding: 12px; border-radius: 14px; color: #a1b8cc; font-weight: 700; font-size: 14px; text-align: center; cursor: pointer; }
         .chip-btn.active { background: #00d2ff; color: #020f18; border-color: #00d2ff; }
 
-        .action-main-btn { background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%); color: #020f18; border: none; border-radius: 28px; padding: 18px; font-size: 17px; font-weight: 800; width: 100%; cursor: pointer; box-shadow: 0 4px 20px rgba(0, 210, 255, 0.4); margin-top: 10px; }
+        .action-main-btn { background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%); color: #020f18; border: none; border-radius: 28px; padding: 18px; font-size: 17px; font-weight: 800; width: 100%; cursor: pointer; box-shadow: 0 4px 20px rgba(0,210,255,0.4); margin-top: 10px; }
 
         .recorder-box { background: #05121b; border: 2px dashed #00d2ff; border-radius: 16px; padding: 20px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 12px; }
         .rec-circle { width: 64px; height: 64px; border-radius: 50%; background: rgba(255, 75, 140, 0.2); color: #ff4b8c; border: 2px solid #ff4b8c; display: flex; align-items: center; justify-content: center; font-size: 24px; cursor: pointer; }
@@ -94,10 +94,12 @@
         .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.75); backdrop-filter: blur(5px); display: none; align-items: flex-end; z-index: 1000; }
         .modal-overlay.active { display: flex; }
         .modal-content { background: #081622; width: 100%; max-height: 85vh; border-radius: 28px 28px 0 0; border-top: 1px solid #1c384e; padding: 24px 20px 40px 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
-        .model-option { background: #0b1c2b; border: 1px solid #162f44; padding: 14px 16px; border-radius: 16px; cursor: pointer; display: flex; flex-direction: column; gap: 4px; }
+        .model-option { background: #0b1c2b; border: 1px solid #162f44; padding: 14px 16px; border-radius: 16px; cursor: pointer; display: flex; align-items: center; gap: 12px; }
+        .model-option .m-icon { width: 36px; height: 36px; border-radius: 10px; background: rgba(0,210,255,0.15); color: #00d2ff; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+        .model-option div { display: flex; flex-direction: column; gap: 2px; }
         .model-option small { color: #8fa3b8; font-size: 12px; }
 
-        /* Transparent Glass Toast Notification (Hidden by default, pops up on action, fades out) */
+        /* Transparent Glass Toast Notification */
         .toast { 
             position: absolute; 
             top: 20px; 
@@ -145,7 +147,7 @@
             </div>
 
             <div class="banner-card" onclick="openView('createSong')">
-                <h3>Create a Song</h3>
+                <h3>🎵 Create a Song</h3>
                 <p>Full song with lyrics, vocals & instrumental</p>
             </div>
             <div class="banner-card purple" onclick="openView('aiVideoStudio')">
@@ -264,13 +266,13 @@
         <!-- CREATE SONG -->
         <div id="viewCreateSong" class="view-panel">
             <div class="options-row" style="background: #05121b; padding: 4px; border-radius: 16px; border: 1px solid #1a364a; margin-bottom: 4px;">
-                <div class="chip-btn active" id="tabSimple" onclick="switchCreateMode('simple')">Simple</div>
-                <div class="chip-btn" id="tabCustom" onclick="switchCreateMode('custom')">Custom</div>
+                <div class="chip-btn active" id="tabSimple" onclick="switchCreateMode('simple')">✨ Simple</div>
+                <div class="chip-btn" id="tabCustom" onclick="switchCreateMode('custom')">⚙️ Custom</div>
             </div>
 
             <div class="select-btn-box" onclick="openModelSelector()">
                 <div>
-                    <small>MODEL</small>
+                    <small>🤖 MODEL</small>
                     <span id="selectedModelName">Vocuno Classic</span>
                 </div>
                 <span>▼</span>
@@ -278,7 +280,7 @@
 
             <div id="createModeSimple" style="display: flex; flex-direction: column; gap: 12px;">
                 <div class="input-card">
-                    <label>Song description</label>
+                    <label>✍️ Song description</label>
                     <textarea id="songPrompt" placeholder="Glam rock anthem about a wild futuristic band"></textarea>
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 4px;">
                         <button style="background: #112534; border: 1px solid #1a364a; color: #fff; padding: 6px 12px; border-radius: 12px; font-size: 12px; cursor: pointer;" onclick="document.getElementById('songPrompt').value='Glam rock anthem about a wild futuristic band'">🎲 Surprise me</button>
@@ -289,16 +291,16 @@
 
             <div id="createModeCustom" style="display: none; flex-direction: column; gap: 12px;">
                 <div class="input-card">
-                    <label>Lyrics</label>
+                    <label>📝 Lyrics</label>
                     <textarea placeholder="Write your lyrics, or leave blank for AI-written lyrics" style="height: 110px;"></textarea>
                     <div style="text-align: right;"><small style="color: #6c869b;">0/3000</small></div>
                 </div>
                 <div class="input-card">
-                    <label>Style</label>
+                    <label>🎨 Style</label>
                     <input type="text" placeholder="e.g. dreamy synthwave, female vocals, 90 bpm">
                 </div>
                 <div class="input-card">
-                    <label>Song title (optional)</label>
+                    <label>🏷️ Song title (optional)</label>
                     <input type="text" placeholder="Enter song title...">
                 </div>
             </div>
@@ -310,7 +312,7 @@
         <div id="viewCoverRemix" class="view-panel">
             <div class="input-card" style="display: flex; flex-direction: row; align-items: center; justify-content: space-between; cursor: pointer;" onclick="document.getElementById('coverTrackUpload').click()">
                 <div>
-                    <small style="color: #8fa3b8; font-size: 11px; text-transform: uppercase;">Choose a track to cover</small>
+                    <small style="color: #8fa3b8; font-size: 11px; text-transform: uppercase;">📂 Choose a track to cover</small>
                     <h4 id="selectedCoverTrackName" style="font-size: 14px; font-weight: 600; margin-top: 2px;">A song, download or other track from your library</h4>
                 </div>
                 <div style="background: #00d2ff; color: #020f18; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 700;">+</div>
@@ -319,19 +321,19 @@
 
             <div class="select-btn-box" onclick="openModelSelector()">
                 <div>
-                    <small>MODEL</small>
+                    <small>🤖 MODEL</small>
                     <span id="selectedRemixModelName">Vocuno Classic</span>
                 </div>
                 <span>▼</span>
             </div>
 
             <div class="input-card">
-                <label>Cover title (optional)</label>
+                <label>🏷️ Cover title (optional)</label>
                 <input type="text" placeholder="Enter custom cover title...">
             </div>
 
             <div class="input-card">
-                <label>New style</label>
+                <label>✨ New style</label>
                 <textarea placeholder="e.g. acoustic ballad, synthwave, lo-fi hip hop"></textarea>
             </div>
 
@@ -342,7 +344,7 @@
         <div id="viewExtendSong" class="view-panel">
             <div class="input-card" style="display: flex; flex-direction: row; align-items: center; justify-content: space-between; cursor: pointer;" onclick="document.getElementById('extendTrackUpload').click()">
                 <div>
-                    <small style="color: #8fa3b8; font-size: 11px; text-transform: uppercase;">Choose a song to extend</small>
+                    <small style="color: #8fa3b8; font-size: 11px; text-transform: uppercase;">📂 Choose a song to extend</small>
                     <h4 id="selectedExtendTrackName" style="font-size: 14px; font-weight: 600; margin-top: 2px;">A song, cover or other track from your library</h4>
                 </div>
                 <div style="background: #00d2ff; color: #020f18; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 700;">+</div>
@@ -351,14 +353,14 @@
 
             <div class="select-btn-box" onclick="openModelSelector()">
                 <div>
-                    <small>PROVIDER</small>
+                    <small>🤖 PROVIDER</small>
                     <span id="selectedExtendModel">Vocuno (Two extended takes)</span>
                 </div>
                 <span>▼</span>
             </div>
 
             <div class="input-card">
-                <label>How should it continue?</label>
+                <label>✍️ How should it continue?</label>
                 <textarea placeholder="Leave blank to continue in the same style"></textarea>
             </div>
 
@@ -369,7 +371,7 @@
         <div id="viewAddInstrumental" class="view-panel">
             <div class="select-btn-box" onclick="openModelSelector()">
                 <div>
-                    <small>MODEL</small>
+                    <small>🤖 MODEL</small>
                     <span id="selectedInstModel">Vocuno Classic</span>
                 </div>
                 <span>▼</span>
@@ -377,7 +379,7 @@
 
             <div class="input-card" style="display: flex; flex-direction: row; align-items: center; justify-content: space-between; cursor: pointer;" onclick="document.getElementById('instTrackUpload').click()">
                 <div>
-                    <small style="color: #8fa3b8; font-size: 11px; text-transform: uppercase;">Choose a source track</small>
+                    <small style="color: #8fa3b8; font-size: 11px; text-transform: uppercase;">📂 Choose a source track</small>
                     <h4 id="selectedInstTrackName" style="font-size: 14px; font-weight: 600; margin-top: 2px;">A vocal, melody or song from your library</h4>
                 </div>
                 <div style="background: #00d2ff; color: #020f18; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 700;">+</div>
@@ -385,12 +387,12 @@
             </div>
 
             <div class="input-card">
-                <label>Instrumental Style</label>
+                <label>🎹 Instrumental Style</label>
                 <textarea placeholder="e.g. acoustic guitar, soft piano, ambient"></textarea>
             </div>
 
             <div class="input-card">
-                <label>Variations (Up to 4)</label>
+                <label>🎚️ Variations (Up to 4)</label>
                 <div class="options-row">
                     <div class="chip-btn" onclick="setVariations(1)">1</div>
                     <div class="chip-btn active" id="var2" onclick="setVariations(2)">2</div>
@@ -404,17 +406,17 @@
         <!-- MASHUP -->
         <div id="viewMashup" class="view-panel">
             <div class="input-card" style="cursor: pointer;" onclick="document.getElementById('mashup1Upload').click()">
-                <small style="color: #8fa3b8; font-size: 11px; text-transform: uppercase;">First Track</small>
+                <small style="color: #8fa3b8; font-size: 11px; text-transform: uppercase;">📂 First Track</small>
                 <h4 id="mashup1Name" style="font-size: 14px; font-weight: 600;">Choose from your library</h4>
                 <input type="file" id="mashup1Upload" accept="audio/*" style="display:none;" onchange="document.getElementById('mashup1Name').innerText=this.files[0].name">
             </div>
             <div class="input-card" style="cursor: pointer;" onclick="document.getElementById('mashup2Upload').click()">
-                <small style="color: #8fa3b8; font-size: 11px; text-transform: uppercase;">Second Track</small>
+                <small style="color: #8fa3b8; font-size: 11px; text-transform: uppercase;">📂 Second Track</small>
                 <h4 id="mashup2Name" style="font-size: 14px; font-weight: 600;">Choose from your library</h4>
                 <input type="file" id="mashup2Upload" accept="audio/*" style="display:none;" onchange="document.getElementById('mashup2Name').innerText=this.files[0].name">
             </div>
             <div class="input-card">
-                <label>Lyrics</label>
+                <label>📝 Lyrics</label>
                 <textarea placeholder="Write your lyrics here, leave empty for instrumental"></textarea>
             </div>
             <button class="action-main-btn" onclick="generateAndSave('Mashup')">🔀 Generate Mashup</button>
@@ -424,17 +426,17 @@
         <div id="viewSoundGenerator" class="view-panel">
             <div class="select-btn-box" onclick="openModelSelector()">
                 <div>
-                    <small>PROVIDER</small>
+                    <small>🤖 PROVIDER</small>
                     <span>Vocuno (Native sound loops)</span>
                 </div>
                 <span>▼</span>
             </div>
             <div class="input-card">
-                <label>Describe the sound</label>
+                <label>🌊 Describe the sound</label>
                 <textarea placeholder="e.g. gentle rain on a tin roof with distant thunder"></textarea>
             </div>
             <div class="input-card">
-                <label>Playback</label>
+                <label>🔁 Playback</label>
                 <div class="options-row">
                     <div class="chip-btn active">Seamless loop</div>
                     <div class="chip-btn">One-shot</div>
@@ -446,7 +448,7 @@
         <!-- VOICE CLONE STUDIO -->
         <div id="viewVoiceClone" class="view-panel">
             <div class="input-card">
-                <label>1. Record or Upload Your Voice</label>
+                <label>🎙️ 1. Record or Upload Your Voice</label>
                 <div class="recorder-box">
                     <div class="rec-circle" id="recBtn" onclick="toggleRecord()">🎙️</div>
                     <span id="recStatus" style="font-size:13px; color:#8fa3b8;">Tap to record live mic voice sample</span>
@@ -454,11 +456,11 @@
                 </div>
             </div>
             <div class="input-card">
-                <label>2. Target Song / Instrumental for Voiceover</label>
+                <label>💿 2. Target Song / Instrumental for Voiceover</label>
                 <input type="text" id="cloneTargetSong" placeholder="e.g. My Drill Beat #1 or Upload audio">
             </div>
             <div class="input-card">
-                <label>3. Lyrics for Voice Clone</label>
+                <label>📝 3. Lyrics for Voice Clone</label>
                 <textarea id="cloneLyrics" placeholder="Type your lyrics for your voiceover..."></textarea>
             </div>
             <button class="action-main-btn" onclick="generateAndSave('Voice_Clone_Track')">🧬 Run AI Voice Clone & Save MP3</button>
@@ -484,12 +486,12 @@
             </div>
 
             <div class="input-card">
-                <label>AI Video Generation & Prompt</label>
+                <label>✨ AI Video Generation & Prompt</label>
                 <textarea placeholder="e.g. Turn photo into cinematic reel with dynamic lighting..." style="height: 70px;"></textarea>
             </div>
 
             <div class="input-card">
-                <label>Batch Generation & Duration</label>
+                <label>⏱️ Batch Generation & Duration</label>
                 <div style="display:flex; gap:8px;">
                     <input type="text" value="15s duration" style="flex:1;">
                     <input type="text" value="3 clips at once" style="flex:1;">
@@ -509,12 +511,12 @@
         <!-- CREATE VOCALS -->
         <div id="viewCreateVocals" class="view-panel">
             <div class="input-card">
-                <label>Vocal style</label>
+                <label>🎙️ Vocal style</label>
                 <input type="text" placeholder="Describe the vocal style you want to create">
                 <button style="background: #112534; border: 1px solid #1a364a; color: #fff; padding: 6px 12px; border-radius: 10px; font-size: 11px; cursor: pointer; margin-top: 6px; width: fit-content;" onclick="document.querySelector('#viewCreateVocals input').value='Emotional melodic pop vocals'">🎲 Surprise me</button>
             </div>
             <div class="input-card">
-                <label>Choose Voice & Preview Sample</label>
+                <label>🎧 Choose Voice & Preview Sample</label>
                 <div style="display: flex; flex-direction: column; gap: 6px; max-height: 130px; overflow-y: auto;">
                     <div style="display: flex; justify-content: space-between; align-items: center; background: #05121b; padding: 8px 12px; border-radius: 10px;">
                         <span style="font-size: 13px;">Aria (Soulful & Warm)</span>
@@ -527,7 +529,7 @@
                 </div>
             </div>
             <div class="input-card">
-                <label>Lyrics</label>
+                <label>📝 Lyrics</label>
                 <textarea placeholder="[Verse 1] Your lyrics here..." style="height: 90px;"></textarea>
             </div>
             <button class="action-main-btn" onclick="generateAndSave('Vocals')">🎙️ Create Vocals</button>
@@ -536,16 +538,16 @@
         <!-- STEM SPLITTER -->
         <div id="viewStemSplitter" class="view-panel">
             <div class="input-card" style="cursor: pointer;" onclick="document.getElementById('stemUpload').click()">
-                <small style="color: #8fa3b8; font-size: 11px; text-transform: uppercase;">Choose from your library</small>
+                <small style="color: #8fa3b8; font-size: 11px; text-transform: uppercase;">📂 Choose from your library</small>
                 <h4 id="stemName" style="font-size: 14px; font-weight: 600;">Songs, covers and other tracks you've made</h4>
                 <input type="file" id="stemUpload" accept="audio/*" style="display:none;" onchange="document.getElementById('stemName').innerText=this.files[0].name">
             </div>
             <div class="select-btn-box">
-                <div><small>PROVIDER</small><span>LALAL.AI / Demucs</span></div>
+                <div><small>🤖 PROVIDER</small><span>LALAL.AI / Demucs</span></div>
                 <span>▼</span>
             </div>
             <div class="input-card">
-                <label>What to extract</label>
+                <label>✂️ What to extract</label>
                 <div style="display:flex; flex-direction:column; gap:6px;">
                     <div style="background:#05121b; padding:10px; border-radius:10px; border:1px solid #00d2ff;"><strong>Vocals + Instrumental</strong><br><small>Classic 2-stem split</small></div>
                     <div style="background:#05121b; padding:10px; border-radius:10px;"><strong>All Stems</strong><br><small>Vocals, instrumental, drums, bass, guitar, piano</small></div>
@@ -557,7 +559,7 @@
         <!-- COVER ART -->
         <div id="viewCoverArt" class="view-panel">
             <div class="input-card">
-                <label>Describe your artwork</label>
+                <label>🖼️ Describe your artwork</label>
                 <textarea placeholder="e.g. a lone astronaut drifting through a neon nebula"></textarea>
             </div>
             <button class="action-main-btn" onclick="generateAndSave('Cover_Art')">🖼️ Generate Artwork</button>
@@ -633,17 +635,38 @@
         </button>
     </div>
 
-    <!-- MODEL SELECTOR MODAL -->
+    <!-- MODEL SELECTOR MODAL WITH ICONS -->
     <div class="modal-overlay" id="modelModal" onclick="closeModelSelector(event)">
         <div class="modal-content">
             <h3 style="font-size:18px; margin-bottom:8px;">Select AI Model</h3>
-            <div class="model-option" onclick="selectModel('Vocuno Classic')"><strong>Vocuno Classic</strong><small>Signature full-song generation with rich vocals & balanced mix.</small></div>
-            <div class="model-option" onclick="selectModel('Vocuno Studio')"><strong>Vocuno Studio</strong><small>Pro pipeline with advanced stem separation & alternate takes.</small></div>
-            <div class="model-option" onclick="selectModel('ElevenLabs')"><strong>ElevenLabs</strong><small>Expressive vocals & cinematic sound effects.</small></div>
-            <div class="model-option" onclick="selectModel('Mureka V9')"><strong>Mureka V9</strong><small>Lyrics-to-song with melody-aware rich studio production.</small></div>
-            <div class="model-option" onclick="selectModel('MiniMax')"><strong>MiniMax</strong><small>Fast modern drafts for quick high-energy hooks.</small></div>
-            <div class="model-option" onclick="selectModel('Lyria')"><strong>Lyria</strong><small>Google high-fidelity quality and harmonic depth.</small></div>
-            <div class="model-option" onclick="selectModel('MusicGPT')"><strong>MusicGPT</strong><small>Prompt-based audio textures and simple creative generation.</small></div>
+            <div class="model-option" onclick="selectModel('Vocuno Classic')">
+                <div class="m-icon">🎵</div>
+                <div><strong>Vocuno Classic</strong><small>Signature full-song generation with rich vocals & balanced mix.</small></div>
+            </div>
+            <div class="model-option" onclick="selectModel('Vocuno Studio')">
+                <div class="m-icon">🎚️</div>
+                <div><strong>Vocuno Studio</strong><small>Pro pipeline with advanced stem separation & alternate takes.</small></div>
+            </div>
+            <div class="model-option" onclick="selectModel('ElevenLabs')">
+                <div class="m-icon">🔊</div>
+                <div><strong>ElevenLabs</strong><small>Expressive vocals & cinematic sound effects.</small></div>
+            </div>
+            <div class="model-option" onclick="selectModel('Mureka V9')">
+                <div class="m-icon">📝</div>
+                <div><strong>Mureka V9</strong><small>Lyrics-to-song with melody-aware rich studio production.</small></div>
+            </div>
+            <div class="model-option" onclick="selectModel('MiniMax')">
+                <div class="m-icon">⚡</div>
+                <div><strong>MiniMax</strong><small>Fast modern drafts for quick high-energy hooks.</small></div>
+            </div>
+            <div class="model-option" onclick="selectModel('Lyria')">
+                <div class="m-icon">🌟</div>
+                <div><strong>Lyria</strong><small>Google high-fidelity quality and harmonic depth.</small></div>
+            </div>
+            <div class="model-option" onclick="selectModel('MusicGPT')">
+                <div class="m-icon">🤖</div>
+                <div><strong>MusicGPT</strong><small>Prompt-based audio textures and simple creative generation.</small></div>
+            </div>
         </div>
     </div>
 </div>
