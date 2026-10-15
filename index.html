@@ -97,13 +97,13 @@
         .model-option { background: #0b1c2b; border: 1px solid #162f44; padding: 14px 16px; border-radius: 16px; cursor: pointer; display: flex; flex-direction: column; gap: 4px; }
         .model-option small { color: #8fa3b8; font-size: 12px; }
 
-        /* Transparent Glass Toast Notification Behavior */
+        /* Transparent Glass Toast Notification (Hidden by default, pops up on action, fades out) */
         .toast { 
             position: absolute; 
             top: 20px; 
             left: 50%; 
             transform: translateX(-50%) translateY(-60px); 
-            background: rgba(0, 210, 255, 0.3); /* 30% see-through glass effect */
+            background: rgba(0, 210, 255, 0.3); 
             backdrop-filter: blur(8px);
             color: #ffffff; 
             border: 1px solid rgba(0, 210, 255, 0.4);
@@ -111,7 +111,7 @@
             border-radius: 20px; 
             font-weight: 700; 
             font-size: 13px; 
-            opacity: 0; /* Gone until action is made */
+            opacity: 0; 
             pointer-events: none;
             transition: all 0.4s ease; 
             z-index: 2000; 
@@ -119,7 +119,7 @@
         }
         .toast.show { 
             transform: translateX(-50%) translateY(0); 
-            opacity: 0.8; /* Mostly transparent, easy to read through */
+            opacity: 0.8; 
         }
     </style>
 </head>
