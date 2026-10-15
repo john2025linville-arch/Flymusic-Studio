@@ -93,7 +93,7 @@ jobs:
         cat << 'EOF' > android-app/build.gradle
         buildscript {
             repositories { google(); mavenCentral() }
-            dependencies { classpath 'com.android.tools.build:gradle:8.1.2' }
+            dependencies { classpath 'com.android.tools.build:gradle:8.2.2' }
         }
         allprojects { repositories { google(); mavenCentral() } }
         EOF
@@ -127,7 +127,7 @@ jobs:
         EOF
 
         cd android-app
-        chmod +x gradlew || gradle wrapper
+        gradle wrapper --gradle-version 8.5
         ./gradlew assembleRelease
     
     - name: Upload APK Artifact
