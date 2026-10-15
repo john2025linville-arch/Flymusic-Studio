@@ -25,10 +25,8 @@ jobs:
         mkdir -p android-app/app/src/main/java/com/flymusic/studio/pro
         mkdir -p android-app/app/src/main/res/values
 
-        # Copy web app code
         cp index.html android-app/app/src/main/assets/index.html
 
-        # MainActivity.java
         cat << 'EOF' > android-app/app/src/main/java/com/flymusic/studio/pro/MainActivity.java
         package com.flymusic.studio.pro;
 
@@ -72,7 +70,6 @@ jobs:
         }
         EOF
 
-        # app/build.gradle
         cat << 'EOF' > android-app/app/build.gradle
         plugins {
             id 'com.android.application'
@@ -99,7 +96,6 @@ jobs:
         }
         EOF
 
-        # root build.gradle (Using AGP 8.1.4 for maximum stability with JDK 17)
         cat << 'EOF' > android-app/build.gradle
         buildscript {
             repositories {
@@ -107,7 +103,7 @@ jobs:
                 mavenCentral()
             }
             dependencies {
-                classpath 'com.android.tools.build:gradle:8.1.4'
+                classpath 'com.android.tools.build:gradle:8.2.0'
             }
         }
         allprojects {
@@ -118,20 +114,17 @@ jobs:
         }
         EOF
 
-        # settings.gradle
         cat << 'EOF' > android-app/settings.gradle
         rootProject.name = "Flymusic Studio"
         include ':app'
         EOF
 
-        # strings.xml
         cat << 'EOF' > android-app/app/src/main/res/values/strings.xml
         <resources>
             <string name="app_name">Flymusic Studio</string>
         </resources>
         EOF
 
-        # AndroidManifest.xml
         cat << 'EOF' > android-app/app/src/main/AndroidManifest.xml
         <?xml version="1.0" encoding="utf-8"?>
         <manifest xmlns:android="http://schemas.android.com/apk/res/android"
@@ -161,16 +154,3 @@ jobs:
             </application>
         </manifest>
         EOF
-
-    - name: Build Release APK
-      run: |
-        cd android-app
-        chmod +x gradlew || true
-        gradle wrapper --gradle-version 8.4
-        ./gradlew assembleRelease
-
-    - name: Upload APK Artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: Flymusic-Studio-APK
-        path: android-app/app/build/outputs/apk/release/app-release-unsigned.apk
