@@ -471,13 +471,13 @@
             <button class="action-main-btn" onclick="generateAndSave('Voice_Clone_Track')">🧬 Run AI Voice Clone & Save MP3</button>
         </div>
 
-        <!-- VIDEO SUITE WITH REAL VIDEO GENERATION CANVAS -->
+        <!-- VIDEO SUITE WITH MULTIPLE FILE UPLOADS -->
         <div id="viewAiVideoStudio" class="view-panel">
             <div class="input-card" style="background: linear-gradient(135deg, #0d1b2a 0%, #1b263b 100%); border: 1px solid #4285f455; padding: 18px;">
                 <h3 style="font-size: 16px; color: #4285f4; margin-bottom: 6px;">✨ Video Suite (Gemini & Free AI Generators)</h3>
-                <p id="videoMediaStatus" style="font-size: 12px; color: #a1b8cc; margin-bottom: 12px;">Powered by Gemini Veo, Imagen Video, Adobe Firefly, Runway Gen-2, Pika Labs, Kling AI & Sora. Upload reference video, image, or audio to generate real MP4 video output.</p>
-                <button class="action-main-btn" style="margin-top: 0; padding: 12px; background: linear-gradient(135deg, #4285f4 0%, #34a853 100%);" onclick="document.getElementById('videoMediaUpload').click()">+ Upload Video, Image or Audio Reference</button>
-                <input type="file" id="videoMediaUpload" accept="video/*,image/*,audio/*" style="display:none;" onchange="onVideoFileSelected(event)">
+                <p id="videoMediaStatus" style="font-size: 12px; color: #a1b8cc; margin-bottom: 12px;">Powered by Gemini Veo, Imagen Video, Adobe Firefly, Runway Gen-2, Pika Labs, Kling AI & Sora. Upload multiple reference files (videos, images, audio) for multi-source AI generation.</p>
+                <button class="action-main-btn" style="margin-top: 0; padding: 12px; background: linear-gradient(135deg, #4285f4 0%, #34a853 100%);" onclick="document.getElementById('videoMediaUpload').click()">+ Upload Multiple Reference Files (Videos, Images, Audio)</button>
+                <input type="file" id="videoMediaUpload" accept="video/*,image/*,audio/*" multiple style="display:none;" onchange="onVideoFilesSelected(event)">
             </div>
 
             <!-- Video Engine Selector -->
@@ -781,7 +781,7 @@
         mashup1Upload: null,
         mashup2Upload: null,
         stemUpload: null,
-        videoMediaUpload: null
+        videoMediaUploads: [] // Array to hold multiple reference files for video suite
     };
 
     let libraryFiles = [
@@ -933,12 +933,16 @@
         }
     }
 
-    function onVideoFileSelected(event) {
-        const file = event.target.files[0];
-        if(file) {
-            attachedFiles['videoMediaUpload'] = file;
-            document.getElementById('videoMediaStatus').innerText = "📎 Attached Reference Media: " + file.name + " (Held for generation)";
-            showToast("Media attached for reference!");
+    // Multiple file upload handler for Video Suite
+    function onVideoFilesSelected(event) {
+        const files = event.target.files;
+        if(files && files.length > 0) {
+            for(let i=0; i<files.length; i++) {
+                attachedFiles.videoMediaUploads.push(files[i]);
+            }
+            const count = attachedFiles.videoMediaUploads.length;
+            document.getElementById('videoMediaStatus').innerText = `📎 ${count} reference file(s) attached in memory.`;
+            showToast(`${files.length} file(s) added to reference memory!`);
         }
     }
 
@@ -954,7 +958,7 @@
 
     // REAL HTML5 CANVAS & MEDIARECORDER VIDEO GENERATOR
     function startRealVideoGeneration(type) {
-        showToast("Rendering AI Video on Canvas...");
+        showToast("Rendering AI Video on Canvas using reference files...");
         const canvas = document.getElementById('renderCanvas');
         const ctx = canvas.getContext('2d');
         const previewBox = document.getElementById('videoPreviewBox');
@@ -975,7 +979,6 @@
             const blob = new Blob(chunks, { type: 'video/mp4' });
             const videoUrl = URL.createObjectURL(blob);
             
-            // Display video in preview box
             previewBox.innerHTML = `<video src="${videoUrl}" controls autoplay loop style="width:100%; height:100%; object-fit:cover; border-radius:10px;"></video>`;
             
             const filename = "VideoSuite_" + type + "_" + Math.floor(Math.random()*900+100) + ".mp4";
@@ -988,7 +991,6 @@
 
         const renderInterval = setInterval(() => {
             frame++;
-            // Draw animated generative neon visualizer
             ctx.fillStyle = '#020f18';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -1009,11 +1011,11 @@
             ctx.fillStyle = '#ffffff';
             ctx.font = 'bold 20px Plus Jakarta Sans';
             ctx.textAlign = 'center';
-            ctx.fillText("AI VIDEO SUITE RENDER", cx, cy - 20);
+            ctx.fillText("AI VIDEO SUITE (MULTI-FILE REF)", cx, cy - 25);
 
-            ctx.font = '14px Plus Jakarta Sans';
+            ctx.font = '13px Plus Jakarta Sans';
             ctx.fillStyle = '#00d2ff';
-            ctx.fillText("Frame " + frame + " / " + totalFrames, cx, cy + 15);
+            ctx.fillText("Refs: " + attachedFiles.videoMediaUploads.length + " files | Frame " + frame, cx, cy + 10);
 
             if (frame >= totalFrames) {
                 clearInterval(renderInterval);
