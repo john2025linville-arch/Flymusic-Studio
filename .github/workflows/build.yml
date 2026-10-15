@@ -19,7 +19,10 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
 
-    - name: Setup Android SDK and Build Project
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v3
+
+    - name: Generate Android Project Structure & Build APK
       run: |
         mkdir -p my-android-project/app/src/main/assets
         mkdir -p my-android-project/app/src/main/java/com/flymusic/studio/app
