@@ -101,7 +101,6 @@
         .model-option div { display: flex; flex-direction: column; gap: 2px; }
         .model-option small { color: #8fa3b8; font-size: 12px; }
 
-        /* Transparent Glass Toast Notification */
         .toast { 
             position: absolute; 
             top: 20px; 
@@ -471,12 +470,12 @@
             <button class="action-main-btn" onclick="generateAndSave('Voice_Clone_Track')">🧬 Run AI Voice Clone & Save MP3</button>
         </div>
 
-        <!-- VIDEO SUITE WITH MULTIPLE FILE UPLOADS -->
+        <!-- VIDEO SUITE WITH SILENT CANVAS VIDEO RENDERER -->
         <div id="viewAiVideoStudio" class="view-panel">
             <div class="input-card" style="background: linear-gradient(135deg, #0d1b2a 0%, #1b263b 100%); border: 1px solid #4285f455; padding: 18px;">
                 <h3 style="font-size: 16px; color: #4285f4; margin-bottom: 6px;">✨ Video Suite (Gemini & Free AI Generators)</h3>
-                <p id="videoMediaStatus" style="font-size: 12px; color: #a1b8cc; margin-bottom: 12px;">Powered by Gemini Veo, Imagen Video, Adobe Firefly, Runway Gen-2, Pika Labs, Kling AI & Sora. Upload multiple reference files (videos, images, audio) for multi-source AI generation.</p>
-                <button class="action-main-btn" style="margin-top: 0; padding: 12px; background: linear-gradient(135deg, #4285f4 0%, #34a853 100%);" onclick="document.getElementById('videoMediaUpload').click()">+ Upload Multiple Reference Files (Videos, Images, Audio)</button>
+                <p id="videoMediaStatus" style="font-size: 12px; color: #a1b8cc; margin-bottom: 12px;">Powered by Gemini Veo, Imagen Video, Adobe Firefly, Runway Gen-2, Pika Labs, Kling AI & Sora. Upload multiple reference files (videos, images, audio) for multi-source AI video generation.</p>
+                <button class="action-main-btn" style="margin-top: 0; padding: 12px; background: linear-gradient(135deg, #4285f4 0%, #34a853 100%);" onclick="document.getElementById('videoMediaUpload').click()">+ Upload Reference Files (Videos, Images, Audio)</button>
                 <input type="file" id="videoMediaUpload" accept="video/*,image/*,audio/*" multiple style="display:none;" onchange="onVideoFilesSelected(event)">
             </div>
 
@@ -781,7 +780,7 @@
         mashup1Upload: null,
         mashup2Upload: null,
         stemUpload: null,
-        videoMediaUploads: [] // Array to hold multiple reference files for video suite
+        videoMediaUploads: []
     };
 
     let libraryFiles = [
@@ -933,7 +932,6 @@
         }
     }
 
-    // Multiple file upload handler for Video Suite
     function onVideoFilesSelected(event) {
         const files = event.target.files;
         if(files && files.length > 0) {
@@ -956,7 +954,7 @@
         }
     }
 
-    // REAL HTML5 CANVAS & MEDIARECORDER VIDEO GENERATOR
+    // SILENT CANVAS VIDEO RENDERER (NO BUZZING AUDIO OSCILLATORS)
     function startRealVideoGeneration(type) {
         showToast("Rendering AI Video on Canvas using reference files...");
         const canvas = document.getElementById('renderCanvas');
@@ -965,7 +963,8 @@
         
         let frame = 0;
         const totalFrames = 90; // ~3 seconds at 30fps
-        const stream = canvas.captureStream(30);
+        const stream = canvas.captureStream(30); // Video-only stream (completely silent)
+        
         let recorder;
         try {
             recorder = new MediaRecorder(stream, { mimeType: 'video/webm;codecs=vp9' });
@@ -979,7 +978,7 @@
             const blob = new Blob(chunks, { type: 'video/mp4' });
             const videoUrl = URL.createObjectURL(blob);
             
-            previewBox.innerHTML = `<video src="${videoUrl}" controls autoplay loop style="width:100%; height:100%; object-fit:cover; border-radius:10px;"></video>`;
+            previewBox.innerHTML = `<video src="${videoUrl}" controls autoplay loop muted style="width:100%; height:100%; object-fit:cover; border-radius:10px;"></video>`;
             
             const filename = "VideoSuite_" + type + "_" + Math.floor(Math.random()*900+100) + ".mp4";
             libraryFiles.unshift({ name: filename, type: type, date: new Date().toISOString().split('T')[0] });
@@ -1011,7 +1010,7 @@
             ctx.fillStyle = '#ffffff';
             ctx.font = 'bold 20px Plus Jakarta Sans';
             ctx.textAlign = 'center';
-            ctx.fillText("AI VIDEO SUITE (MULTI-FILE REF)", cx, cy - 25);
+            ctx.fillText("AI VIDEO SUITE RENDER", cx, cy - 25);
 
             ctx.font = '13px Plus Jakarta Sans';
             ctx.fillStyle = '#00d2ff';
