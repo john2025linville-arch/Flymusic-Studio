@@ -14,7 +14,8 @@
         .app-header { padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; background: rgba(2, 15, 24, 0.95); backdrop-filter: blur(16px); z-index: 10; border-bottom: 1px solid rgba(0,210,255,0.15); }
         .header-title h1 { font-size: 24px; font-weight: 800; color: #fff; text-shadow: 0 0 10px rgba(0,210,255,0.4); }
         .header-title p { font-size: 14px; color: #8fa3b8; margin-top: 2px; }
-        .back-btn { background: #112534; border: 1px solid rgba(0,210,255,0.3); width: 36px; height: 36px; border-radius: 50%; color: #00d2ff; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; }
+        .header-actions { display: flex; gap: 8px; align-items: center; }
+        .back-btn, .header-lib-btn { background: #112534; border: 1px solid rgba(0,210,255,0.3); width: 36px; height: 36px; border-radius: 50%; color: #00d2ff; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 16px; }
 
         .content-scroll { flex: 1; overflow-y: auto; padding: 0 16px 110px 16px; scroll-behavior: smooth; }
         .content-scroll::-webkit-scrollbar { display: none; }
@@ -57,9 +58,9 @@
         .select-btn-box span { font-weight: 700; font-size: 15px; color: #fff; }
         .select-btn-box small { color: #00d2ff; font-size: 12px; text-transform: uppercase; }
 
-        .options-row { display: flex; gap: 10px; }
-        .chip-btn { flex: 1; background: #0b1c2b; border: 1px solid #162f44; padding: 12px; border-radius: 14px; color: #a1b8cc; font-weight: 700; font-size: 14px; text-align: center; cursor: pointer; }
-        .chip-btn.active { background: #00d2ff; color: #020f18; border-color: #00d2ff; }
+        .options-row { display: flex; gap: 8px; flex-wrap: wrap; }
+        .chip-btn { flex: 1; min-width: 70px; background: #0b1c2b; border: 1px solid #162f44; padding: 10px 8px; border-radius: 14px; color: #a1b8cc; font-weight: 700; font-size: 13px; text-align: center; cursor: pointer; transition: all 0.2s; }
+        .chip-btn.active { background: #00d2ff; color: #020f18; border-color: #00d2ff; box-shadow: 0 0 10px rgba(0,210,255,0.3); }
 
         .action-main-btn { background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%); color: #020f18; border: none; border-radius: 28px; padding: 18px; font-size: 17px; font-weight: 800; width: 100%; cursor: pointer; box-shadow: 0 4px 20px rgba(0,210,255,0.4); margin-top: 10px; }
 
@@ -78,8 +79,9 @@
         .library-item { background: #0b1c2b; border: 1px solid #162f44; border-radius: 16px; padding: 14px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
         .library-info h4 { font-size: 15px; font-weight: 700; margin-bottom: 3px; }
         .library-info p { font-size: 13px; color: #8fa3b8; }
-        .library-actions { display: flex; gap: 8px; }
-        .icon-btn { background: #132a3e; border: none; color: #00d2ff; width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 0 8px rgba(0,210,255,0.2); font-size: 16px; }
+        .library-actions { display: flex; gap: 6px; }
+        .icon-btn { background: #132a3e; border: none; color: #00d2ff; width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 0 8px rgba(0,210,255,0.2); font-size: 15px; }
+        .icon-btn.del { color: #ff4b8c; background: rgba(255,75,140,0.1); }
 
         .player-bar { position: absolute; bottom: 70px; left: 12px; right: 12px; background: #0b1f2ded; backdrop-filter: blur(12px); border: 1px solid #1c384e; border-radius: 20px; padding: 12px 16px; display: none; align-items: center; justify-content: space-between; z-index: 99; }
         .player-bar.active { display: flex; }
@@ -135,7 +137,10 @@
             <h1 id="mainHeaderHeading">Create</h1>
             <p id="mainHeaderSub">Make songs and run audio tools.</p>
         </div>
-        <button class="back-btn" id="backBtn" style="display:none;" onclick="goHome()">✕</button>
+        <div class="header-actions">
+            <button class="back-btn" id="backBtn" style="display:none;" onclick="goHome()">✕</button>
+            <button class="header-lib-btn" onclick="switchNav('library')" title="Library">📚</button>
+        </div>
     </div>
 
     <div class="content-scroll" id="contentScroll">
@@ -151,8 +156,8 @@
                 <p>Full song with lyrics, vocals & instrumental</p>
             </div>
             <div class="banner-card purple" onclick="openView('aiVideoStudio')">
-                <h3>🎬 AI Video Studio (PowerDirector Suite)</h3>
-                <p>Professional multi-track video editing, AI effects, transitions & multi-clip stitching</p>
+                <h3>🔥 Adobe Firefly AI Video Generator</h3>
+                <p>Photorealistic text-to-video, style reference grading & cinematic lighting</p>
             </div>
 
             <div class="section-title">⚡ Make Music</div>
@@ -466,46 +471,82 @@
             <button class="action-main-btn" onclick="generateAndSave('Voice_Clone_Track')">🧬 Run AI Voice Clone & Save MP3</button>
         </div>
 
-        <!-- POWERDIRECTOR PRO AI VIDEO SUITE -->
+        <!-- ADOBE FIREFLY STYLE AI VIDEO GENERATOR SUITE -->
         <div id="viewAiVideoStudio" class="view-panel">
-            <div class="input-card" style="background: linear-gradient(135deg, #072233 0%, #030d14 100%); border: 1px solid #00d2ff55; padding: 18px;">
-                <h3 style="font-size: 16px; color: #00d2ff; margin-bottom: 6px;">🎥 PowerDirector AI Video Suite</h3>
-                <p style="font-size: 12px; color: #8fa3b8; margin-bottom: 12px;">Full multi-track video timeline editor with AI motion effects, cinematic color grading, transitions, captions, multi-clip stitching & voiceovers.</p>
-                <button class="action-main-btn" style="margin-top: 0; padding: 12px;" onclick="document.getElementById('videoMediaUpload').click()">+ Insert Media (Video / Photos / Audio)</button>
-                <input type="file" id="videoMediaUpload" accept="video/*,image/*,audio/*" multiple style="display:none;" onchange="showToast('Media imported into timeline!')">
+            <div class="input-card" style="background: linear-gradient(135deg, #2b0b1f 0%, #100511 100%); border: 1px solid #ff4b8c55; padding: 18px;">
+                <h3 style="font-size: 16px; color: #ff4b8c; margin-bottom: 6px;">🔥 Adobe Firefly AI Video Generator</h3>
+                <p style="font-size: 12px; color: #a1b8cc; margin-bottom: 12px;">Generate cinematic text-to-video scenes, apply style reference photos, and customize lighting & camera angles.</p>
+                <button class="action-main-btn" style="margin-top: 0; padding: 12px; background: linear-gradient(135deg, #ff4b8c 0%, #b224ef 100%); color: #fff;" onclick="document.getElementById('fireflyImageUpload').click()">+ Upload Style / Reference Image</button>
+                <input type="file" id="fireflyImageUpload" accept="image/*" style="display:none;" onchange="onFireflyImageAdded(event)">
+            </div>
+
+            <!-- Firefly Engine & Style Presets -->
+            <div class="select-btn-box" onclick="openVideoAiSelector()">
+                <div>
+                    <small>🤖 FIREFLY ENGINE MODEL</small>
+                    <span id="selectedVideoAiName">Firefly Video V3 (Cinematic Photorealism)</span>
+                </div>
+                <span>▼</span>
+            </div>
+
+            <div class="select-btn-box" onclick="openResolutionSelector()">
+                <div>
+                    <small>📺 RESOLUTION & ASPECT RATIO</small>
+                    <span id="selectedVideoResolution">1080p Full HD (16:9 Widescreen)</span>
+                </div>
+                <span>▼</span>
+            </div>
+
+            <!-- Prompt Box with Auto-Trigger -->
+            <div class="input-card">
+                <label>✨ Text Prompt (Auto-Triggers Generation)</label>
+                <textarea id="videoPromptInput" placeholder="e.g. Cinematic drone shot over a glowing cyberpunk city at night with neon reflections..." style="height: 80px;" oninput="onVideoPromptInput()"></textarea>
+            </div>
+
+            <!-- Visual Style / Mood Selectors -->
+            <div class="input-card">
+                <label>🎨 Visual Style & Cinematic Look</label>
+                <div class="options-row" id="styleRow">
+                    <div class="chip-btn active" onclick="toggleStyleChip(this, 'Cinematic')">Cinematic</div>
+                    <div class="chip-btn" onclick="toggleStyleChip(this, 'Anime')">Anime / 3D</div>
+                    <div class="chip-btn" onclick="toggleStyleChip(this, 'Cyberpunk')">Cyberpunk</div>
+                    <div class="chip-btn" onclick="toggleStyleChip(this, 'Vintage')">Vintage 16mm</div>
+                </div>
+            </div>
+
+            <!-- Multi-Selection Duration Chips -->
+            <div class="input-card">
+                <label>⏱️ Duration Multi-Selection</label>
+                <div class="options-row" id="durationRow">
+                    <div class="chip-btn active" onclick="toggleDurationChip(this, '5s')">5s Clip</div>
+                    <div class="chip-btn" onclick="toggleDurationChip(this, '10s')">10s Clip</div>
+                    <div class="chip-btn" onclick="toggleDurationChip(this, '15s')">15s Reel</div>
+                    <div class="chip-btn" onclick="toggleDurationChip(this, '30s')">30s Scene</div>
+                </div>
+            </div>
+
+            <!-- Multi-Selection Batch Chips -->
+            <div class="input-card">
+                <label>📦 Batch Variations Multi-Selection</label>
+                <div class="options-row" id="batchRow">
+                    <div class="chip-btn active" onclick="toggleBatchChip(this, '1 Clip')">1 Clip</div>
+                    <div class="chip-btn" onclick="toggleBatchChip(this, '2 Clips')">2 Clips</div>
+                    <div class="chip-btn" onclick="toggleBatchChip(this, '4 Clips')">4 Clips</div>
+                </div>
             </div>
 
             <div style="background: #05121b; border: 1px solid #1a364a; border-radius: 16px; padding: 14px; text-align: center;">
-                <div style="height: 120px; background: #000; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #6c869b; font-size: 13px; margin-bottom: 10px;">
-                    ▶ Timeline Preview & Multi-Clip Canvas
+                <div style="height: 110px; background: #000; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #6c869b; font-size: 13px; margin-bottom: 10px;">
+                    ▶ Firefly Generative Video Preview Canvas
                 </div>
                 <div style="display: flex; gap: 6px;">
-                    <button style="flex:1; background:#112534; border:1px solid #1a364a; color:#fff; padding:8px; border-radius:10px; font-size:11px; cursor:pointer;" onclick="showToast('AI Video Extended!')">⚡ Extend by AI</button>
-                    <button style="flex:1; background:#112534; border:1px solid #1a364a; color:#fff; padding:8px; border-radius:10px; font-size:11px; cursor:pointer;" onclick="showToast('Multi-clips stitched seamlessly!')">🔗 Stitch Clips</button>
+                    <button style="flex:1; background:#112534; border:1px solid #1a364a; color:#fff; padding:8px; border-radius:10px; font-size:11px; cursor:pointer;" onclick="showToast('Generative Expand applied!')">⚡ Generative Expand</button>
+                    <button style="flex:1; background:#112534; border:1px solid #1a364a; color:#fff; padding:8px; border-radius:10px; font-size:11px; cursor:pointer;" onclick="showToast('Seamless clip stitching complete!')">🔗 Stitch Clips</button>
                 </div>
             </div>
 
-            <div class="input-card">
-                <label>✨ AI Video Generation & Prompt</label>
-                <textarea placeholder="e.g. Turn photo into cinematic reel with dynamic lighting..." style="height: 70px;"></textarea>
-            </div>
-
-            <div class="input-card">
-                <label>⏱️ Batch Generation & Duration</label>
-                <div style="display:flex; gap:8px;">
-                    <input type="text" value="15s duration" style="flex:1;">
-                    <input type="text" value="3 clips at once" style="flex:1;">
-                </div>
-            </div>
-
-            <div class="tools-grid" style="margin-top: 4px;">
-                <div class="tool-card blue" onclick="showToast('AI Magic Effect applied!')"><div class="icon">✨</div><h4>AI Magic</h4><p>Character motion & swap.</p></div>
-                <div class="tool-card purple" onclick="showToast('Transition added!')"><div class="icon">🎞️</div><h4>Transitions</h4><p>Seamless blending.</p></div>
-                <div class="tool-card green" onclick="showToast('Auto Captions generated!')"><div class="icon">💬</div><h4>Auto Captions</h4><p>Speech-to-text.</p></div>
-                <div class="tool-card orange" onclick="showToast('Audio track mixed!')"><div class="icon">🔊</div><h4>Audio FX</h4><p>Voice-over & SFX.</p></div>
-            </div>
-
-            <button class="action-main-btn" onclick="generateAndSave('PowerDirector_AI_Video')">🚀 Export Final MP4 / Movie</button>
+            <!-- Instant Trigger Button -->
+            <button class="action-main-btn" style="background: linear-gradient(135deg, #ff4b8c 0%, #b224ef 100%);" onclick="generateAndSave('Firefly_AI_Video')">🔥 Generate Firefly MP4</button>
         </div>
 
         <!-- CREATE VOCALS -->
@@ -565,9 +606,12 @@
             <button class="action-main-btn" onclick="generateAndSave('Cover_Art')">🖼️ Generate Artwork</button>
         </div>
 
-        <!-- LIBRARY TAB -->
+        <!-- LIBRARY TAB WITH BACK BUTTON -->
         <div id="viewLibrary" class="view-panel">
-            <h2 style="font-size: 20px; font-weight: 700; margin-bottom: 4px;">Library</h2>
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                <h2 style="font-size: 20px; font-weight: 700;">Library</h2>
+                <button class="back-btn" onclick="goHome()" style="display:flex; width: 34px; height: 34px; font-size: 14px;">←</button>
+            </div>
             
             <div class="library-grid">
                 <div class="library-card" onclick="filterLibrary('creations')">
@@ -583,7 +627,7 @@
             <div style="background: #0b1c2b; border: 1px solid #162f44; border-radius: 16px; padding: 14px; margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center; cursor: pointer;" onclick="filterLibrary('videos')">
                 <div style="display: flex; align-items: center; gap: 12px;">
                     <div style="width: 36px; height: 36px; border-radius: 10px; background: rgba(0,210,255,0.15); color: #00d2ff; display: flex; align-items: center; justify-content: center; font-size: 18px;">🎬</div>
-                    <div><h4 style="font-size: 14px; font-weight: 700;">Generated Videos</h4><p style="font-size: 11px; color: #8fa3b8;">PowerDirector AI Movies & Reels</p></div>
+                    <div><h4 style="font-size: 14px; font-weight: 700;">Generated Videos</h4><p style="font-size: 11px; color: #8fa3b8;">Firefly AI Movies & Reels</p></div>
                 </div>
                 <span style="color: #00d2ff; font-weight: 700;">-></span>
             </div>
@@ -669,6 +713,48 @@
             </div>
         </div>
     </div>
+
+    <!-- FIREFLY ENGINE SELECTOR MODAL -->
+    <div class="modal-overlay" id="videoAiModal" onclick="closeVideoAiModal(event)">
+        <div class="modal-content">
+            <h3 style="font-size:18px; margin-bottom:8px;">Choose Firefly Video Engine</h3>
+            <div class="model-option" onclick="selectVideoAi('Firefly Video V3 (Cinematic Photorealism)')">
+                <div class="m-icon">🔥</div>
+                <div><strong>Firefly Video V3</strong><small>Best for photorealistic cinematic grading, rich lighting & textures.</small></div>
+            </div>
+            <div class="model-option" onclick="selectVideoAi('Firefly Motion Model (Fluid Physics)')">
+                <div class="m-icon">🏃</div>
+                <div><strong>Firefly Motion Model</strong><small>Excels at fluid motion, camera pans, and realistic subject movement.</small></div>
+            </div>
+            <div class="model-option" onclick="selectVideoAi('Firefly Generative Stylizer')">
+                <div class="m-icon">✨</div>
+                <div><strong>Firefly Stylizer</strong><small>Great for artistic painting, anime, and stylized particle effects.</small></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- RESOLUTION SELECTOR MODAL -->
+    <div class="modal-overlay" id="resolutionModal" onclick="closeResolutionModal(event)">
+        <div class="modal-content">
+            <h3 style="font-size:18px; margin-bottom:8px;">Select Resolution & Aspect Ratio</h3>
+            <div class="model-option" onclick="selectResolution('1080p Full HD (16:9 Widescreen)')">
+                <div class="m-icon">🖥️</div>
+                <div><strong>16:9 Widescreen</strong><small>Standard cinematic YouTube & desktop landscape format.</small></div>
+            </div>
+            <div class="model-option" onclick="selectResolution('1080x1920 Vertical Reel (9:16)')">
+                <div class="m-icon">📱</div>
+                <div><strong>9:16 Vertical Reel</strong><small>Optimized for TikTok, Instagram Reels, and YouTube Shorts.</small></div>
+            </div>
+            <div class="model-option" onclick="selectResolution('1:1 Square (1080x1080)')">
+                <div class="m-icon">⬛</div>
+                <div><strong>1:1 Square</strong><small>Perfect for Instagram feed posts and music visualizers.</small></div>
+            </div>
+            <div class="model-option" onclick="selectResolution('4K Ultra HD Cinema (21:9)')">
+                <div class="m-icon">🎬</div>
+                <div><strong>21:9 Cinematic Letterbox</strong><small>Maximum theatrical widescreen detail.</small></div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -676,11 +762,14 @@
     let selectedGender = 'Female';
     let audioCtx = null;
     let activeOsc = null;
+    let videoPromptTimeout = null;
+    let selectedDurations = ['5s'];
+    let selectedBatches = ['1 Clip'];
 
     let libraryFiles = [
         { name: "Flymusic_Anthem_01.mp3", type: "Song", date: "2026-10-15" },
         { name: "VoiceClone_Session.mp3", type: "Voice Clone", date: "2026-10-15" },
-        { name: "PowerDirector_AI_Movie.mp4", type: "AI Video", date: "2026-10-15" }
+        { name: "Firefly_AI_Video_982.mp4", type: "Firefly AI Video", date: "2026-10-15" }
     ];
 
     function showToast(msg) {
@@ -742,7 +831,7 @@
             mashup: ['Mashup', 'Blend two tracks together'],
             soundGenerator: ['Sound Generator', 'Create loops & sound beds'],
             voiceClone: ['Voice Clone Studio', 'Record or upload your voice'],
-            aiVideoStudio: ['AI Video Studio', 'PowerDirector Pro editing & multi-clip stitching'],
+            aiVideoStudio: ['Adobe Firefly Video', 'Photorealistic text-to-video & style grading'],
             createVocals: ['Create Vocals', 'Generate AI vocal tracks'],
             addVocals: ['Add Vocals', 'Add AI vocals over music'],
             transformVocals: ['Transform Vocals', 'Studio quality performance'],
@@ -775,14 +864,75 @@
         showToast('Model switched to ' + name);
     }
 
-    function setGender(g) {
-        selectedGender = g;
-        if(g === 'Female') {
-            document.getElementById('genderFemale').classList.add('active');
-            document.getElementById('genderMale').classList.remove('active');
+    function openVideoAiSelector() { document.getElementById('videoAiModal').classList.add('active'); }
+    function closeVideoAiModal(e) { if(e.target.id === 'videoAiModal') document.getElementById('videoAiModal').classList.remove('active'); }
+    function selectVideoAi(name) {
+        document.getElementById('selectedVideoAiName').innerText = name;
+        document.getElementById('videoAiModal').classList.remove('active');
+        showToast('Firefly Engine: ' + name);
+    }
+
+    function openResolutionSelector() { document.getElementById('resolutionModal').classList.add('active'); }
+    function closeResolutionModal(e) { if(e.target.id === 'resolutionModal') document.getElementById('resolutionModal').classList.remove('active'); }
+    function selectResolution(res) {
+        document.getElementById('selectedVideoResolution').innerText = res;
+        document.getElementById('resolutionModal').classList.remove('active');
+        showToast('Resolution: ' + res);
+    }
+
+    function toggleStyleChip(element, value) {
+        const buttons = document.querySelectorAll('#styleRow .chip-btn');
+        buttons.forEach(btn => btn.classList.remove('active'));
+        element.classList.add('active');
+        showToast("Style: " + value);
+    }
+
+    function toggleDurationChip(element, value) {
+        if(selectedDurations.includes(value)) {
+            if(selectedDurations.length > 1) {
+                selectedDurations = selectedDurations.filter(v => v !== value);
+                element.classList.remove('active');
+            }
         } else {
-            document.getElementById('genderMale').classList.add('active');
-            document.getElementById('genderFemale').classList.remove('active');
+            selectedDurations.push(value);
+            element.classList.add('active');
+        }
+        showToast("Durations: " + selectedDurations.join(', '));
+    }
+
+    function toggleBatchChip(element, value) {
+        if(selectedBatches.includes(value)) {
+            if(selectedBatches.length > 1) {
+                selectedBatches = selectedBatches.filter(v => v !== value);
+                element.classList.remove('active');
+            }
+        } else {
+            selectedBatches.push(value);
+            element.classList.add('active');
+        }
+        showToast("Batches: " + selectedBatches.join(', '));
+    }
+
+    function onFireflyImageAdded(event) {
+        const file = event.target.files[0];
+        if(file) {
+            showToast("Style reference loaded: " + file.name + ". Generating video...");
+            setTimeout(() => {
+                generateAndSave('Firefly_AI_Video');
+            }, 1200);
+        }
+    }
+
+    function onVideoPromptInput() {
+        const val = document.getElementById('videoPromptInput').value.trim();
+        if(val.length > 5) {
+            clearTimeout(videoPromptTimeout);
+            videoPromptTimeout = setTimeout(() => {
+                showToast("Prompt detected! Firefly generating video...");
+                setTimeout(() => {
+                    generateAndSave('Firefly_AI_Video');
+                }, 1200);
+            }, 2500);
         }
     }
 
@@ -851,7 +1001,7 @@
 
     function generateAndSave(type) {
         const ext = type.includes('Video') || type.includes('Movie') ? '.mp4' : '.mp3';
-        const filename = "Flymusic_" + type.replace(/\s+/g, '_') + "_" + Math.floor(Math.random()*900+100) + ext;
+        const filename = "Firefly_" + type.replace(/\s+/g, '_') + "_" + Math.floor(Math.random()*900+100) + ext;
         libraryFiles.unshift({ name: filename, type: type, date: new Date().toISOString().split('T')[0] });
         showToast("Saved to /music/Flymusic/" + filename);
         setTimeout(() => { switchNav('library'); }, 1200);
@@ -867,7 +1017,12 @@
         if(filter === 'creations') filtered = libraryFiles.filter(f => f.type !== 'Song' && !f.type.includes('Video') && !f.type.includes('Movie'));
         if(filter === 'videos') filtered = libraryFiles.filter(f => f.type.includes('Video') || f.type.includes('Movie') || f.name.includes('.mp4'));
 
-        filtered.forEach((file) => {
+        if(filtered.length === 0) {
+            list.innerHTML = `<div style="text-align:center; padding:30px; color:#6c869b; font-size:14px;">No files found in this category.</div>`;
+            return;
+        }
+
+        filtered.forEach((file, index) => {
             list.innerHTML += `
                 <div class="library-item">
                     <div class="library-info">
@@ -875,12 +1030,19 @@
                         <p>${file.type} • /music/Flymusic/</p>
                     </div>
                     <div class="library-actions">
-                        <button class="icon-btn" onclick="playTrack('${file.name}')">▶</button>
-                        <button class="icon-btn" onclick="downloadTrack('${file.name}')">⬇</button>
+                        <button class="icon-btn" onclick="playTrack('${file.name}')" title="Play">▶</button>
+                        <button class="icon-btn" onclick="downloadTrack('${file.name}')" title="Download">⬇</button>
+                        <button class="icon-btn del" onclick="deleteLibraryFile('${file.name}')" title="Delete">✕</button>
                     </div>
                 </div>
             `;
         });
+    }
+
+    function deleteLibraryFile(filename) {
+        libraryFiles = libraryFiles.filter(f => f.name !== filename);
+        showToast("Deleted " + filename);
+        renderLibrary();
     }
 
     function filterLibrary(category) {
