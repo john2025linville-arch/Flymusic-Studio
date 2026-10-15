@@ -24,6 +24,9 @@ jobs:
       with:
         cmdline-tools-version: latest
 
+    - name: Accept Android SDK Licenses
+      run: yes | sdkmanager --licenses || true
+
     - name: Generate Android Project Structure & Build APK
       run: |
         mkdir -p my-android-project/app/src/main/assets
@@ -134,7 +137,7 @@ jobs:
         cd my-android-project
         gradle wrapper --gradle-version 8.7 --distribution-type bin
         chmod +x gradlew
-        ./gradlew assembleRelease
+        ./gradlew assembleRelease --warning-mode all
 
     - name: Upload APK Artifact
       uses: actions/upload-artifact@v4
