@@ -19,16 +19,19 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
 
-    - name: Generate Android Project Structure
+    - name: Setup Android SDK and Build Project
       run: |
-        mkdir -p android-app/app/src/main/assets
-        mkdir -p android-app/app/src/main/java/com/flymusic/studio/pro
-        mkdir -p android-app/app/src/main/res/values
+        # Create standard Android Gradle project skeleton
+        mkdir -p my-android-project/app/src/main/assets
+        mkdir -p my-android-project/app/src/main/java/com/flymusic/studio/app
+        mkdir -p my-android-project/app/src/main/res/values
 
-        cp index.html android-app/app/src/main/assets/index.html
+        # Copy web app assets
+        cp index.html my-android-project/app/src/main/assets/index.html
 
-        cat << 'EOF' > android-app/app/src/main/java/com/flymusic/studio/pro/MainActivity.java
-        package com.flymusic.studio.pro;
+        # Write MainActivity.java
+        cat << 'EOF' > my-android-project/app/src/main/java/com/flymusic/studio/app/MainActivity.java
+        package com.flymusic.studio.app;
 
         import android.Manifest;
         import android.content.pm.PackageManager;
@@ -70,25 +73,20 @@ jobs:
         }
         EOF
 
-        cat << 'EOF' > android-app/app/build.gradle
-        plugins {
-            id 'com.android.application'
-        }
+        # Write app/build.gradle
+        cat << 'EOF' > my-android-project/app/build.gradle
+        plugins { id 'com.android.application' }
         android {
-            namespace 'com.flymusic.studio.pro'
+            namespace 'com.flymusic.studio.app'
             compileSdk 34
             defaultConfig {
-                applicationId "com.flymusic.studio.pro"
+                applicationId "com.flymusic.studio.app"
                 minSdk 24
                 targetSdk 34
                 versionCode 1
                 versionName "1.0"
             }
-            buildTypes {
-                release {
-                    minifyEnabled false
-                }
-            }
+            buildTypes { release { minifyEnabled false } }
         }
         dependencies {
             implementation 'androidx.appcompat:appcompat:1.6.1'
@@ -96,56 +94,37 @@ jobs:
         }
         EOF
 
-        cat << 'EOF' > android-app/build.gradle
+        # Write root build.gradle
+        cat << 'EOF' > my-android-project/build.gradle
         buildscript {
-            repositories {
-                google()
-                mavenCentral()
-            }
-            dependencies {
-                classpath 'com.android.tools.build:gradle:8.2.0'
-            }
+            repositories { google(); mavenCentral() }
+            dependencies { classpath 'com.android.tools.build:gradle:8.1.4' }
         }
-        allprojects {
-            repositories {
-                google()
-                mavenCentral()
-            }
-        }
+        allprojects { repositories { google(); mavenCentral() } }
         EOF
 
-        cat << 'EOF' > android-app/settings.gradle
+        # Write settings.gradle
+        cat << 'EOF' > my-android-project/settings.gradle
         rootProject.name = "Flymusic Studio"
         include ':app'
         EOF
 
-        cat << 'EOF' > android-app/app/src/main/res/values/strings.xml
-        <resources>
-            <string name="app_name">Flymusic Studio</string>
-        </resources>
+        # Write strings.xml
+        cat << 'EOF' > my-android-project/app/src/main/res/values/strings.xml
+        <resources><string name="app_name">Flymusic Studio</string></resources>
         EOF
 
-        cat << 'EOF' > android-app/app/src/main/AndroidManifest.xml
+        # Write AndroidManifest.xml
+        cat << 'EOF' > my-android-project/app/src/main/AndroidManifest.xml
         <?xml version="1.0" encoding="utf-8"?>
-        <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-            package="com.flymusic.studio.pro">
-
+        <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.flymusic.studio.app">
             <uses-permission android:name="android.permission.INTERNET" />
             <uses-permission android:name="android.permission.RECORD_AUDIO" />
             <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
             <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
             <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
-            <application
-                android:allowBackup="true"
-                android:label="Flymusic Studio"
-                android:supportsRtl="true"
-                android:hardwareAccelerated="true"
-                android:theme="@style/Theme.AppCompat.NoActionBar">
-                
-                <activity
-                    android:name=".MainActivity"
-                    android:exported="true">
+            <application android:allowBackup="true" android:label="Flymusic Studio" android:supportsRtl="true" android:hardwareAccelerated="true" android:theme="@style/Theme.AppCompat.NoActionBar">
+                <activity android:name=".MainActivity" android:exported="true">
                     <intent-filter>
                         <action android:name="android.intent.action.MAIN" />
                         <category android:name="android.intent.category.LAUNCHER" />
@@ -155,14 +134,14 @@ jobs:
         </manifest>
         EOF
 
-    - name: Build Release APK
-      run: |
-        cd android-app
-        gradle wrapper --gradle-version 8.2 --distribution-type bin
-        ./gradlew assembleRelease --warning-mode all
+        # Compile APK
+        cd my-android-project
+        gradle wrapper --gradle-version 8.1.1 --distribution-type bin
+        chmod +x gradlew
+        ./gradlew assembleRelease
 
     - name: Upload APK Artifact
       uses: actions/upload-artifact@v4
       with:
         name: Flymusic-Studio-APK
-        path: android-app/app/build/outputs/apk/release/app-release-unsigned.apk
+        path: my-android-project/app/build/outputs/apk/release/app-release-unsigned.apk
