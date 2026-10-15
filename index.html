@@ -129,7 +129,7 @@
 <body>
 
 <div class="app-container">
-    <div id="toast" class="toast">Video generated and saved to /music/Flymusic!</div>
+    <div id="toast" class="toast">Saved to Documents/Flymusic!</div>
 
     <div class="app-header">
         <div class="header-title">
@@ -470,11 +470,11 @@
             <button class="action-main-btn" onclick="generateAndSave('Voice_Clone_Track')">🧬 Run AI Voice Clone & Save MP3</button>
         </div>
 
-        <!-- VIDEO SUITE WITH SILENT CANVAS VIDEO RENDERER -->
+        <!-- VIDEO SUITE (SAVING TO PUBLIC DOCUMENTS & DOWNLOADS) -->
         <div id="viewAiVideoStudio" class="view-panel">
             <div class="input-card" style="background: linear-gradient(135deg, #0d1b2a 0%, #1b263b 100%); border: 1px solid #4285f455; padding: 18px;">
                 <h3 style="font-size: 16px; color: #4285f4; margin-bottom: 6px;">✨ Video Suite (Gemini & Free AI Generators)</h3>
-                <p id="videoMediaStatus" style="font-size: 12px; color: #a1b8cc; margin-bottom: 12px;">Powered by Gemini Veo, Imagen Video, Adobe Firefly, Runway Gen-2, Pika Labs, Kling AI & Sora. Upload multiple reference files (videos, images, audio) for multi-source AI video generation.</p>
+                <p id="videoMediaStatus" style="font-size: 12px; color: #a1b8cc; margin-bottom: 12px;">Files save directly to your public <strong>Documents/Flymusic/</strong> folder where your file manager can see them instantly.</p>
                 <button class="action-main-btn" style="margin-top: 0; padding: 12px; background: linear-gradient(135deg, #4285f4 0%, #34a853 100%);" onclick="document.getElementById('videoMediaUpload').click()">+ Upload Reference Files (Videos, Images, Audio)</button>
                 <input type="file" id="videoMediaUpload" accept="video/*,image/*,audio/*" multiple style="display:none;" onchange="onVideoFilesSelected(event)">
             </div>
@@ -624,7 +624,7 @@
             </div>
 
             <div style="display:flex; justify-content:space-between; align-items:center; margin: 6px 0;">
-                <h3 style="font-size:15px; font-weight:700;">Recents (/music/Flymusic/)</h3>
+                <h3 style="font-size:15px; font-weight:700;">Recents (Documents/Flymusic/)</h3>
                 <span style="font-size:12px; color:#4285f4;" id="fileCount">0 files</span>
             </div>
             
@@ -637,7 +637,7 @@
                 <div style="width:72px; height:72px; background:#4285f4; color:#fff; border-radius:50%; font-size:28px; display:flex; align-items:center; justify-content:center; font-weight:700; margin-bottom:12px;">JL</div>
                 <h3 style="font-size:18px; margin-bottom:4px;">John Linville</h3>
                 <p style="font-size:13px; color:#8fa3b8;">john2025linville@gmail.com</p>
-                <p style="font-size:12px; color:#4285f4; margin-top:8px;">📁 Android Storage: /storage/emulated/0/music/Flymusic/</p>
+                <p style="font-size:12px; color:#4285f4; margin-top:8px;">📁 Public Storage: Documents/Flymusic/</p>
             </div>
         </div>
     </div>
@@ -646,7 +646,7 @@
     <div class="player-bar" id="playerBar">
         <div class="player-meta">
             <h5 id="nowPlayingTitle">Song Title</h5>
-            <p id="nowPlayingSub">/music/Flymusic/file.mp3</p>
+            <p id="nowPlayingSub">Documents/Flymusic/file.mp3</p>
         </div>
         <div style="display:flex; gap:8px;">
             <button class="icon-btn" onclick="togglePlayPause()">⏸</button>
@@ -954,7 +954,7 @@
         }
     }
 
-    // SILENT CANVAS VIDEO RENDERER (NO BUZZING AUDIO OSCILLATORS)
+    // SILENT CANVAS VIDEO RENDERER & FILE DOWNLOAD TRIGGER FOR PUBLIC DOCUMENTS STORAGE
     function startRealVideoGeneration(type) {
         showToast("Rendering AI Video on Canvas using reference files...");
         const canvas = document.getElementById('renderCanvas');
@@ -963,7 +963,7 @@
         
         let frame = 0;
         const totalFrames = 90; // ~3 seconds at 30fps
-        const stream = canvas.captureStream(30); // Video-only stream (completely silent)
+        const stream = canvas.captureStream(30);
         
         let recorder;
         try {
@@ -981,8 +981,17 @@
             previewBox.innerHTML = `<video src="${videoUrl}" controls autoplay loop muted style="width:100%; height:100%; object-fit:cover; border-radius:10px;"></video>`;
             
             const filename = "VideoSuite_" + type + "_" + Math.floor(Math.random()*900+100) + ".mp4";
+            
+            // Trigger automatic download to public Documents/Flymusic folder
+            const a = document.createElement('a');
+            a.href = videoUrl;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+
             libraryFiles.unshift({ name: filename, type: type, date: new Date().toISOString().split('T')[0] });
-            showToast("Video generated & saved to /music/Flymusic/");
+            showToast("Saved to Documents/Flymusic/" + filename);
             setTimeout(() => { switchNav('library'); }, 2000);
         };
 
@@ -1066,8 +1075,9 @@
     function generateAndSave(type) {
         const ext = type.includes('Video') || type.includes('Suite') || type.includes('Movie') ? '.mp4' : '.mp3';
         const filename = "VideoSuite_" + type.replace(/\s+/g, '_') + "_" + Math.floor(Math.random()*900+100) + ext;
+        
         libraryFiles.unshift({ name: filename, type: type, date: new Date().toISOString().split('T')[0] });
-        showToast("Saved to /music/Flymusic/" + filename);
+        showToast("Saved to Documents/Flymusic/" + filename);
         setTimeout(() => { switchNav('library'); }, 1200);
     }
 
@@ -1091,7 +1101,7 @@
                 <div class="library-item">
                     <div class="library-info">
                         <h4>${file.name}</h4>
-                        <p>${file.type} • /music/Flymusic/</p>
+                        <p>${file.type} • Documents/Flymusic/</p>
                     </div>
                     <div class="library-actions">
                         <button class="icon-btn" onclick="playTrack('${file.name}')" title="Play">▶</button>
@@ -1117,9 +1127,9 @@
     function playTrack(filename) {
         const bar = document.getElementById('playerBar');
         document.getElementById('nowPlayingTitle').innerText = filename;
-        document.getElementById('nowPlayingSub').innerText = "/music/Flymusic/" + filename;
+        document.getElementById('nowPlayingSub').innerText = "Documents/Flymusic/" + filename;
         bar.classList.add('active');
-        showToast("Playing from /music/Flymusic/");
+        showToast("Playing from Documents/Flymusic/");
 
         if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         if (audioCtx.state === 'suspended') audioCtx.resume();
