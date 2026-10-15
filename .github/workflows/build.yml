@@ -19,14 +19,16 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
 
-    - name: Build APK with WebView Wrapper
+    - name: Generate Android Project Structure
       run: |
         mkdir -p android-app/app/src/main/assets
         mkdir -p android-app/app/src/main/java/com/flymusic/studio/pro
         mkdir -p android-app/app/src/main/res/values
 
+        # Copy web app code
         cp index.html android-app/app/src/main/assets/index.html
 
+        # MainActivity.java
         cat << 'EOF' > android-app/app/src/main/java/com/flymusic/studio/pro/MainActivity.java
         package com.flymusic.studio.pro;
 
@@ -70,8 +72,11 @@ jobs:
         }
         EOF
 
+        # app/build.gradle
         cat << 'EOF' > android-app/app/build.gradle
-        plugins { id 'com.android.application' }
+        plugins {
+            id 'com.android.application'
+        }
         android {
             namespace 'com.flymusic.studio.pro'
             compileSdk 34
@@ -82,7 +87,11 @@ jobs:
                 versionCode 1
                 versionName "1.0"
             }
-            buildTypes { release { minifyEnabled false } }
+            buildTypes {
+                release {
+                    minifyEnabled false
+                }
+            }
         }
         dependencies {
             implementation 'androidx.appcompat:appcompat:1.6.1'
@@ -90,33 +99,60 @@ jobs:
         }
         EOF
 
+        # root build.gradle (Using AGP 8.1.4 for maximum stability with JDK 17)
         cat << 'EOF' > android-app/build.gradle
         buildscript {
-            repositories { google(); mavenCentral() }
-            dependencies { classpath 'com.android.tools.build:gradle:8.3.0' }
+            repositories {
+                google()
+                mavenCentral()
+            }
+            dependencies {
+                classpath 'com.android.tools.build:gradle:8.1.4'
+            }
         }
-        allprojects { repositories { google(); mavenCentral() } }
+        allprojects {
+            repositories {
+                google()
+                mavenCentral()
+            }
+        }
         EOF
 
+        # settings.gradle
         cat << 'EOF' > android-app/settings.gradle
         rootProject.name = "Flymusic Studio"
         include ':app'
         EOF
 
+        # strings.xml
         cat << 'EOF' > android-app/app/src/main/res/values/strings.xml
-        <resources><string name="app_name">Flymusic Studio</string></resources>
+        <resources>
+            <string name="app_name">Flymusic Studio</string>
+        </resources>
         EOF
 
+        # AndroidManifest.xml
         cat << 'EOF' > android-app/app/src/main/AndroidManifest.xml
         <?xml version="1.0" encoding="utf-8"?>
-        <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.flymusic.studio.pro">
+        <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+            package="com.flymusic.studio.pro">
+
             <uses-permission android:name="android.permission.INTERNET" />
             <uses-permission android:name="android.permission.RECORD_AUDIO" />
             <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
             <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
             <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-            <application android:allowBackup="true" android:label="Flymusic Studio" android:supportsRtl="true" android:hardwareAccelerated="true" android:theme="@style/Theme.AppCompat.NoActionBar">
-                <activity android:name=".MainActivity" android:exported="true">
+
+            <application
+                android:allowBackup="true"
+                android:label="Flymusic Studio"
+                android:supportsRtl="true"
+                android:hardwareAccelerated="true"
+                android:theme="@style/Theme.AppCompat.NoActionBar">
+                
+                <activity
+                    android:name=".MainActivity"
+                    android:exported="true">
                     <intent-filter>
                         <action android:name="android.intent.action.MAIN" />
                         <category android:name="android.intent.category.LAUNCHER" />
@@ -126,10 +162,13 @@ jobs:
         </manifest>
         EOF
 
+    - name: Build Release APK
+      run: |
         cd android-app
-        gradle wrapper --gradle-version 8.6
+        chmod +x gradlew || true
+        gradle wrapper --gradle-version 8.4
         ./gradlew assembleRelease
-    
+
     - name: Upload APK Artifact
       uses: actions/upload-artifact@v4
       with:
